@@ -24,5 +24,5 @@ def koyaguchi_test(df):
 
 if __name__ == "__main__":
     filename = 'cerroNegro_regGrid_noWind_SOURCE.txt'
-
     df = tephra2_to_df(filename)
+    grid_sampling(df)
