@@ -1,7 +1,6 @@
 from tephra2io import tephra2_to_gdf
 # from shapely.geometry import Point
 import matplotlib.pyplot as plt
-# import numpy as np
 import visualisation as vis
 
 
