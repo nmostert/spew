@@ -31,3 +31,5 @@ if __name__ == "__main__":
 
     gdf = tephra2_to_gdf(filename)
     gdf.head()
+
+    gdf['Mass/Area'].sum()

@@ -1,16 +1,16 @@
 from tephra2io import tephra2_to_df
 import visualisation as vis
 import matplotlib.pyplot as plt
-import sampling as smp
+import gridutils as grd
 
 
 def grid_sampling(df):
     plt.figure()
-    vis.plot_grid(smp.random_sample(df, frac=0.05))
+    vis.plot_grid(grd.random_sample(df, frac=0.05))
     plt.show()
 
     plt.figure()
-    vis.plot_grid(smp.resample(df, n=10))
+    vis.plot_grid(grd.resample(df, n=10))
     plt.show()
 
 

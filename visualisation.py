@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from tephra2io import tephra2_to_gdf
-import sampling as smp
+import gridutils as grd
 from shapely.geometry import Point
 from matplotlib import rcParams
 rcParams.update({'figure.autolayout': True})
@@ -14,10 +14,13 @@ def plot_GS(df, easting, northing):
     phi_vals.plot(kind='bar', rot=0, legend=False)
 
 
-def plot_grid(df):
+def plot_grid(df, vent=None):
     xx = df['Easting'].values
     yy = df['Northing'].values
-    plt.plot(xx, yy, 'ko', ms=1)
+    plt.axis('equal')
+    plt.plot(xx, yy, 'k.', ms=1)
+    if vent is not None:
+        plt.plot(vent.coords[0][0], vent.coords[0][1], 'r*', ms=3)
     plt.xlabel("Easting")
     plt.ylabel("Northing")
 
@@ -25,13 +28,9 @@ def plot_grid(df):
 if __name__ == "__main__":
     filename = 'cerroNegro_regGrid_noWind_SOURCE.txt'
 
+    vent = Point(532290, 1382690)
+
     gdf = tephra2_to_gdf(filename)
     gdf.head()
 
-    x_0, y_0 = 532290, 1382690  # Actual vent location
-
-    # Find grid coordinates closest to the vent
-    x_p, y_p = smp.find_nearest_grid_point(gdf, (x_0, y_0))
-
-    # Locate data for that grid point
-    gdf.loc[gdf.index[gdf['geometry'] == Point(x_p, y_p)]]
+    plot_grid(gdf, vent)
