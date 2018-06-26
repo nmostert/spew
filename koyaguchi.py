@@ -5,8 +5,39 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
 
+
+def radial_sample(origin, df):
+    # only works on regular grids for now
+    x_0, y_0 = origin
+
+    # I should do a spatial iteration here with specific things.
+    x_p, y_p = grd.find_nearest_grid_point(gdf, (x_0, y_0))
+
+    p_origin = gdf.loc[gdf.index[gdf['geometry'] == Point(x_p, y_p)]]
+
+    ix_df = grd.get_index_grid(gdf)
+
+    # Find grid index of pseudo origin.
+    y_idx = ix_df.index.get_loc(y_p)
+    x_idx = ix_df.columns.get_loc(x_p)
+
+    # construct a radial line from the pseudo origin to the edge (East)
+    line = gdf.iloc[ix_df.iloc[y_idx, x_idx:len(ix_df.columns)]]
+
+    def dist(row):
+        return p_origin.geometry.distance(row['geometry'])
+
+    radius = line.apply(lambda row: dist(row), axis=1)
+    line = line.assign(r=radius)
+    return line
+
+
+def plot_lnS_rsqr(arg):
+    pass
+
+
 if __name__ == "__main__":
-    filename = 'cerroNegro_regGrid_noWind_SOURCE.txt'
+    filename = 'cerroNegro_fineGrid_noWind_ONLINE.txt'
 
     gdf = tephra2_to_gdf(filename)
     gdf.head()
@@ -74,8 +105,9 @@ if __name__ == "__main__":
         nan_idx = [not na for na in log_S.isna()]
         clean_log_S = log_S.dropna()
         xx = r_sqr[nan_idx]
-        params = curve_fit(func, xx, clean_log_S)
-        print(params)
+        params = curve_fit(func, xx, clean_log_S, method='lm')
+        print('{:0.3e}'.format(params[0][0]) +
+              " & " + str(round(params[0][1], 4)))
         plt.xlabel("r^2")
         plt.ylabel("ln(S)")
         plt.plot(xx, clean_log_S, '.')

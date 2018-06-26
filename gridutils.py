@@ -59,7 +59,7 @@ def construct_grid(vent, north, east, south, west, elevation, spacing):
     for i, c in enumerate(xx):
         for j, p in enumerate(c):
             df = df.append(
-                {'Easting': p, 'Northing': yy[i][j], 'Elev.': elevation}, ignore_index=True)
+                {'Easting': int(p), 'Northing': int(yy[i][j]), 'Elev.': int(elevation)}, ignore_index=True)
 
     geometry = [Point(xy) for xy in zip(df.Easting, df.Northing)]
     crs = {'init': 'epsg:4326'}
@@ -67,27 +67,23 @@ def construct_grid(vent, north, east, south, west, elevation, spacing):
     return gdf
 
 
-def write_grid_file(grid, elevation, filename):
-    xx, yy = grid
-    f = open(filename, 'w')
-    for i, c in enumerate(xx):
-        for j, p in enumerate(c):
-            f.write(str(int(p)) + " " +
-                    str(int(yy[i][j])) + " " + str(elevation) + "\n")
-    f.close()
+def write_grid_file(df, filename):
+    df.to_csv(filename, sep=' ', columns=['Easting', 'Northing', 'Elev.'],
+              index=False, header=False)
 
 
 if __name__ == "__main__":
-    filename = 'cerroNegro_regGrid_noWind_SOURCE.txt'
-
     vent = Point(532290, 1382690)
+    grid = construct_grid(vent, 50, 50, 50, 50, 50, 1500)
 
+    filename = 'cerroNegro_radGrid_noWind_ONLINE.txt'
     gdf = tephra2_to_gdf(filename)
-
-    grid = construct_grid(vent, 50, 50, 50, 50, 300, 1500)
 
     vis.plot_grid(grid, vent)
     vis.plot_grid(gdf, vent)
+    plt.gca().get_lines()[0].set_color("blue")
+    plt.gca().get_lines()[0].set_color("red")
+
     plt.show()
 
-    # write_grid_file(grid, 300, "text.pos")
+    write_grid_file(grid, "text.pos")
