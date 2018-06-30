@@ -32,7 +32,7 @@ def radial_sample(origin, df):
     return line
 
 
-def plot_lnS_rsqr(arg):
+def plot_lnS_rsqr(lines):
     pass
 
 

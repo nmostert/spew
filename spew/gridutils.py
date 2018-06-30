@@ -58,8 +58,13 @@ def construct_grid(vent, north, east, south, west, elevation, spacing):
     df = pd.DataFrame(columns=cols)
     for i, c in enumerate(xx):
         for j, p in enumerate(c):
-            df = df.append(
-                {'Easting': int(p), 'Northing': int(yy[i][j]), 'Elev.': int(elevation)}, ignore_index=True)
+
+            df = df.append({
+                'Easting': int(p),
+                'Northing': int(yy[i][j]),
+                'Elev.': int(elevation)
+            },
+                ignore_index=True)
 
     geometry = [Point(xy) for xy in zip(df.Easting, df.Northing)]
     crs = {'init': 'epsg:4326'}
@@ -74,7 +79,7 @@ def write_grid_file(df, filename):
 
 if __name__ == "__main__":
     vent = Point(532290, 1382690)
-    grid = construct_grid(vent, 50, 50, 50, 50, 50, 1500)
+    grid = construct_grid(vent, 50, 50, 50, 50, 40, 1500)
 
     filename = 'cerroNegro_radGrid_noWind_ONLINE.txt'
     gdf = tephra2_to_gdf(filename)

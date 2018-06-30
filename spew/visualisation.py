@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
-from tephra2io import tephra2_to_gdf
-import gridutils as grd
+from eruption import Eruption
 from shapely.geometry import Point
 from matplotlib import rcParams
 rcParams.update({'figure.autolayout': True})
@@ -30,7 +29,7 @@ if __name__ == "__main__":
 
     vent = Point(532290, 1382690)
 
-    gdf = tephra2_to_gdf(filename)
-    gdf.head()
+    cn = Eruption(filename)
+    cn.gdf.head()
 
-    plot_grid(gdf, vent)
+    plot_grid(cn.gdf, vent)
