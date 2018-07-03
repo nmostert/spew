@@ -60,7 +60,7 @@ def coef_def(y, y_fit):
     return r2
 
 
-def minimise_coef_def(f, x, y, tol):
+def proximal_deletion(f, x, y, tol):
     fit = False
     r2 = 0
 
@@ -134,7 +134,7 @@ if __name__ == "__main__":
         params = curve_fit(func, xx, cls, method='lm')
         fit_vals = func(xx, params[0][0], params[0][1])
 
-        lin_x, lin_cls, lin_fit_vals, lin_params = minimise_coef_def(
+        lin_x, lin_cls, lin_fit_vals, lin_params = proximal_deletion(
             func, xx, cls.values, 0.9999)
         residuals = cls - fit_vals
         fit_res = lin_cls - lin_fit_vals
@@ -153,7 +153,7 @@ if __name__ == "__main__":
         ax1.set_xlabel('r^2')
         ax1.set_ylabel('ln(S)')
 
-        print(coef_def(lin_cls, lin_fit_vals))
+        print(len(xx), len(lin_x))
 
         ax2.vlines(xx, [0], residuals,
                    color='orange', linestyle='-')
@@ -176,5 +176,3 @@ if __name__ == "__main__":
     phi_df.xx = xx_list
     phi_df.params = params_list
     phi_df.fit_vals = fit_vals_list
-
-    phi_df

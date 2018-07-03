@@ -48,13 +48,13 @@ class Eruption:
         Rejection sampling, optionally weighted by Mass/Area
 
         """
-        prob_arr = self.df.apply(
-            lambda row: np.random.random_sample() * row['Mass/Area'],
-            axis=1).values
+        new_df = self.df.drop(self.df[self.df['Mass/Area'] < 1].index)
+        prob_arr = new_df.apply(
+            lambda row: np.random.random_sample() * (row['Mass/Area']), axis=1)
 
         prob_arr = prob_arr / prob_arr.max()
         print(np.median(prob_arr))
-        sample = self.df.loc[prob_arr > np.median(prob_arr), :]
+        sample = new_df.loc[prob_arr > np.median(prob_arr), :]
         print(sample)
         return sample
 

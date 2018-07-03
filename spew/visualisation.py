@@ -2,13 +2,15 @@ import matplotlib.pyplot as plt
 from eruption import Eruption
 from shapely.geometry import Point
 from matplotlib import rcParams
+import gridutils as grd
 rcParams.update({'figure.autolayout': True})
 
 
-def plot_GS(df, easting, northing):
-    df1 = df.loc[lambda df: df.Easting == easting]
-    point = df1.loc[lambda df1: df1.Northing == northing]
-    phi_vals = point[point.columns[4:]].transpose()
+def plot_GS(df, phi_labels, point):
+    data = df[df.geometry == grd.nearest_grid_point(df, point)]
+    print(data.head())
+    phi_vals = data[phi_labels].transpose()
+    print(phi_vals.head())
     phi_vals = phi_vals / 100
     phi_vals.plot(kind='bar', rot=0, legend=False)
 
@@ -25,11 +27,13 @@ def plot_grid(df, vent=None):
 
 
 if __name__ == "__main__":
-    filename = 'cerroNegro_regGrid_noWind_SOURCE.txt'
+    filename = './data/cerroNegro_regGrid_noWind_SOURCE.txt'
 
     vent = Point(532290, 1382690)
 
-    cn = Eruption(filename)
-    cn.gdf.head()
+    cn = Eruption(data=filename, vent=Point(532290, 1382690), test=False)
+    cn.df.head()
 
-    plot_grid(cn.gdf, vent)
+    plot_grid(cn.df, vent)
+
+    plot_GS(cn.df, cn.phi_labels, vent)
