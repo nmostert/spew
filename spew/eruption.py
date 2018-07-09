@@ -7,6 +7,9 @@ import numpy as np
 import visualisation as vis
 import matplotlib.pyplot as plt
 from shapely.geometry import Point
+from scipy.spatial import Voronoi, voronoi_plot_2d
+import shapely.geometry
+import shapely.ops
 
 
 class Eruption:
@@ -24,6 +27,8 @@ class Eruption:
             self.df = data
         elif isinstance(data, pd.DataFrame):
             self.df = data
+        else:
+            print("ERROR: Invalid or no data. ")
 
         if test:
             self.df = self.df.head()
@@ -33,6 +38,13 @@ class Eruption:
             self.grid_vent = grd.nearest_grid_point(
                 self.df, vent)
             self.vent_data = grd.nearest_data_point(self.df, vent)
+
+            radii = self.df.apply(
+                lambda row: self.vent.distance(row['geometry']), axis=1)
+            self.df = self.df.assign(radius=radii)
+        else:
+            print("ERROR: No vent.")
+
         self.phi_labels = ['[-4,-3)',
                            '[-3,-2)',
                            '[-2,-1)',
@@ -42,7 +54,7 @@ class Eruption:
                            '[2,3)',
                            '[3,4)']
 
-    def sample(self, weight="Mass/Area", weight_thres=None, alpha=1, exclude=1000):
+    def sample(self, weight=None, alpha=1, filters=None):
         """Sample data.
 
         Rejection sampling, optionally weighted by Mass/Area
@@ -50,25 +62,19 @@ class Eruption:
         """
         temp_df = self.df.copy()
 
-        # Pre-filtering
-        if weight is not None:
-            if weight_thres is None:
-                bot = temp_df[weight].values.min()
-                top = temp_df[weight].values.max()
-                weight_thres = (bot, top)
-            temp_df = temp_df[(temp_df[weight] > weight_thres[0]) &
-                              (temp_df[weight] < weight_thres[1])]
-
-        if exclude is not None:
-            temp_df = temp_df[temp_df.geometry.distance(cn.vent) > exclude]
+        if filters is not None:
+            for col in filters:
+                print(filters[col][0])
+                temp_df = temp_df[(temp_df[col] > filters[col][0]) &
+                                  (temp_df[col] < filters[col][1])]
 
         prob_arr = temp_df.apply(
             lambda row: np.random.random_sample() * (row[weight]**alpha), axis=1)
 
         prob_arr = prob_arr / prob_arr.max()
-        # print(np.median(prob_arr))
+
         sample = temp_df.loc[prob_arr > np.median(prob_arr), :]
-        # print(sample)
+
         return sample
 
 
@@ -77,7 +83,37 @@ if __name__ == "__main__":
 
     cn = Eruption(data=filename, vent=Point(532290, 1382690), test=False)
 
-    sample = cn.sample(weight_thres=(0.000001, 10000), alpha=0.1)
+    filters = {
+        'Mass/Area': (0.001, 10000),
+        'radius': (5000, np.inf)}
+    sample = cn.sample(weight='Mass/Area', alpha=0.1, filters=filters)
     print(len(sample))
     vis.plot_grid(sample, vent=cn.vent)
     plt.show()
+
+    points = [
+        row.geometry.coords[0]
+        for i, row in sample.iterrows()]
+
+    vor = Voronoi(points)
+
+    voronoi_plot_2d(vor)
+
+    lines = [
+        shapely.geometry.LineString(vor.vertices[line])
+        for line in vor.ridge_vertices]
+
+    len(lines)
+    polys = shapely.ops.polygonize(lines)
+
+    polys = [poly for poly in polys]
+    print(len(polys))
+
+    print(len(sample))
+
+    df = pd.DataFrame()
+
+    crs = {'init': 'epsg:4326'}
+    vor_df = GeoDataFrame(df, crs=crs, geometry=polys)
+
+    vor_df.plot()
