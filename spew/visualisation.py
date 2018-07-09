@@ -19,11 +19,12 @@ def plot_grid(df, vent=None):
     xx = df['Easting'].values
     yy = df['Northing'].values
     plt.axis('equal')
-    plt.plot(xx, yy, 'k.', ms=1)
+    ax = plt.plot(xx, yy, 'k.', ms=1)
     if vent is not None:
-        plt.plot(vent.coords[0][0], vent.coords[0][1], 'r*', ms=3)
-    plt.xlabel("Easting")
-    plt.ylabel("Northing")
+        ax.plot(vent.coords[0][0], vent.coords[0][1], 'r^', ms=3)
+    ax.xlabel("Easting")
+    ax.ylabel("Northing")
+    return ax
 
 
 if __name__ == "__main__":
