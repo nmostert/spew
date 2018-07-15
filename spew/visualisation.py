@@ -13,7 +13,7 @@ def plot_GS(df, phi_labels, point):
     phi_vals.plot(kind='bar', rot=0, legend=False)
 
 
-def plot_grid(df, vent=None):
+def plot_grid(df, vent=None, labels=None):
     xx = df['Easting'].values
     yy = df['Northing'].values
 
@@ -22,9 +22,13 @@ def plot_grid(df, vent=None):
     ax.plot(xx, yy, 'k.', ms=1)
     if vent is not None:
         ax.plot(vent.coords[0][0], vent.coords[0][1], 'r^', ms=3)
-    plt.xlabel("Easting (m)")
-    plt.ylabel("Northing (m)")
-    return ax
+    if labels is None:
+        plt.xlabel("Easting (m)")
+        plt.ylabel("Northing (m)")
+    else:
+        plt.xlabel(labels[0])
+        plt.ylabel(labels[1])
+    return fig, ax
 
 
 if __name__ == "__main__":

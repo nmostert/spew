@@ -54,7 +54,7 @@ class Eruption:
                            '[2,3)',
                            '[3,4)']
 
-    def sample(self, weight=None, alpha=1, filters=None):
+    def sample(self, n, weight=None, alpha=1, filters=None):
         """Sample the dataframe.
 
         Rejection sampling method used. Each point is rejected with a
@@ -84,12 +84,12 @@ class Eruption:
         def prob(w, alpha):
             return np.random.random_sample() * (w**alpha)
 
-        prob_arr = temp_df.apply(
-            lambda row: prob(row[weight], alpha), axis=1)
+        probs = temp_df.apply(lambda row: prob(row[weight], alpha), axis=1)
+        probs = pd.Series(probs, temp_df.index)
 
-        prob_arr = prob_arr / prob_arr.max()
+        probs.sort_values(inplace=True, ascending=False)
 
-        sample = temp_df.loc[prob_arr > np.median(prob_arr), :]
+        sample = temp_df.loc[probs[:n].index, :]
 
         return sample
 
@@ -100,16 +100,11 @@ if __name__ == "__main__":
     cn = Eruption(data=filename, vent=Point(532290, 1382690), test=False)
 
     filters = {
-        'Mass/Area': (0.000001, np.inf),
         'radius': (3000, np.inf)}
-    sample = cn.sample(weight='Mass/Area', alpha=0.1, filters=filters)
-    vis.plot_grid(sample, vent=cn.vent)
+    sample = cn.sample(60, weight='Mass/Area', alpha=0.01, filters=filters)
 
-    filters2 = {
-        'radius': (1500, 100000)}
-    sample2 = cn.sample(weight='Mass/Area', alpha=0.03, filters=filters2)
-    vis.plot_grid(sample2, vent=cn.vent)
-    plt.savefig('samp_1.eps', dpi=200, format='eps')
+    fig, ax = vis.plot_grid(sample, vent=cn.vent)
+    fig.savefig('samp_1.eps', dpi=200, format='eps')
 
     plt.show()
 
@@ -119,7 +114,12 @@ if __name__ == "__main__":
 
     vor = Voronoi(points)
 
-    voronoi_plot_2d(vor)
+    plt.xlabel("huh")
+
+    fig, ax1 = plt.subplots(1, 1, figsize=(10, 10))
+
+    vplt = voronoi_plot_2d(vor, ax1)
+    vplt.savefig('vor.eps', dpi=200, format='eps')
 
     lines = [
         shapely.geometry.LineString(vor.vertices[line])
@@ -141,3 +141,4 @@ if __name__ == "__main__":
 
     vor_df.plot()
     vis.plot_grid(sample, vent=cn.vent)
+    plt.show()
