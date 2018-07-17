@@ -8,8 +8,10 @@ from scipy.optimize import curve_fit
 
 
 def radial_sample(eruption):
-    # only works on regular grids for now
+    """Take radial sample.
 
+    only works on regular grids for now
+    """
     ix_df = grd.get_index_grid(eruption.df)
 
     # Find grid index of pseudo origin.
@@ -75,6 +77,51 @@ def proximal_deletion(f, x, y, tol):
         else:
             fit = True
     return x, y, yf, params
+
+
+def phi_to_d(phi):
+    return 0.001 * (2 ** -phi)
+
+
+def d_to_phi(d):
+    return -np.log2(d / 0.001)
+
+
+def high_re_velocity(phi, clast_density, air_density, drag_coeff=1):
+    g = 9.80655
+    v_h = drag_coeff * \
+        np.sqrt((clast_density * g * phi_to_d(phi)) / air_density)
+    return v_h
+
+
+def low_re_velocity(phi, clast_density, air_density, air_viscosity):
+    g = 9.80655
+    v_l = ((clast_density - air_density) * g *
+           (phi_to_d(phi)**2)) / (18 * air_viscosity)
+    return v_l
+
+
+def re_intercept_grainsize(clast_density, air_density, air_viscosity, drag_coeff=1):
+    """Phi intercept between low and high Re settling velocities.
+
+    Grain-size at which the low Re settling velocity formula intersects the
+    high Re settling velocity formula.
+    """
+    g = 9.80655
+    d = ((18 * air_viscosity * drag_coeff * np.sqrt((clast_density * g) / air_density)
+          ) / ((clast_density - air_density) * g)) ** (2 / 3)
+
+    return d_to_phi(d)
+
+
+def tanh_smoother(phi, A, B):
+    s = 0.5 + 0.5 * np.tanh((phi - A) / B)
+    return s
+
+
+def smoothed_function(f, g, s):
+    h = s * g + (1 - s) * f
+    return h
 
 
 if __name__ == "__main__":
@@ -176,3 +223,59 @@ if __name__ == "__main__":
     phi_df.xx = xx_list
     phi_df.params = params_list
     phi_df.fit_vals = fit_vals_list
+
+    phi_centers = np.array([-4, -3.5, -3, -2.5, -2, -1.5, -
+                            1, -0.5, 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4])
+    clast_density = np.array([1000,
+                              1000,
+                              1000,
+                              1200,
+                              1100,
+                              1100,
+                              1200,
+                              1500,
+                              1600,
+                              1800,
+                              2000,
+                              2200,
+                              2300,
+                              2600,
+                              2900,
+                              2400,
+                              2400])
+
+    # clast_density = np.array([1600] * 17)
+
+    # things done at 25 km altitude
+    air_density = 3.69 * (10**-2)
+    air_viscosity = 1.40 * (10**-5)
+    args_high = [air_density, 1]
+    args_low = [air_density, air_viscosity]
+
+    f = low_re_velocity(phi_centers, clast_density, *args_low)
+    g = high_re_velocity(phi_centers, clast_density, *args_high)
+
+    A = re_intercept_grainsize(clast_density, air_density, air_viscosity)
+
+    s = tanh_smoother(phi_centers, A, 1)
+
+    h = smoothed_function(f, g, s)
+
+    low_ints = [low_re_velocity(ints, dens, *args_low)
+                for ints, dens in zip(A, clast_density)]
+    high_ints = [high_re_velocity(ints, dens, *args_high)
+                 for ints, dens in zip(A, clast_density)]
+
+    low_ints
+    high_ints
+
+    plt.semilogy(phi_centers, f, 'k--')
+    plt.plot(phi_centers, g, 'g--')
+    plt.plot(phi_centers, h, 'b-')
+    ax = plt.gca()
+    ax.invert_yaxis()
+    plt.xlabel("Grain size (Phi-scale)")
+    plt.ylabel("Terminal velocity (m/s)")
+    plt.legend(["Low Re", "High Re", "Smoothed function"])
+    plt.savefig('smooth_dens.eps', dpi=200, format='eps')
+    plt.show()
