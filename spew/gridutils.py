@@ -1,10 +1,10 @@
 from tephra2io import tephra2_to_df
 from shapely.geometry import Point
 import matplotlib.pyplot as plt
-import visualisation as vis
 import numpy as np
 import pandas as pd
 from geopandas import GeoDataFrame
+from eruption import plot_grid
 
 
 def random_sample(df, frac=0.1):
@@ -86,8 +86,8 @@ if __name__ == "__main__":
     filename = 'cerroNegro_radGrid_noWind_ONLINE.txt'
     gdf = tephra2_to_df(filename)
 
-    vis.plot_grid(grid, vent)
-    vis.plot_grid(gdf, vent)
+    plot_grid(grid, vent)
+    plot_grid(gdf, vent)
     plt.gca().get_lines()[0].set_color("blue")
     plt.gca().get_lines()[0].set_color("red")
 

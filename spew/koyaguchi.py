@@ -101,15 +101,17 @@ def low_re_velocity(phi, clast_density, air_density, air_viscosity):
     return v_l
 
 
-def re_intercept_grainsize(clast_density, air_density, air_viscosity, drag_coeff=1):
+def re_intercept_grainsize(clast_density, air_density, air_viscosity,
+                           drag_coeff=1):
     """Phi intercept between low and high Re settling velocities.
 
     Grain-size at which the low Re settling velocity formula intersects the
     high Re settling velocity formula.
     """
     g = 9.80655
-    d = ((18 * air_viscosity * drag_coeff * np.sqrt((clast_density * g) / air_density)
-          ) / ((clast_density - air_density) * g)) ** (2 / 3)
+    d = ((18 * air_viscosity * drag_coeff *
+          np.sqrt((clast_density * g) / air_density)) /
+         ((clast_density - air_density) * g)) ** (2 / 3)
 
     return d_to_phi(d)
 
@@ -150,10 +152,12 @@ if __name__ == "__main__":
     line.head()
 
     plot_lnS_rsqr(line, cn.phi_labels)
-    plt.show()
+    # plt.savefig('lnS.eps', dpi=200, format='eps')
+    # plt.show()
 
     plot_S_rsqr(line, cn.phi_labels)
-    plt.show()
+    # plt.savefig('res_' + str(i) + '.eps', dpi=200, format='eps')
+    # plt.show()
 
     phi_df = pd.DataFrame(index=cn.phi_labels,
                           columns=['S', 'logS', 'clean_log_S', 'xx',
@@ -226,25 +230,11 @@ if __name__ == "__main__":
 
     phi_centers = np.array([-4, -3.5, -3, -2.5, -2, -1.5, -
                             1, -0.5, 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4])
-    clast_density = np.array([1000,
-                              1000,
-                              1000,
-                              1200,
-                              1100,
-                              1100,
-                              1200,
-                              1500,
-                              1600,
-                              1800,
-                              2000,
-                              2200,
-                              2300,
-                              2600,
-                              2900,
-                              2400,
+    clast_density = np.array([1000, 1000, 1000, 1200, 1100, 1100, 1200, 1500,
+                              1600, 1800, 2000, 2200, 2300, 2600, 2900, 2400,
                               2400])
 
-    # clast_density = np.array([1600] * 17)
+    # clast_density = np.array([2700] * 17)
 
     # things done at 25 km altitude
     air_density = 3.69 * (10**-2)
@@ -268,14 +258,16 @@ if __name__ == "__main__":
 
     low_ints
     high_ints
-
+    plt.figure()
     plt.semilogy(phi_centers, f, 'k--')
     plt.plot(phi_centers, g, 'g--')
     plt.plot(phi_centers, h, 'b-')
     ax = plt.gca()
-    ax.invert_yaxis()
+    ax.invert_xaxis()
     plt.xlabel("Grain size (Phi-scale)")
     plt.ylabel("Terminal velocity (m/s)")
+    # plt.xlim([0,3])
+    # plt.ylim([10,100])
     plt.legend(["Low Re", "High Re", "Smoothed function"])
     plt.savefig('smooth_dens.eps', dpi=200, format='eps')
     plt.show()

@@ -51,34 +51,36 @@ if __name__ == "__main__":
     df2.head()
     vent = Point(532290, 1382690)
 
-    plot_contour(df2['Easting'], df2['Northing'], df2['Thickness'], vent, 'Thickness',
-                 "m", save='./cn_thickness.eps')
-    plot_contour(df2['Easting'], df2['Northing'], df2['Density'], vent, 'Density',
-                 "kg/m^3", save='./cn_density.eps')
+    plot_contour(df2['Easting'], df2['Northing'], df2['Thickness'], vent,
+                 'Thickness', "m", save='./cn_thickness.eps')
+    plot_contour(df2['Easting'], df2['Northing'], df2['Density'], vent,
+                 'Density', "kg/m^3", save='./cn_density.eps')
 
-    plot_contour(df2['Easting'], df2['Northing'], df2['Isomass'], vent, 'Isomass',
-                 "kg/m^2", save='./cn_isomass.eps')
+    plot_contour(df2['Easting'], df2['Northing'], df2['Isomass'], vent,
+                 'Isomass', "kg/m^2", save='./cn_isomass.eps')
 
     dfA = df2[df2["Layer"] == "A"]
     dfB = df2[df2["Layer"] == "B"]
     len(dfA)
     len(dfB)
 
-    plot_contour(dfA['Easting'], dfA['Northing'], dfA['Thickness'], vent, 'Layer A Thickness',
-                 "m", save='./cnA_thickness.eps')
-    plot_contour(dfA['Easting'], dfA['Northing'], dfA['Density'], vent, 'Layer A Density',
-                 "kg/m^3", save='./cnA_density.eps')
+    plot_contour(dfA['Easting'], dfA['Northing'], dfA['Thickness'], vent,
+                 'Layer A Thickness', "m", save='./cnA_thickness.eps')
 
-    plot_contour(dfA['Easting'], dfA['Northing'], dfA['Isomass'], vent, 'Layer A Isomass',
-                 "kg/m^2", save='./cnA_isomass.eps')
+    plot_contour(dfA['Easting'], dfA['Northing'], dfA['Density'],
+                 vent, 'Layer A Density', "kg/m^3", save='./cnA_density.eps')
 
-    plot_contour(dfB['Easting'], dfB['Northing'], dfB['Thickness'], vent, 'Layer B Thickness',
-                 "m", save='./cnB_thickness.eps')
-    plot_contour(dfB['Easting'], dfB['Northing'], dfB['Density'], vent, 'Layer B Density',
-                 "kg/m^3", save='./cnB_density.eps')
+    plot_contour(dfA['Easting'], dfA['Northing'], dfA['Isomass'],
+                 vent, 'Layer A Isomass', "kg/m^2", save='./cnA_isomass.eps')
 
-    plot_contour(dfB['Easting'], dfB['Northing'], dfB['Isomass'], vent, 'Layer B Isomass',
-                 "kg/m^2", save='./cnB_isomass.eps')
+    plot_contour(dfB['Easting'], dfB['Northing'], dfB['Thickness'],
+                 vent, 'Layer B Thickness', "m", save='./cnB_thickness.eps')
+
+    plot_contour(dfB['Easting'], dfB['Northing'], dfB['Density'],
+                 vent, 'Layer B Density', "kg/m^3", save='./cnB_density.eps')
+
+    plot_contour(dfB['Easting'], dfB['Northing'], dfB['Isomass'],
+                 vent, 'Layer B Isomass', "kg/m^2", save='./cnB_isomass.eps')
 
     plot_grid(df, vent=vent)
     plot_grid(df2, vent=vent)
