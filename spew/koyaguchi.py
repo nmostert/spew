@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy.optimize import curve_fit
+from scipy.special import comb
 
 
 def radial_sample(eruption):
@@ -31,8 +32,8 @@ def radial_sample(eruption):
 
 def plot_lnS_rsqr(samples, phi_labels):
     r_sqr = line['r'].values ** 2
-    plt.xlabel("r^2")
-    plt.ylabel("ln(S)")
+    plt.xlabel(r"$r^2$")
+    plt.ylabel(r"$\ln(S)$")
     for phi in phi_labels:
         S = (samples['Mass/Area'].values * (samples[phi]))
         plt.plot(r_sqr, np.log(S), '.')
@@ -41,8 +42,8 @@ def plot_lnS_rsqr(samples, phi_labels):
 
 def plot_S_rsqr(samples, phi_labels):
     r_sqr = line['r'].values ** 2
-    plt.xlabel("r^2")
-    plt.ylabel("S")
+    plt.xlabel(r"$r^2$")
+    plt.ylabel(r"$S$")
     for phi in phi_labels:
         S = (line['Mass/Area'].values * (line[phi]))
         plt.plot(r_sqr, S, '.')
@@ -101,18 +102,15 @@ def low_re_velocity(phi, clast_density, air_density, air_viscosity):
     return v_l
 
 
-def re_intercept_grainsize(clast_density, air_density, air_viscosity,
-                           drag_coeff=1):
+def re_intercept_grainsize(clast_density, air_density, air_viscosity, drag_coeff=1):
     """Phi intercept between low and high Re settling velocities.
 
     Grain-size at which the low Re settling velocity formula intersects the
     high Re settling velocity formula.
     """
     g = 9.80655
-    d = ((18 * air_viscosity * drag_coeff *
-          np.sqrt((clast_density * g) / air_density)) /
-         ((clast_density - air_density) * g)) ** (2 / 3)
-
+    d = ((18 * air_viscosity * drag_coeff * np.sqrt((clast_density * g) /
+                                                    air_density)) / ((clast_density - air_density) * g)) ** (2 / 3)
     return d_to_phi(d)
 
 
@@ -124,6 +122,43 @@ def tanh_smoother(phi, A, B):
 def smoothed_function(f, g, s):
     h = s * g + (1 - s) * f
     return h
+
+
+def bernstein_poly(i, n, t):
+    """
+    The Bernstein polynomial of n, i as a function of t
+    """
+
+    return comb(n, i) * (t**(n - i)) * (1 - t)**i
+
+
+def bezier_curve(points, nTimes=1000):
+    """
+       Given a set of control points, return the
+       bezier curve defined by the control points.
+
+       points should be a list of lists, or list of tuples
+       such as [ [1,1],
+                 [2,3],
+                 [4,5], ..[Xn, Yn] ]
+        nTimes is the number of time steps, defaults to 1000
+
+        See http://processingjs.nihongoresources.com/bezierinfo/
+    """
+
+    nPoints = len(points)
+    xPoints = np.array([p[0] for p in points])
+    yPoints = np.array([p[1] for p in points])
+
+    t = np.linspace(0.0, 1.0, nTimes)
+
+    polynomial_array = np.array(
+        [bernstein_poly(i, nPoints - 1, t) for i in range(0, nPoints)])
+
+    xvals = np.dot(xPoints, polynomial_array)
+    yvals = np.dot(yPoints, polynomial_array)
+
+    return xvals, yvals
 
 
 if __name__ == "__main__":
@@ -195,27 +230,28 @@ if __name__ == "__main__":
         ax1.scatter(xx, cls, marker='.')
         ax1.plot(xx, fit_vals, linestyle='-', color='orange')
         ax1.plot(lin_x, lin_fit_vals, linestyle=':', color='green')
-        lab = 'y = ' + '{:0.3e}'.format(params[0][0]) + \
-            'x + ' + str(round(params[0][1], 4))
-        lin_lab = 'y = ' + '{:0.3e}'.format(lin_params[0][0]) + \
-            'x + ' + str(round(lin_params[0][1], 4))
+        lab = r'$y = $' + '{:0.3e}'.format(params[0][0]) + \
+            r'$x + $' + str(round(params[0][1], 4))
+        lin_lab = r'$y = $' + '{:0.3e}'.format(lin_params[0][0]) + \
+            r'$x + $' + str(round(lin_params[0][1], 4))
         ax1.legend([lab, lin_lab, phi])
         ax1.set_title('Linear fit')
-        ax1.set_xlabel('r^2')
-        ax1.set_ylabel('ln(S)')
+        ax1.set_xlabel(r'$r^2$')
+        ax1.set_ylabel(r'$\ln(S)$')
 
         print(len(xx), len(lin_x))
 
         ax2.vlines(xx, [0], residuals,
                    color='orange', linestyle='-')
         ax2.vlines(lin_x, [0], fit_res, color='g', linestyle=':')
-        ax2.set_xlabel('r^2')
+        ax2.set_xlabel(r'$r^2$')
         ax2.set_ylabel('Residual')
         ax2.set_title('Residuals')
-        red_lab = "R^2 = " + str(round(coef_def(cls.values, fit_vals), 6))
-        lin_red_lab = "R^2 = " + str(round(coef_def(lin_cls, lin_fit_vals), 6))
+        red_lab = r"$R^2 = $" + str(round(coef_def(cls.values, fit_vals), 6))
+        lin_red_lab = r"$R^2 = $" + \
+            str(round(coef_def(lin_cls, lin_fit_vals), 6))
         ax2.legend([red_lab, lin_red_lab])
-        plt.savefig('res_' + str(i) + '.eps', dpi=200, format='eps')
+        # plt.savefig('res_' + str(i) + '.eps', dpi=200, format='eps')
 
         log_S_list.append(ls.values)
         clean_log_S_list.append(cls.values)
@@ -261,13 +297,44 @@ if __name__ == "__main__":
     plt.figure()
     plt.semilogy(phi_centers, f, 'k--')
     plt.plot(phi_centers, g, 'g--')
-    plt.plot(phi_centers, h, 'b-')
     ax = plt.gca()
     ax.invert_xaxis()
-    plt.xlabel("Grain size (Phi-scale)")
+    plt.xlabel(r"Grain size ($\Phi$-scale)")
     plt.ylabel("Terminal velocity (m/s)")
     # plt.xlim([0,3])
     # plt.ylim([10,100])
+    plt.title("Terminal velocity in Low and High Reynolds domains")
     plt.legend(["Low Re", "High Re", "Smoothed function"])
-    plt.savefig('smooth_dens.eps', dpi=200, format='eps')
+    plt.savefig('term_vel.eps', dpi=200, format='eps')
+    plt.show()
+    A
+    print(low_ints)
+
+    phi_centers
+
+    lf = np.log(f)
+    lg = np.log(g)
+
+    points = [(phi_centers[0], lg[0]), (phi_centers[10], lf[10]), (phi_centers[11], lg[11]),
+              (phi_centers[16], lf[16])]
+
+    points
+    xpoints = [p[0] for p in points]
+    ypoints = [p[1] for p in points]
+    xvals, yvals = bezier_curve(points, nTimes=1000)
+
+    plt.figure()
+    plt.semilogy(phi_centers, f, 'k--')
+    plt.plot(phi_centers, g, 'g--')
+    plt.plot(xvals, np.exp(yvals))
+    plt.plot(xpoints, np.exp(ypoints), "ro")
+    plt.xlabel(r"Grain size ($\Phi$-scale)")
+    plt.ylabel("Terminal velocity (m/s)")
+    plt.legend(["Low Re", "High Re", r"B\'ezier curve", "Weights"])
+    plt.title(r"B\'ezier curve transition between Low and High Reynolds domains")
+    for nr in range(len(points)):
+        plt.text(points[nr][0], np.exp(points[nr][1]), nr)
+    ax = plt.gca()
+    ax.invert_xaxis()
+    plt.savefig('bez_vel.eps', dpi=200, format='eps')
     plt.show()

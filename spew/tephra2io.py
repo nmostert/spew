@@ -1,25 +1,29 @@
 import pandas as pd
 from geopandas import GeoDataFrame
 from shapely.geometry import Point
-from eruption import plot_grid, plot_contour
+from eruption import Eruption, plot_contour, plot_grid
+import re
 
 
 def tephra2_to_df(filename):
     # Reads input from Tephra2 into a GeoPandas GeoDataFrame
     # Geopandas is used to enable easy spatial calculations
     # (area, distance, etc.)
-    df = pd.read_csv(filename, sep=" ", header=0)
+
+    # Extract phi-classes from header and construct col names
+    headers = pd.read_csv(filename, sep=" ", header=None, nrows=1)
+    phi_names = []
+    for name in headers[headers.columns[4:-1]].values[0]:
+        m1 = re.search('\[[-+]?[0-9]*\.?[0-9]+', name)
+        m2 = re.search('(?<=->)[-+]?[0-9]*\.?[0-9]+\)', name)
+        phi_names.append(m1.group(0) + "," + m2.group(0))
+    col_names = ["Easting", "Northing", "Elevation",
+                 "MassArea"] + phi_names + ["Percent"]
+
+    df = pd.read_csv(filename, sep=" ", header=None,
+                     names=col_names, skiprows=1)
     df = df.dropna(axis=1, how='all')
     df = df.fillna(0)
-    df = df.rename(columns={'#Easting': 'Easting',
-                            '[-4->-3)': '[-4,-3)',
-                            '[-3->-2)': '[-3,-2)',
-                            '[-2->-1)': '[-2,-1)',
-                            '[-1->0)': '[-1,0)',
-                            '[0->1)': '[0,1)',
-                            '[1->2)': '[1,2)',
-                            '[2->3)': '[2,3)',
-                            '[3->4)': '[3,4)'})
 
     geometry = [Point(xy) for xy in zip(df.Easting, df.Northing)]
     crs = {'init': 'epsg:4326'}
@@ -39,48 +43,19 @@ def read_CN(filename):
 
 
 if __name__ == "__main__":
-    filename = './data/cerroNegro_regGrid_noWind_SOURCE.txt'
+    filename1 = './data/ceroNegro_GITHUB.txt'
+    cn = Eruption(data=filename1, vent=Point(532290, 1382690), test=False)
 
-    df = tephra2_to_df(filename)
-    df.head()
+    plot_grid(cn.df, cn.vent)
+    cn.df
+    plot_contour(cn.df['Easting'], cn.df['Northing'], cn.df['MassArea'], cn.vent,
+                 'Mass/Area', 'kg/m$^2$', save='./cerroNegro_contours.eps')
 
-    filename = './data/mass_sanitized.csv'
+    filename2 = './data/pululagua_GITHUB.txt'
+    pulu = Eruption(data=filename2, vent=Point(498000, 9630000), test=False)
 
-    df2 = read_CN(filename)
+    plot_grid(pulu.df, pulu.vent)
+    pulu.df
 
-    df2.head()
-    vent = Point(532290, 1382690)
-
-    plot_contour(df2['Easting'], df2['Northing'], df2['Thickness'], vent,
-                 'Thickness', "m", save='./cn_thickness.eps')
-    plot_contour(df2['Easting'], df2['Northing'], df2['Density'], vent,
-                 'Density', "kg/m^3", save='./cn_density.eps')
-
-    plot_contour(df2['Easting'], df2['Northing'], df2['Isomass'], vent,
-                 'Isomass', "kg/m^2", save='./cn_isomass.eps')
-
-    dfA = df2[df2["Layer"] == "A"]
-    dfB = df2[df2["Layer"] == "B"]
-    len(dfA)
-    len(dfB)
-
-    plot_contour(dfA['Easting'], dfA['Northing'], dfA['Thickness'], vent,
-                 'Layer A Thickness', "m", save='./cnA_thickness.eps')
-
-    plot_contour(dfA['Easting'], dfA['Northing'], dfA['Density'],
-                 vent, 'Layer A Density', "kg/m^3", save='./cnA_density.eps')
-
-    plot_contour(dfA['Easting'], dfA['Northing'], dfA['Isomass'],
-                 vent, 'Layer A Isomass', "kg/m^2", save='./cnA_isomass.eps')
-
-    plot_contour(dfB['Easting'], dfB['Northing'], dfB['Thickness'],
-                 vent, 'Layer B Thickness', "m", save='./cnB_thickness.eps')
-
-    plot_contour(dfB['Easting'], dfB['Northing'], dfB['Density'],
-                 vent, 'Layer B Density', "kg/m^3", save='./cnB_density.eps')
-
-    plot_contour(dfB['Easting'], dfB['Northing'], dfB['Isomass'],
-                 vent, 'Layer B Isomass', "kg/m^2", save='./cnB_isomass.eps')
-
-    plot_grid(df, vent=vent)
-    plot_grid(df2, vent=vent)
+    plot_contour(pulu.df['Easting'], pulu.df['Northing'], pulu.df['MassArea'], pulu.vent,
+                 'Mass/Area', '', save='./pulu_contours.eps')
