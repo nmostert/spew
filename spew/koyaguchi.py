@@ -35,7 +35,7 @@ def plot_lnS_rsqr(samples, phi_labels):
     plt.xlabel(r"$r^2$")
     plt.ylabel(r"$\ln(S)$")
     for phi in phi_labels:
-        S = (samples['Mass/Area'].values * (samples[phi]))
+        S = (samples['MassArea'].values * (samples[phi]))
         plt.plot(r_sqr, np.log(S), '.')
         plt.legend(phi_labels)
 
@@ -45,7 +45,7 @@ def plot_S_rsqr(samples, phi_labels):
     plt.xlabel(r"$r^2$")
     plt.ylabel(r"$S$")
     for phi in phi_labels:
-        S = (line['Mass/Area'].values * (line[phi]))
+        S = (line['MassArea'].values * (line[phi]))
         plt.plot(r_sqr, S, '.')
         plt.legend(phi_labels)
 
@@ -162,9 +162,8 @@ def bezier_curve(points, nTimes=1000):
 
 
 if __name__ == "__main__":
-    filename = './data/cerroNegro_regGrid_noWind_SOURCE.txt'
-
-    cn = Eruption(data=filename, vent=Point(532290, 1382690))
+    filename1 = './data/ceroNegro_GITHUB.txt'
+    cn = Eruption(data=filename1, vent=Point(532290, 1382690), test=False)
 
     # Find grid point closest to the vent (pseudo origin)
 
@@ -173,11 +172,11 @@ if __name__ == "__main__":
     line['r_sqr'] = line.apply(lambda row: row.r ** 2, axis=1)
 
     def S_dict(row, phi_labels):
-        S = dict([(phi, (row['Mass/Area'] * row[phi])) for phi in phi_labels])
+        S = dict([(phi, (row['MassArea'] * row[phi])) for phi in phi_labels])
         return S
 
     def logS_dict(row, phi_labels):
-        logS = dict([(phi, np.log(row['Mass/Area'] * row[phi]))
+        logS = dict([(phi, np.log(row['MassArea'] * row[phi]))
                      for phi in phi_labels])
         return logS
     line['S'] = line.apply(lambda row: S_dict(row, cn.phi_labels), axis=1)
@@ -211,7 +210,7 @@ if __name__ == "__main__":
     fit_vals_list = []
     r_sqr = line['r_sqr'].values
     for i, phi in enumerate(cn.phi_labels):
-        ls = np.log(line['Mass/Area'].values * (line[phi]))
+        ls = np.log(line['MassArea'].values * (line[phi]))
         ls = ls.replace([np.inf, -np.inf], np.nan)
         nan_idx = [not na for na in ls.isna()]
         cls = ls.dropna()

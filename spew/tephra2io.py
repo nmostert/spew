@@ -3,6 +3,9 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from eruption import Eruption, plot_contour, plot_grid
 import re
+import matplotlib.pyplot as plt
+from matplotlib import colors
+import numpy as np
 
 
 def tephra2_to_df(filename):
@@ -28,7 +31,7 @@ def tephra2_to_df(filename):
     geometry = [Point(xy) for xy in zip(df.Easting, df.Northing)]
     crs = {'init': 'epsg:4326'}
     df = GeoDataFrame(df.copy(), crs=crs, geometry=geometry)
-    return df
+    return df, phi_names
 
 
 def read_CN(filename):
@@ -50,6 +53,24 @@ if __name__ == "__main__":
     cn.df
     plot_contour(cn.df['Easting'], cn.df['Northing'], cn.df['MassArea'], cn.vent,
                  'Mass/Area', 'kg/m$^2$', save='./cerroNegro_contours.eps')
+
+    xx = cn.df['Easting']
+    yy = cn.df['Northing']
+    zz = cn.df['MassArea']
+
+    fig, ax = plt.subplots(1, 1)
+    ax.axis('equal')
+    plt.ylabel("Northing")
+    plt.xlabel("Easting")
+    plt.title("TEST")
+    X, Y = np.meshgrid(xx, yy)
+    cont = ax.pcolor(X, Y, zz, norm=colors.LogNorm(), cmap='hot')
+    cbar = fig.colorbar(cont, ax=ax)
+    cbar.ax.set_ylabel("test", rotation=270)
+    plt.plot(cn.vent.x, cn.vent.y, 'r^', ms=10)
+    plt.tight_layout()
+    plt.gca().set_xlim(right=max(xx), left=min(xx))
+    plt.gca().set_ylim(bottom=min(yy), top=max(yy))
 
     filename2 = './data/pululagua_GITHUB.txt'
     pulu = Eruption(data=filename2, vent=Point(498000, 9630000), test=False)
