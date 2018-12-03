@@ -92,7 +92,7 @@ fig, axs = plt.subplots(4, 2, figsize=(
 axs = axs.ravel()
 for i, phi in enumerate(phis):
     for h, erp in eruptions.items():
-        new_df = erp.df[erp.df[phi] != 0]
+        new_df = erp.df.sort_values("radius")
         xx = (new_df.radius)**2
         yy = np.log(new_df.MassArea * (new_df[phi] / 100))
         axs[i].plot(xx, yy, '.', label=r'H = %d km' % h, lw=1)
@@ -103,35 +103,55 @@ for i, phi in enumerate(phis):
         axs[i].set_xlabel(r'Radius$^2$')
         # axs[i].set_xlim(0, 1.7e10)
 plt.tight_layout()
-# plt.show()
-plt.savefig("./data/col_trial_%d/koy_plot_trial_%d.png" %
-            (trial, trial), dpi=200, format='png')
+plt.show()
+# plt.savefig("./data/col_trial_%d/koy_plot_trial_%d.png" %
+#             (trial, trial), dpi=200, format='png')
 
 fig, axs = plt.subplots(4, 2, figsize=(
     10, 15), facecolor='w', edgecolor='k')
 axs = axs.ravel()
 for i, phi in enumerate(phis):
     for h, erp in eruptions.items():
-        new_df = erp.df  # [erp.df[phi] != 0]
+        new_df = erp.df.sort_values("radius")  # [erp.df[phi] != 0]
         xx = new_df.radius
         yy = new_df[phi]
-        axs[i].plot(xx, yy, 'o', ms=4, label=r'H = %d km' % h, lw=1)
+        axs[i].plot(xx, yy, 'o-', ms=4, label=r'H = %d km' % h, lw=1)
         axs[i].legend()
         axs[i].set_title(
-            r'Weight percentage of $\phi$ class %s against $\mathrm{Radius}$' % phi)
+            r'$\phi \in %s$' % phi)
         axs[i].set_ylabel(r'Weight percentage for $\phi \in %s$' % phi)
         axs[i].set_xlabel(r'Radius')
 plt.tight_layout()
-# plt.show()
-plt.savefig("./data/col_trial_%d/phi_over_rad_plot_trial_%d.png" %
-            (trial, trial), dpi=200, format='png')
+plt.show()
+# plt.savefig("./data/col_trial_%d/phi_over_rad_plot_trial_%d.png" %
+#             (trial, trial), dpi=200, format='png')
+
+fig, axs = plt.subplots(4, 2, figsize=(
+    10, 15), facecolor='w', edgecolor='k')
+axs = axs.ravel()
+for i, phi in enumerate(phis):
+    for h, erp in eruptions.items():
+        new_df = erp.df.sort_values("radius")  # [erp.df[phi] != 0]
+        xx = new_df.radius
+        yy = new_df.MassArea * (new_df[phi] / 100)
+        axs[i].plot(xx, yy, 'o-', ms=1, label=r'H = %d km' % h, lw=1)
+        axs[i].legend()
+        axs[i].set_title(
+            r'$\phi \in %s$' % phi)
+        axs[i].set_ylabel(r'Mass/Area for $\phi \in %s$' % phi)
+        axs[i].set_xlabel(r'Radius')
+        axs[i].set_ylim(top=70000)
+plt.tight_layout()
+plt.show()
+# plt.savefig("./data/col_trial_%d/phi_over_rad_plot_trial_%d.png" %
+#             (trial, trial), dpi=200, format='png')
 
 fig, axs = plt.subplots(4, 2, figsize=(
     10, 15), facecolor='w', edgecolor='k')
 axs = axs.ravel()
 for i, (h, erp) in enumerate(eruptions.items()):
     for phi in phis:
-        new_df = erp.df  # [erp.df[phi] != 0]
+        new_df = erp.df.sort_values("radius")  # [erp.df[phi] != 0]
         xx = new_df.radius
         yy = new_df[phi]
         axs[i].plot(xx, yy, 'o', ms=4, label=r'$\phi = %s$' % phi, lw=1)
@@ -146,6 +166,26 @@ plt.savefig("./data/col_trial_%d/col_over_rad_plot_trial_%d.png" %
             (trial, trial), dpi=200, format='png')
 
 
+fig, axs = plt.subplots(4, 2, figsize=(
+    10, 15), facecolor='w', edgecolor='k')
+axs = axs.ravel()
+for i, (h, erp) in enumerate(eruptions.items()):
+    for phi in phis:
+        new_df = erp.df.sort_values("radius")  # [erp.df[phi] != 0]
+        xx = new_df.radius
+        yy = new_df.MassArea * (new_df[phi] / 100)
+        axs[i].plot(xx, yy, 'o-', ms=4, label=r'$\phi = %s$' % phi, lw=1)
+        axs[i].legend()  # bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+        axs[i].set_title(
+            r'Weight percentage against $\mathrm{Radius}$, %d km column height' % h)
+        axs[i].set_ylabel(r'Weight percentage')
+        axs[i].set_xlabel(r'Radius')
+plt.tight_layout()
+plt.show()
+# plt.savefig("./data/col_trial_%d/col_over_rad_plot_trial_%d.png" %
+# (trial, trial), dpi=200, format='png')
+
+
 def func(x, a, b, c, d):
     return a * (b ** (c * x)) + d
 
@@ -158,8 +198,8 @@ def func3(x, m, c):
     return m * x + c
 
 
-fig, axs = plt.subplots(4, 2, figsize=(
-    10, 15), facecolor='w', edgecolor='k')
+fig, axs = plt.subplots(2, 4, figsize=(
+    20, 10), facecolor='w', edgecolor='k')
 axs = axs.ravel()
 slopes = []
 intercepts = []
@@ -187,30 +227,26 @@ for i, phi in enumerate(phis):
     slopes.append(m)
     intercepts.append(c)
 plt.tight_layout()
-# plt.show()
-plt.savefig("./data/col_trial_%d/line_fits_trial_%d.png" %
-            (trial, trial), dpi=200, format='png')
+plt.savefig("koy_fits_yo.png", dpi=200, format='png')
 
 for phi, slope in zip(phis, slopes):
     plt.plot(col_heights, slope, label=phi, marker='o')
-plt.title(r'Plot of slope against column height', fontsize=14)
+plt.title(r'Slope', fontsize=14)
 plt.ticklabel_format(style='sci', axis='y', scilimits=(0, 0))
 plt.xlabel("Column Height (km)")
 plt.ylabel("Slope")
 plt.tight_layout()
 plt.legend()
 # plt.show()
-plt.savefig("./data/col_trial_%d/slope_trial_%d.pdf" %
-            (trial, trial), dpi=200, format='pdf')
+plt.savefig("slope.png", dpi=200, format='png')
 
 for phi, intercept in zip(phis, intercepts):
     plt.plot(col_heights, intercept, label=r'\(\phi \in %s\)' %
              phi, marker='o')
-plt.title(r'Plot of intercept against column height', fontsize=14)
+plt.title(r'Intercept', fontsize=14)
 plt.xlabel("Column Height (km)")
 plt.ylabel("Intercept")
 plt.tight_layout()
 plt.legend()
 # plt.show()
-plt.savefig("./data/col_trial_%d/intercept_trial_%d.pdf" %
-            (trial, trial), dpi=200, format='pdf')
+plt.savefig("intercept.png", dpi=200, format='png')

@@ -393,11 +393,11 @@ def create_trial_configs(parameter, trial_no, values, config=None, bash=True):
 
 if __name__ == "__main__":
 
-    trial = 2
+    trial = 6
 
-    ftts = [0, 288, 3600, 7200, 10800, 14400, 18000, 10000000]
+    cols = [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000]
 
-    create_trial_configs("fall_time_threshold", trial, ftts)
+    create_trial_configs("plume_height", trial, cols)
 
     # test = Eruption(data=filename, vent=Point(532290, 1382690), test=False)
 
