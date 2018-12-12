@@ -371,7 +371,7 @@ def create_trial_configs(parameter, trial_no, values, config=None, bash=True):
     for val in values:
         config[parameter] = val
         fn = "./data/%s_trial_%d/%s_trial_%d.conf" % (
-            parameter, trial, parameter, val)
+            parameter, trial, parameter, int(val))
         write_config_file(config, fn)
     if bash:
         fn2 = "./data/%s_trial_%d/%s_trial_%d.sh" % (
@@ -379,7 +379,7 @@ def create_trial_configs(parameter, trial_no, values, config=None, bash=True):
         f2 = open(fn2, "w")
         f2.write("#!/bin/bash\n")
         f2.write("X=%d\n" % trial)
-        f2.write("for v in " + ' '.join([str(v) for v in values]) + '\n')
+        f2.write("for v in " + ' '.join([str(int(v)) for v in values]) + '\n')
         f2.write("do\n")
         f2.write("./tephra2-2012 inputs/%s_trial_$X/%s_trial_$v.conf " %
                  (parameter, parameter)
@@ -393,12 +393,36 @@ def create_trial_configs(parameter, trial_no, values, config=None, bash=True):
 
 if __name__ == "__main__":
 
-    trial = 6
+    trial = 7
 
-    cols = [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000]
+    config = {
+        "vent_easting": 532290,
+        "vent_northing": 1382690,
+        "vent_elevation": 614,
+        "plume_height": 25000,
+        "alpha": 1.04487,
+        "beta": 1.46425,
+        "eruption_mass": 1.882315e+12,
+        "max_grainsize": -4.5,
+        "min_grainsize": 4.5,
+        "median_grainsize": 0,
+        "std_grainsize": 1.8,
+        "eddy_const": 0.04,
+        "diffusion_coefficient": 0.5,
+        "fall_time_threshold": 288,
+        "lithic_density": 2700.0,
+        "pumice_density": 1000.0,
+        "col_steps": 75,
+        "part_steps": 21,
+        "plume_model": 0
+    }
 
-    create_trial_configs("plume_height", trial, cols)
+    # [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000]
+    cols = np.linspace(10000, 40000, 21)
 
+    len(cols)
+    cols
+    create_trial_configs("plume_height", trial, cols, config=config)
     # test = Eruption(data=filename, vent=Point(532290, 1382690), test=False)
 
     # plot_grid(test.df, test.vent)

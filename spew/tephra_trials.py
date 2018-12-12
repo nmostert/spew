@@ -1,8 +1,19 @@
 from eruption import Eruption
-from scipy.optimize import curve_fit
+from scipy.optimize import curve_fit, minimize
 import numpy as np
 from shapely.geometry import Point
 import matplotlib.pyplot as plt
+import matplotlib as mpl
+from matplotlib.ticker import ScalarFormatter, FormatStrFormatter
+import scipy.ndimage
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import rc
+
+
+rc('font', **{'family': 'serif', 'serif': ['Palatino']})
+rc('text', usetex=True)
+
+mpl.style.use("ggplot")
 
 
 param = "plume_height"
@@ -323,17 +334,13 @@ plt.show()
 # plt.savefig("./data/%s_trial_%d/intercept_trial_%d.png" %
 #             (param, trial, trial), dpi=200, format='png')
 
+###################OPTION ONE: WEIGHTED POLYFIT##########################
 
-fig, axs = plt.subplots(rows, 2, figsize=(
-    10, 12), facecolor='w', edgecolor='k')
-axs = axs.ravel()
-slopes = []
-intercepts = []
-for i, phi in enumerate(phis):
-    a = []
-    b = []
-    for h, erp in eruptions.items():
-        print(str(h) + phi)
+for k, phi in enumerate(phis):
+    fig, axs = plt.subplots(rows, 2, figsize=(
+        10, 15), facecolor='w', edgecolor='k')
+    axs = axs.ravel()
+    for i, (h, erp) in enumerate(eruptions.items()):
         new_df = erp.df
         ma = new_df['MassArea'].values
         wt = new_df[phi].values
@@ -341,62 +348,208 @@ for i, phi in enumerate(phis):
         yy = ma * (wt / 100)
 
         pnts = list(set(zip(xx, yy)))
-
         pnts = sorted(pnts, key=lambda x: x[0])
-        x = [p[0] for p in pnts if p[0] < 20000]
-        y = [p[1] for p in pnts if p[0] < 20000]
 
-        x = np.array(x)
-        y = np.array(y)
-        vals = np.polyfit(x, np.log(y), 1, w=np.log(y))
-        vals
-        yf = np.exp(vals[1]) * np.exp(x * vals[0])
-        a.append(vals[0])
-        b.append(vals[1])
-        axs[i].plot(x, yf, '-',
-                    label='H = %d, m=%.2e, c=%5.2f' % (h, vals[0], vals[1]))
-    axs[i].legend()
-    axs[i].set_ylabel('Log(Mass/Area)')
-    axs[i].set_xlabel(r'Radius$^2$')
-    axs[i].set_title(r'$\phi \in %s$' %
-                     phi, fontsize=14)
-    # axs[i].set_xlim(0, 1.7e10)
-    # slopes.append(m)
-    # intercepts.append(c)
+        x = np.array([p[0] for p in pnts])
+        y = np.array([p[1] for p in pnts])
+
+        tot_mass = np.trapz(y, x=x)
+        idx = 0
+        perc = 0.0
+        while perc < 99.99999999:
+            mass = np.trapz(y[:idx], x=x[:idx])
+            idx += 1
+            perc = (mass / tot_mass) * 100
+
+        x = x[:idx]
+        y = y[:idx]
+
+        vals_1 = np.polyfit(x, np.log(y), 1, w=y)
+        vals_2 = np.polyfit(x, np.log(y), 1, w=1 / x)
+        vals_3 = np.polyfit(x, np.log(y), 1, w=1 / (x**2))
+        xf = np.linspace(x.min(), x.max(), 100)
+        yf_1 = np.exp(vals_1[1]) * np.exp(xf * vals_1[0])
+        yf_2 = np.exp(vals_2[1]) * np.exp(xf * vals_2[0])
+        yf_3 = np.exp(vals_3[1]) * np.exp(xf * vals_3[0])
+        axs[i].scatter(x, y, s=30, facecolors='none', edgecolors='r')
+        axs[i].plot(xf, yf_1, ':', color='k', lw=1.2, label=r'$w=y$, $a$=%.2e, $b$=%.2e' % (
+            np.exp(vals_1[1]), vals_1[0]))
+        axs[i].plot(xf, yf_2, '--', color='k', lw=1.2, label=r'$w=1/x$, $a$=%.2e, $b$=%.2e' %
+                    (np.exp(vals_2[1]), vals_2[0]))
+        axs[i].plot(xf, yf_3, '-.', color='k', lw=1.2, label=r'$w=1/x^2$, $a$=%.2e, $b$=%.2e' %
+                    (np.exp(vals_3[1]), vals_3[0]))
+        axs[i].legend()
+        axs[i].set_ylabel('Mass/Area')
+        axs[i].set_xlabel(r'Radius')
+        axs[i].set_title(r'$\phi \in %s$, $H = %d$km' %
+                         (phi, disp_func(h)), fontsize=14)
+    plt.tight_layout()
+    plt.savefig("./data/%s_trial_%d/polyfit_weights_%d.pdf" %
+                (param, trial, k), format='pdf')
+
+
+###################SCIPY.MINIMIZE##########################
+
+
+def gamma_kernel(x, a, b, c):
+    return c * (x**a) * e**(b * x)
+
+
+def sse(k, x_data, y_data):
+    return sum((y_data - gamma_kernel(x_data, *k)) ** 2)
+
+
+fit_df = pd.DataFrame(columns=['H', 'Phi', 'a', 'b', 'c'])
+
+for k, phi in enumerate(phis):
+    fig, axs = plt.subplots(rows, 2, figsize=(
+        10, 15), facecolor='w', edgecolor='k')
+    axs = axs.ravel()
+    for i, (h, erp) in enumerate(eruptions.items()):
+        new_df = erp.df
+        ma = new_df['MassArea'].values
+        wt = new_df[phi].values
+        xx = new_df['radius'].values
+        yy = ma * (wt / 100)
+
+        pnts = list(set(zip(xx, yy)))
+        pnts = sorted(pnts, key=lambda x: x[0])
+
+        x = np.array([p[0] for p in pnts])
+        y = np.array([p[1] for p in pnts])
+
+        tot_mass = np.trapz(y, x=x)
+        idx = 0
+        perc = 0.0
+        while perc < 99.99999999:
+            mass = np.trapz(y[:idx], x=x[:idx])
+            idx += 1
+            perc = (mass / tot_mass) * 100
+
+        x_data = x[:idx]
+        y_data = y[:idx]
+
+        k0 = (0, 0, 0)
+
+        def fun(k): return gamma_kernel_sse(k, x_data, y_data)
+
+        vals = minimize(fun, k0)
+
+        xf = np.linspace(x_data.min(), x_data.max(), 100)
+        yf = gamma_kernel(xf, *vals.x)
+
+        axs[i].scatter(x_data, y_data, s=30, facecolors='none', edgecolors='r')
+        axs[i].plot(xf, yf, '--', color='k', lw=1.2, label=r'\noindent $a$=%.2e,\\ $b$=%.2e,\\ $c$=%.2e' % (
+            vals.x[0], vals.x[1], vals.x[2]))
+        axs[i].legend()
+        axs[i].set_ylabel('Mass/Area')
+        axs[i].set_xlabel(r'Radius')
+        axs[i].set_title(r'$\phi \in %s$, $H = %d$km' %
+                         (phi, disp_func(h)), fontsize=14)
+        fit_df = fit_df.append(
+            {'H': h, 'Phi': phi, 'a': vals.x[0], 'b': vals.x[1], 'c': vals.x[2]}, ignore_index=True)
+    plt.tight_layout()
+    plt.show()
+    # plt.savefig("./data/%s_trial_%d/minimize_%d.pdf" %
+    #             (param, trial, k), format='pdf')
+
+fit_df = fit_df[fit_df['H'] != 5000]
+
+fig, axs = plt.subplots(7, 3, figsize=(
+    10, 15), facecolor='w', edgecolor='k', sharex=True)
+axs = axs.ravel()
+axi = 0
+H = list(eruptions.keys())
+for h in H[1:]:
+    group = fit_df[fit_df['H'] == h].groupby("Phi").mean().reindex(phis)
+
+    for p, col, format in zip(['a', 'b', 'c'], ['steelblue', 'indianred', 'dimgrey'], ['%.2f', '%3f', '%.4f']):
+        group[p].plot(kind="line", color=col, ax=axs[axi], legend=False)
+        axs[axi].get_yaxis().get_major_formatter().set_powerlimits((-3, 4))
+        axs[axi].set_xlabel(r'Grainsize ($\phi$)')
+        if p == 'c':
+            axs[axi].set_ylabel(r'Height = %d km' % disp_func(h))
+            axs[axi].get_yaxis().set_label_position("right")
+        if axi < 3:
+            axs[axi].set_title(p)
+        if axi < 20:
+            axi += 1
 plt.tight_layout()
 plt.show()
+# plt.savefig("./data/%s_trial_%d/h_by_phi_abc.pdf" %
+#             (param, trial), format='pdf')
 
-new_df = eruptions[10000].df
-
-ma = new_df['MassArea'].values
-phi = new_df[phis[3]].values
-xx = new_df['radius'].values
-yy = ma * (phi / 100)
-
-pnts = list(set(zip(xx, yy)))
-
-pnts = sorted(pnts, key=lambda x: x[0])
-
-ints = [np.trapz(yi, x=xi) for xi, yi in pnts]
-
-x = np.array([p[0] for p in pnts])
-y = np.array([p[1] for p in pnts])
-
-
-vals = np.polyfit(x, np.log(y), 1, w=1 / x)
-vals
-yf = np.exp(vals[1]) * np.exp(x * vals[0])
-yf
-plt.plot(x, y, '.')
-plt.plot(x, yf)
-plt.savefig("polyfit_10000_y.png", dpi=200, format='png')
-
-x = np.array(x)
-y = np.array(y)
-vals = np.polyfit(x, np.log(y), 1)
-vals
-yf = np.exp(vals[1]) * np.exp(x * vals[0])
-yf
-plt.plot(x, y, '.')
-plt.plot(x, yf)
+fig, axs = plt.subplots(8, 3, figsize=(
+    10, 15), facecolor='w', edgecolor='k', sharex=True)
+axs = axs.ravel()
+len(axs)
+axi = 0
+for phi in phis:
+    group = fit_df[fit_df['Phi'] == phi].groupby("H").mean()
+    group.index = [10, 15, 20, 25, 30, 35, 40]
+    for p, col in zip(['a', 'b', 'c'], ['steelblue', 'indianred', 'dimgrey']):
+        group[p].plot(kind="bar", color=col, ax=axs[axi], legend=False)
+        axs[axi].get_yaxis().get_major_formatter().set_powerlimits((-2, 3))
+        axs[axi].set_xlabel(r'Column Height (km)')
+        if p == 'c':
+            axs[axi].set_ylabel(r'$\phi \in %s$' % phi)
+            axs[axi].get_yaxis().set_label_position("right")
+        if axi < 3:
+            axs[axi].set_title(p)
+        if axi < 23:
+            axi += 1
+plt.tight_layout()
 plt.show()
+# plt.savefig("./data/%s_trial_%d/phi_by_h_abc.pdf" %
+#             (param, trial), format='pdf')
+
+fit_df
+
+a_piv = fit_df.pivot(index='Phi', columns='H', values='a')
+b_piv = fit_df.pivot(index='Phi', columns='H', values='b')
+c_piv = fit_df.pivot(index='Phi', columns='H', values='c')
+a_piv = a_piv.reindex(phis)
+b_piv = b_piv.reindex(phis)
+c_piv = c_piv.reindex(phis)
+
+xlabels = [123, 5, 10, 15, 20, 25, 30, 35, 40]
+ylabels = ['213'] + phis
+
+
+fig, axs = plt.subplots(3, 1, figsize=(
+    10, 15), facecolor='w', edgecolor='k')
+axs = axs.ravel()
+for i, piv, p in zip([0, 1, 2], [a_piv, b_piv, c_piv], ['a', 'b', 'c']):
+    c = axs[i].imshow(scipy.ndimage.zoom(piv.values, 3),
+                      cmap="viridis", interpolation="spline16")
+    cont = axs[i].contour(scipy.ndimage.zoom(piv.values, 3), colors='w')
+    axs[i].set_xticklabels(xlabels)
+    axs[i].set_yticklabels(ylabels)
+    fig.colorbar(c, ax=axs[i])
+    axs[i].grid(False)
+    axs[i].set_title(p)
+    axs[i].clabel(cont, inline=1, fontsize=10)
+    axs[i].set_xlabel("Column height (km)")
+    axs[i].set_ylabel("Phi class")
+plt.savefig("./data/%s_trial_%d/param_maps_cont.pdf" %
+            (param, trial), format='pdf')
+
+piv
+
+fig, axs = plt.subplots(3, 1, figsize=(
+    10, 15), facecolor='w', edgecolor='k', subplot_kw=dict(projection='3d'))
+axs = axs.ravel()
+for i, piv, p in zip([0, 1, 2], [a_piv, b_piv, c_piv], ['a', 'b', 'c']):
+    c = axs[i].plot_surface(range(8), piv.columns.astype(
+        'float'), piv.values.astype('float'), cmap="hot")
+    axs[i].set_xticklabels(xlabels)
+    axs[i].set_yticklabels(ylabels)
+    fig.colorbar(c, ax=axs[i])
+    axs[i].grid(False)
+    axs[i].set_title(p)
+    axs[i].clabel(cont, inline=1, fontsize=10)
+    axs[i].set_xlabel("Column height (km)")
+    axs[i].set_ylabel("Phi class")
+plt.show()
+# plt.savefig("./data/%s_trial_%d/param_maps_cont.pdf" %
+#             (param, trial), format='pdf')
