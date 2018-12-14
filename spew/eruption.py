@@ -393,7 +393,7 @@ def create_trial_configs(parameter, trial_no, values, config=None, bash=True):
 
 if __name__ == "__main__":
 
-    trial = 7
+    trial = 8
 
     config = {
         "vent_easting": 532290,
@@ -413,12 +413,12 @@ if __name__ == "__main__":
         "lithic_density": 2700.0,
         "pumice_density": 1000.0,
         "col_steps": 75,
-        "part_steps": 21,
+        "part_steps": 101,
         "plume_model": 0
     }
 
     # [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000]
-    cols = np.linspace(10000, 40000, 21)
+    cols = np.linspace(10000, 40000, 101)
 
     len(cols)
     cols

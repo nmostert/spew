@@ -45,6 +45,7 @@ for key in eruptions:
 
 phis = eruptions[vals[0]].phi_labels
 
+phis
 display(eruptions[40000].df)
 rows = int(len(phis) / 2)
 rows
@@ -59,6 +60,9 @@ def sse(k, x_data, y_data):
 
 
 fit_df = pd.DataFrame(columns=['H', 'Phi', 'a', 'b', 'c'])
+
+phis[-2] in phis[-2:]
+
 
 for k, phi in enumerate(phis):
     # fig, axs = plt.subplots(rows, 2, figsize=(
@@ -99,21 +103,20 @@ for k, phi in enumerate(phis):
         xf = np.linspace(x_data.min(), x_data.max(), 100)
         yf = gamma_kernel(xf, *popt.x)
 
-        plt.scatter(x_data, y_data, s=30, facecolors='none', edgecolors='r')
-        plt.plot(xf, yf, '--', color='k', lw=1.2, label=r'\noindent $a$=%.2e,\\ $b$=%.2e,\\ $c$=%.2e' % (
-            popt.x[0], popt.x[1], popt.x[2]))
-        # axs[i].legend()
-        # axs[i].set_ylabel('Mass/Area')
-        # axs[i].set_xlabel(r'Radius')
-        plt.title(r'$\phi \in %s$, $H = %d$km' %
-                  (phi, disp_func(h)), fontsize=14)
+        if (phi in phis[-2:] and h in vals[::2]):
+            plt.scatter(x_data, y_data, s=30)
+            plt.plot(xf, yf, '--', lw=1.2, label=r' $H = %d$km' % disp_func(h))
+            plt.legend()
+            # axs[i].set_ylabel('Mass/Area')
+            # axs[i].set_xlabel(r'Radius')
+            plt.title(r'$\phi \in %s$' % disp_func(h), fontsize=14)
+
         fit_df = fit_df.append(
             {'H': h, 'Phi': phi, 'a': popt.x[0], 'b': popt.x[1], 'c': popt.x[2]}, ignore_index=True)
-        plt.show()
-    # plt.tight_layout()
-    # plt.show()
-    # plt.savefig("./data/%s_trial_%d/minimize_%d.pdf" %
-    #             (param, trial, k), format='pdf')
+    plt.tight_layout()
+    plt.savefig("./data/%s_trial_%d/weird_%d.pdf" %
+                (param, trial, k), format='pdf')
+    plt.show()
 
 fit_df
 
@@ -129,7 +132,10 @@ a_piv
 xlabs = a_piv.columns.values / 1000
 xlabs
 xlabels = [123] + list(xlabs)
-ylabels = ['213'] + phis
+ylabels = phis[::3]
+
+phis[::3]
+
 
 fig, axs = plt.subplots(3, 1, figsize=(
     10, 15), facecolor='w', edgecolor='k')
@@ -137,14 +143,16 @@ axs = axs.ravel()
 for i, piv, p in zip([0, 1, 2], [a_piv, b_piv, c_piv], ['a', 'b', 'c']):
     c = axs[i].imshow(piv.values, cmap='inferno')
     # cont = axs[i].contour(scipy.ndimage.zoom(piv.values, 3), colors='w')
-    axs[i].set_xticklabels(xlabels)
-    axs[i].set_yticklabels(ylabels)
+    axs[i].set_xticklabels([])
+    axs[i].set_yticklabels([])
+
     fig.colorbar(c, ax=axs[i])
     axs[i].grid(False)
     axs[i].set_title(p)
-    axs[i].clabel(cont, inline=1, fontsize=10)
+    # axs[i].clabel(cont, inline=1, fontsize=10)
     axs[i].set_xlabel("Column height (km)")
     axs[i].set_ylabel("Phi class")
-# plt.show()
+# plt.show()\
+plt.locator_params(nbins=7)
 plt.savefig("./data/%s_trial_%d/param_maps_cont.pdf" %
             (param, trial), format='pdf')

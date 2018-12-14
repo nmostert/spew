@@ -295,18 +295,18 @@ for i, phi in enumerate(phis):
         b.append(popt[1])
         c.append(popt[2])
         d.append(popt[3])
-        axs[i].plot(xx, func4(xx, *popt), '-',
-                    label='H = %d, m=%.2e, c=%5.2f' % (h, popt[0], popt[1]))
-    axs[i].legend()
-    axs[i].set_ylabel('Log(Mass/Area)')
-    axs[i].set_xlabel(r'Radius$^2$')
-    axs[i].set_title(r'$\phi \in %s$' %
-                     phi, fontsize=14)
+        # axs[i].plot(xx, func4(xx, *popt), '-',
+        #             label='H = %d, m=%.2e, c=%5.2f' % (h, popt[0], popt[1]))
+    # axs[i].legend()
+    # axs[i].set_ylabel('Log(Mass/Area)')
+    # axs[i].set_xlabel(r'Radius$^2$')
+    # axs[i].set_title(r'$\phi \in %s$' %
+    #                  phi, fontsize=14)
     # axs[i].set_xlim(0, 1.7e10)
     # slopes.append(m)
     # intercepts.append(c)
-plt.tight_layout()
-plt.show()
+# plt.tight_layout()
+# plt.show()
 # plt.savefig("./data/%s_trial_%d/line_fits_trial_%d.png" %
 #             (param, trial, trial), dpi=200, format='png')
 #
@@ -392,7 +392,7 @@ for k, phi in enumerate(phis):
 
 
 def gamma_kernel(x, a, b, c):
-    return c * (x**a) * e**(b * x)
+    return c * (x**a) * np.exp(b * x)
 
 
 def sse(k, x_data, y_data):
@@ -402,9 +402,9 @@ def sse(k, x_data, y_data):
 fit_df = pd.DataFrame(columns=['H', 'Phi', 'a', 'b', 'c'])
 
 for k, phi in enumerate(phis):
-    fig, axs = plt.subplots(rows, 2, figsize=(
-        10, 15), facecolor='w', edgecolor='k')
-    axs = axs.ravel()
+    # fig, axs = plt.subplots(rows, 2, figsize=(
+    #     10, 15), facecolor='w', edgecolor='k')
+    # axs = axs.ravel()
     for i, (h, erp) in enumerate(eruptions.items()):
         new_df = erp.df
         ma = new_df['MassArea'].values
@@ -431,25 +431,25 @@ for k, phi in enumerate(phis):
 
         k0 = (0, 0, 0)
 
-        def fun(k): return gamma_kernel_sse(k, x_data, y_data)
+        def fun(k): return sse(k, x_data, y_data)
 
         vals = minimize(fun, k0)
 
         xf = np.linspace(x_data.min(), x_data.max(), 100)
         yf = gamma_kernel(xf, *vals.x)
 
-        axs[i].scatter(x_data, y_data, s=30, facecolors='none', edgecolors='r')
-        axs[i].plot(xf, yf, '--', color='k', lw=1.2, label=r'\noindent $a$=%.2e,\\ $b$=%.2e,\\ $c$=%.2e' % (
-            vals.x[0], vals.x[1], vals.x[2]))
-        axs[i].legend()
-        axs[i].set_ylabel('Mass/Area')
-        axs[i].set_xlabel(r'Radius')
-        axs[i].set_title(r'$\phi \in %s$, $H = %d$km' %
-                         (phi, disp_func(h)), fontsize=14)
+        # axs[i].scatter(x_data, y_data, s=30, facecolors='none', edgecolors='r')
+        # axs[i].plot(xf, yf, '--', color='k', lw=1.2, label=r'\noindent $a$=%.2e,\\ $b$=%.2e,\\ $c$=%.2e' % (
+        #     vals.x[0], vals.x[1], vals.x[2]))
+        # axs[i].legend()
+        # axs[i].set_ylabel('Mass/Area')
+        # axs[i].set_xlabel(r'Radius')
+        # axs[i].set_title(r'$\phi \in %s$, $H = %d$km' %
+        #                  (phi, disp_func(h)), fontsize=14)
         fit_df = fit_df.append(
             {'H': h, 'Phi': phi, 'a': vals.x[0], 'b': vals.x[1], 'c': vals.x[2]}, ignore_index=True)
-    plt.tight_layout()
-    plt.show()
+    # plt.tight_layout()
+    # plt.show()
     # plt.savefig("./data/%s_trial_%d/minimize_%d.pdf" %
     #             (param, trial, k), format='pdf')
 
@@ -520,18 +520,17 @@ fig, axs = plt.subplots(3, 1, figsize=(
     10, 15), facecolor='w', edgecolor='k')
 axs = axs.ravel()
 for i, piv, p in zip([0, 1, 2], [a_piv, b_piv, c_piv], ['a', 'b', 'c']):
-    c = axs[i].imshow(scipy.ndimage.zoom(piv.values, 3),
-                      cmap="viridis", interpolation="spline16")
-    cont = axs[i].contour(scipy.ndimage.zoom(piv.values, 3), colors='w')
-    axs[i].set_xticklabels(xlabels)
-    axs[i].set_yticklabels(ylabels)
+    c = axs[i].imshow(piv.values, cmap="inferno")
+    # cont = axs[i].contour(scipy.ndimage.zoom(piv.values, 3), colors='w')
+    axs[i].set_xticklabels([])
+    axs[i].set_yticklabels([])
     fig.colorbar(c, ax=axs[i])
     axs[i].grid(False)
     axs[i].set_title(p)
     axs[i].clabel(cont, inline=1, fontsize=10)
     axs[i].set_xlabel("Column height (km)")
     axs[i].set_ylabel("Phi class")
-plt.savefig("./data/%s_trial_%d/param_maps_cont.pdf" %
+plt.savefig("./data/%s_trial_%d/param_maps_cont_2.pdf" %
             (param, trial), format='pdf')
 
 piv
