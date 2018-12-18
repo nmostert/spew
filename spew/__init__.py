@@ -1,3 +1,2 @@
-"""Init thing."""
-import sys
-sys.path.append("./spew")
+from .core import *
+from .eruption import *

@@ -1,5 +1,3 @@
-import tephra2io
-import gridutils as grd
 import os
 from geopandas import GeoDataFrame
 import pandas as pd
@@ -27,7 +25,7 @@ class Eruption:
 
         """
         if os.path.isfile(data):
-            self.df, self.phi_labels = tephra2io.tephra2_to_df(data)
+            self.df, self.phi_labels = tephra2_to_df(data)
         elif isinstance(data, GeoDataFrame):
             self.df = data
         elif isinstance(data, pd.DataFrame):
@@ -40,9 +38,9 @@ class Eruption:
 
         if isinstance(vent, Point):
             self.vent = vent
-            self.grid_vent = grd.nearest_grid_point(
+            self.grid_vent = nearest_grid_point(
                 self.df, vent)
-            self.vent_data = grd.nearest_data_point(self.df, vent)
+            self.vent_data = nearest_data_point(self.df, vent)
 
             radii = self.df.apply(
                 lambda row: self.vent.distance(row['geometry']), axis=1)
@@ -201,9 +199,118 @@ class Eruption:
         plt.savefig("rad_samp.eps", dpi=200, format='eps')
         return sample
 
+def random_sample(df, frac=0.1):
+    # Takes a uniform random sample from a dataset
+    # frac is the proportion of the total number of data points to be sampled.
+    return df.sample(frac=0.05, replace=False)
+
+
+def regular_sample(df, n=5):
+    # Resamples a dataframe by taking every 5 samples in either direction
+    # Meant to be used on a regular grid, but should work with irregular data
+    resample = get_index_grid(df).iloc[::n, ::n]
+    return df.iloc[resample.values.flatten(), :]
+
+
+def get_index_grid(df):
+    # Creates dataframe that is the same shape as the spatial grid
+    # Makes spatial iteration easier on regular grids
+    return df.reset_index().pivot(
+        index='Northing', columns='Easting')['index']
+
+
+def nearest_grid_point(df, point):
+    # Finds existing data point in df that is closest to given point
+    # TODO: rewrite using GeoPandas and shapely.geometry.distance()
+    return df.ix[df['geometry'].distance(point).argsort()[0]]['geometry']
+
+
+def nearest_data_point(df, point):
+    return df.loc[df.index[df['geometry'] == nearest_grid_point(df, point)]]
+
+
+def construct_grid(vent, north, east, south, west, elevation, spacing):
+    x_east = np.linspace(
+        vent.coords[0][0], vent.coords[0][0] + (east * spacing), east + 1)
+    x_west = np.linspace(
+        vent.coords[0][0] - west * spacing, vent.coords[0][0], west + 1)
+    x = np.concatenate((x_east[:-1], x_west))
+    y_south = np.linspace(
+        vent.coords[0][1] - south * spacing, vent.coords[0][1], south + 1)
+    y_north = np.linspace(
+        vent.coords[0][1], vent.coords[0][1] + north * spacing, north + 1)
+    y = np.concatenate((y_south[:-1], y_north))
+
+    print(x_east)
+    print(x_west)
+    print(y_north)
+    print(y_south)
+    xx, yy = np.meshgrid(x, y)
+
+    cols = ['Easting', 'Northing', 'Elev.']
+
+    df = pd.DataFrame(columns=cols)
+    for i, c in enumerate(xx):
+        for j, p in enumerate(c):
+
+            df = df.append({
+                'Easting': int(p),
+                'Northing': int(yy[i][j]),
+                'Elev.': int(elevation)
+            },
+                ignore_index=True)
+
+    geometry = [Point(xy) for xy in zip(df.Easting, df.Northing)]
+    crs = {'init': 'epsg:4326'}
+    df = GeoDataFrame(df, crs=crs, geometry=geometry)
+    return df
+
+
+def write_grid_file(df, filename):
+    df.to_csv(filename, sep=' ', columns=['Easting', 'Northing', 'Elev.'],
+              index=False, header=False)
+
+
+def tephra2_to_df(filename):
+    # Reads input from Tephra2 into a GeoPandas GeoDataFrame
+    # Geopandas is used to enable easy spatial calculations
+    # (area, distance, etc.)
+
+    # Extract phi-classes from header and construct col names
+    headers = pd.read_csv(filename, sep=" ", header=None, nrows=1)
+    phi_names = []
+    for name in headers[headers.columns[4:-1]].values[0]:
+        m1 = re.search('\[[-+]?[0-9]*\.?[0-9]+', name)
+        m2 = re.search('(?<=->)[-+]?[0-9]*\.?[0-9]+\)', name)
+        phi_names.append(m1.group(0) + "," + m2.group(0))
+    col_names = ["Easting", "Northing", "Elevation",
+                 "MassArea"] + phi_names + ["Percent"]
+
+    df = pd.read_csv(filename, sep=" ", header=None,
+                     names=col_names, skiprows=1)
+    df = df.dropna(axis=1, how='all')
+    df = df.fillna(0)
+
+    geometry = [Point(xy) for xy in zip(df.Easting, df.Northing)]
+    crs = {'init': 'epsg:4326'}
+    df = GeoDataFrame(df.copy(), crs=crs, geometry=geometry)
+    return df, phi_names
+
+
+def read_CN(filename):
+    df = pd.read_csv(filename, header=0)
+    df[["Northing", "Easting"]] = df[[
+        "Northing", "Easting"]].fillna(method='ffill')
+
+    geometry = [Point(xy) for xy in zip(df.Easting, df.Northing)]
+    crs = {'init': 'epsg:4326'}
+    df = GeoDataFrame(df.copy(), crs=crs, geometry=geometry)
+    return df
+
+
 
 def plot_GS(df, phi_labels, point):
-    data = df[df.geometry == grd.nearest_grid_point(df, point)]
+    data = df[df.geometry == nearest_grid_point(df, point)]
     phi_vals = data[phi_labels].transpose()
     phi_vals = phi_vals / 100
     phi_vals.plot(kind='bar', rot=0, legend=False)
