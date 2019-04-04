@@ -1,0 +1,1196 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Progress Report 48 - Analytical investigation of TEPHRA2}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{Progress Report 48}\label{progress-report-48}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+        \PY{k+kn}{from} \PY{n+nn}{matplotlib} \PY{k}{import} \PY{n}{rc}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{use}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ggplot}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{rc}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{font}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{o}{*}\PY{o}{*}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{family}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{serif}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{serif}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Palatino}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{\PYZcb{}}\PY{p}{)}
+        \PY{n}{rc}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{text}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{usetex}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+
+
+    \subsection{Input Parameters}\label{input-parameters}
+
+In order to investigate the procedure outlined in \emph{Bonadonna et.
+al. (2005)}, we will consider the eruption defined by the TEPHRA2
+parameters below.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{VENT\PYZus{}EASTING} \PY{o}{=} \PY{l+m+mf}{532290.}
+        \PY{n}{VENT\PYZus{}NORTHING} \PY{o}{=} \PY{l+m+mf}{1382690.}
+        \PY{n}{VENT\PYZus{}ELEVATION} \PY{o}{=} \PY{l+m+mf}{614.}
+        \PY{n}{PLUME\PYZus{}HEIGHT} \PY{o}{=} \PY{l+m+mf}{25000.}
+        \PY{n}{ALPHA} \PY{o}{=} \PY{l+m+mf}{1.04487}
+        \PY{n}{BETA} \PY{o}{=} \PY{l+m+mf}{1.46425}
+        \PY{n}{ERUPTION\PYZus{}MASS} \PY{o}{=} \PY{l+m+mf}{1882315000000.0}
+        \PY{n}{MAX\PYZus{}GRAINSIZE} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{l+m+mf}{4.5}
+        \PY{n}{MIN\PYZus{}GRAINSIZE} \PY{o}{=} \PY{l+m+mf}{4.5}
+        \PY{n}{MEDIAN\PYZus{}GRAINSIZE} \PY{o}{=} \PY{l+m+mi}{0}
+        \PY{n}{STD\PYZus{}GRAINSIZE} \PY{o}{=} \PY{l+m+mf}{1.8}
+        \PY{n}{EDDY\PYZus{}CONST} \PY{o}{=} \PY{l+m+mf}{0.04}
+        \PY{n}{DIFFUSION\PYZus{}COEFFICIENT} \PY{o}{=} \PY{l+m+mf}{0.5}
+        \PY{n}{FALL\PYZus{}TIME\PYZus{}THRESHOLD} \PY{o}{=} \PY{l+m+mf}{288.}
+        \PY{n}{LITHIC\PYZus{}DENSITY} \PY{o}{=} \PY{l+m+mf}{2700.0}
+        \PY{n}{PUMICE\PYZus{}DENSITY} \PY{o}{=} \PY{l+m+mf}{1000.0}
+        \PY{n}{COL\PYZus{}STEPS} \PY{o}{=} \PY{l+m+mi}{75}
+        \PY{n}{PART\PYZus{}STEPS} \PY{o}{=} \PY{l+m+mi}{8}
+        \PY{n}{PLUME\PYZus{}MODEL} \PY{o}{=} \PY{l+m+mi}{2}
+\end{Verbatim}
+
+
+    \subsection{Terminal Fall Velocity}\label{terminal-fall-velocity}
+
+In order to calculate the terminal fall velocity, and subsequently the
+fall time, TEPHRA2 uses the following procedure to define particle
+diameters and densities.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{classes} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{4.5}\PY{p}{,} \PY{l+m+mf}{4.5}\PY{p}{,} \PY{n}{PART\PYZus{}STEPS}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{n}{partDiams} \PY{o}{=} \PY{l+m+mf}{0.001}\PY{o}{*}\PY{p}{(}\PY{l+m+mf}{2.}\PY{o}{*}\PY{o}{*}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{classes}\PY{p}{)}\PY{p}{)}
+        
+        \PY{k}{def} \PY{n+nf}{meanDens}\PY{p}{(}\PY{n}{phiSlice}\PY{p}{)}\PY{p}{:}
+            \PY{k}{return} \PY{n}{LITHIC\PYZus{}DENSITY} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{n}{LITHIC\PYZus{}DENSITY} \PY{o}{\PYZhy{}} \PY{n}{PUMICE\PYZus{}DENSITY}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{phiSlice} \PY{o}{\PYZhy{}} \PY{l+m+mf}{7.0}\PY{p}{)} \PY{o}{/} \PY{o}{\PYZhy{}}\PY{l+m+mf}{8.}
+        
+        \PY{n}{partDensities} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{LITHIC\PYZus{}DENSITY}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{4} \PY{o}{+} \PY{n+nb}{list}\PY{p}{(}\PY{n}{meanDens}\PY{p}{(}\PY{n}{classes}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{:}\PY{p}{:}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Particle Densities: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{partDensities}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Particle Diameters: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{partDiams}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Particle Densities:  [2700.     2700.     2700.     2700.     1212.5    1451.5625 1690.625
+ 1929.6875 2168.75  ]
+Particle Diameters:  [2.26274170e-02 1.03747164e-02 4.75682846e-03 2.18101547e-03
+ 1.00000000e-03 4.58502022e-04 2.10224104e-04 9.63881766e-05
+ 4.41941738e-05]
+
+    \end{Verbatim}
+
+    TEPHRA2 uses the following internal constants to represent the
+atmospheric conditions.
+
+Air viscosity: \(\mu = 0.000018325\)
+
+Air density: \(\rho = 1.293\)
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{AIR\PYZus{}VISCOSITY} \PY{o}{=} \PY{l+m+mf}{0.000018325}
+        \PY{n}{AIR\PYZus{}DENSITY} \PY{o}{=} \PY{l+m+mf}{1.293}
+\end{Verbatim}
+
+
+    The procedure for calculating the terminal velocity of particles comes
+from \emph{Bonadonna and Phillips, (2003), Appendix A1}.
+
+The first step is to calculate the terminal velocity in the laminar
+regime:
+
+\(v_j = \frac{gd^2 (\rho_p - \rho_g)}{18\mu}\) for \(Re < 6\)
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{vtl} \PY{o}{=} \PY{n}{partDensities} \PY{o}{*} \PY{l+m+mf}{9.81} \PY{o}{*} \PY{n}{partDiams} \PY{o}{*} \PY{n}{partDiams} \PY{o}{/} \PY{p}{(}\PY{n}{AIR\PYZus{}VISCOSITY}\PY{o}{*}\PY{l+m+mf}{18.}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Vtl: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{vtl}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Vtl:  [4.11136698e+04 8.64308440e+03 1.81698467e+03 3.81973974e+02
+ 3.60607094e+01 9.07550434e+00 2.22210627e+00 5.33196183e-01
+ 1.25977229e-01]
+
+    \end{Verbatim}
+
+    Since this equation only holds for \(Re < 6\), we need to update all
+values above this threshold. For that, we calculate the \(Re\) number
+for each velocity.
+
+In practice, the height of the particle being released is used in order
+to calculate the terminal fall velocity. For simplicity, we will simply
+calculate the gas density at the top of the plume to use in our
+equations.
+
+\(\rho_g = \rho e^{-H/8200}\)
+
+We then calculate the Reynolds Number:
+
+\(Re = \frac{d \rho_g v_j}{\mu}\)
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{rho} \PY{o}{=} \PY{l+m+mf}{1.293} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{PLUME\PYZus{}HEIGHT}\PY{o}{/}\PY{l+m+mf}{8200.}\PY{p}{)}
+        \PY{n}{re} \PY{o}{=} \PY{n}{partDiams} \PY{o}{*} \PY{n}{rho} \PY{o}{*} \PY{n}{vtl} \PY{o}{/} \PY{n}{AIR\PYZus{}VISCOSITY}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Re: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{re}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Re:  [3.11248469e+06 3.00006724e+05 2.89171011e+04 2.78726665e+03
+ 1.20648038e+02 1.39218844e+01 1.56290771e+00 1.71947868e-01
+ 1.86270066e-02]
+
+    \end{Verbatim}
+
+    Then, all values where \(Re > 6\) is replaced with the following
+equation:
+
+\(v_j = d \left[\frac{4g^2 (\rho_p - \rho_g)^2}{225\rho_g\mu} \right]^{1/3}\)
+for \(6 \leq Re < 500\)
+
+The Reynolds number is then recalculated.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{n}{reg2} \PY{o}{=} \PY{n}{re} \PY{o}{\PYZgt{}} \PY{l+m+mf}{6.}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{reg2}\PY{p}{)}
+        \PY{n}{temp} \PY{o}{=} \PY{l+m+mf}{4.} \PY{o}{*} \PY{l+m+mf}{9.81} \PY{o}{*} \PY{l+m+mf}{9.81} \PY{o}{*} \PY{n}{partDensities}\PY{p}{[}\PY{n}{reg2}\PY{p}{]}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{2.} \PY{o}{/} \PY{p}{(}\PY{n}{AIR\PYZus{}VISCOSITY} \PY{o}{*} \PY{l+m+mf}{255.} \PY{o}{*} \PY{n}{rho}\PY{p}{)}
+        \PY{n}{vtl}\PY{p}{[}\PY{n}{reg2}\PY{p}{]} \PY{o}{=}  \PY{n}{partDiams}\PY{p}{[}\PY{n}{reg2}\PY{p}{]} \PY{o}{*} \PY{p}{(}\PY{n}{temp} \PY{o}{*}\PY{o}{*} \PY{p}{(}\PY{l+m+mf}{1.}\PY{o}{/}\PY{l+m+mf}{3.}\PY{p}{)}\PY{p}{)}
+        \PY{n}{re}\PY{p}{[}\PY{n}{reg2}\PY{p}{]} \PY{o}{=} \PY{n}{partDiams}\PY{p}{[}\PY{n}{reg2}\PY{p}{]} \PY{o}{*} \PY{n}{rho} \PY{o}{*} \PY{n}{vtl}\PY{p}{[}\PY{n}{reg2}\PY{p}{]} \PY{o}{/} \PY{n}{AIR\PYZus{}VISCOSITY}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Re: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{re}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Vtl: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{vtl}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[ True  True  True  True  True  True False False False]
+Re:  [3.66516128e+04 7.70505245e+03 1.61978775e+03 3.40518427e+02
+ 4.19792927e+01 9.94993604e+00 1.56290771e+00 1.71947868e-01
+ 1.86270066e-02]
+Vtl:  [4.84141275e+02 2.21979753e+02 1.01778166e+02 4.66654947e+01
+ 1.25472664e+01 6.48624031e+00 2.22210627e+00 5.33196183e-01
+ 1.25977229e-01]
+
+    \end{Verbatim}
+
+    Finally, the procedure is repeated in the upper regime, replacing the
+values with:
+
+\(v_j = \left[\frac{3.1 gd (\rho_p - \rho_g)}{\rho_g} \right]^{1/2}\)
+for \(500 \leq Re < 200,000\)
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{n}{reg3} \PY{o}{=} \PY{n}{re} \PY{o}{\PYZgt{}} \PY{l+m+mf}{500.}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{reg3}\PY{p}{)}
+        \PY{n}{vtl}\PY{p}{[}\PY{n}{reg3}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mf}{3.1} \PY{o}{*} \PY{n}{partDensities}\PY{p}{[}\PY{n}{reg3}\PY{p}{]} \PY{o}{*} \PY{l+m+mf}{9.81} \PY{o}{*} \PY{n}{partDiams}\PY{p}{[}\PY{n}{reg3}\PY{p}{]} \PY{o}{/} \PY{n}{rho}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Vtl: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{vtl}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[ True  True  True False False False False False False]
+Vtl:  [1.74080342e+02 1.17874635e+02 7.98161888e+01 4.66654947e+01
+ 1.25472664e+01 6.48624031e+00 2.22210627e+00 5.33196183e-01
+ 1.25977229e-01]
+
+    \end{Verbatim}
+
+    This gives us a fall velocity for each grain size class that we can use
+in further calculations.
+
+\subsection{Fall Time Calculations}\label{fall-time-calculations}
+
+\emph{Bonadonna et. al. (2005)} defines the fall time as the time it for
+the particle to fall from its release height at terminal velocity, plus
+the horizontal diffusion time for that particle.
+
+The fall time is given by
+
+\(t_{i,j} = \sum \delta t_j = \frac{z_i}{v_j}\quad\) (Eq B4)
+
+Two equations for Diffusion Time is given. The first is Linear Diffusion
+time, given by
+
+\(t'_{i} = \frac{0.0032 x_i^2}{K}\quad\) (Eq B7)
+
+The second, called Power Law diffusion, is given by
+
+\(t'_{i} = (0.2 z_i^2)^{2.5}\quad\) (Eq B9)
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{k}{def} \PY{n+nf}{diffusionTimeLinear}\PY{p}{(}\PY{n}{height}\PY{p}{,} \PY{n}{K}\PY{p}{)}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{}Diffusion time, linear (Bonadonna eq 7)}
+            \PY{k}{return} \PY{l+m+mf}{0.0032} \PY{o}{*} \PY{p}{(}\PY{n}{height} \PY{o}{*} \PY{n}{height}\PY{p}{)} \PY{o}{/} \PY{n}{K}
+        
+        \PY{k}{def} \PY{n+nf}{diffusionTimePower}\PY{p}{(}\PY{n}{height}\PY{p}{)}\PY{p}{:}
+            \PY{k}{return} \PY{p}{(}\PY{l+m+mf}{0.2} \PY{o}{*} \PY{n}{height} \PY{o}{*} \PY{n}{height}\PY{p}{)} \PY{o}{*}\PY{o}{*} \PY{p}{(}\PY{l+m+mf}{2.}\PY{o}{/}\PY{l+m+mf}{5.}\PY{p}{)}
+        
+        \PY{k}{def} \PY{n+nf}{timeLinear}\PY{p}{(}\PY{n}{height}\PY{p}{,} \PY{n}{velocity}\PY{p}{,} \PY{n}{K}\PY{p}{)}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{}Total fall time, linear diffusion (Bonadonna eq  4 + 7)}
+            \PY{k}{return} \PY{p}{(}\PY{n}{height} \PY{o}{/} \PY{n}{velocity}\PY{p}{)} \PY{o}{+} \PY{n}{diffusionTimeLinear}\PY{p}{(}\PY{n}{height}\PY{p}{,} \PY{n}{K}\PY{p}{)}
+        
+        \PY{k}{def} \PY{n+nf}{timePower}\PY{p}{(}\PY{n}{height}\PY{p}{,} \PY{n}{velocity}\PY{p}{)}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{}Total fall time, power law diffusion (Bonadonna eq  4 + 9)}
+            \PY{k}{return} \PY{p}{(}\PY{n}{height} \PY{o}{/} \PY{n}{velocity}\PY{p}{)} \PY{o}{+} \PY{n}{diffusionTimePower}\PY{p}{(}\PY{n}{height}\PY{p}{)}
+\end{Verbatim}
+
+
+    These diffusion times are then incorporated into their appropriate
+diffusion equations, which also forms part of a Gaussian diffusion
+function.
+
+For Linear diffusion:
+
+\(\sigma^2_{i,j} = 4 K (t_{i,j} + t'_i) \quad\) (Eq B6)
+
+For Power law diffusion:
+
+\(\sigma^2_{i,j} = \frac{8C}{5} (t_{i,j} + t'_i)^{2.5} \quad\) (Eq B8)
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{k}{def} \PY{n+nf}{linearDiffusion}\PY{p}{(}\PY{n}{height}\PY{p}{,} \PY{n}{velocity}\PY{p}{,} \PY{n}{K}\PY{p}{)}\PY{p}{:}
+             \PY{k}{return} \PY{l+m+mf}{4.} \PY{o}{*} \PY{n}{K} \PY{o}{*} \PY{n}{timeLinear}\PY{p}{(}\PY{n}{height}\PY{p}{,} \PY{n}{velocity}\PY{p}{,} \PY{n}{K}\PY{p}{)}
+         
+         \PY{k}{def} \PY{n+nf}{powerDiffusion}\PY{p}{(}\PY{n}{height}\PY{p}{,} \PY{n}{velocity}\PY{p}{)}\PY{p}{:}
+             \PY{k}{return} \PY{p}{(}\PY{p}{(}\PY{l+m+mf}{8.} \PY{o}{*} \PY{n}{EDDY\PYZus{}CONST}\PY{p}{)} \PY{o}{/} \PY{l+m+mf}{5.}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{timePower}\PY{p}{(}\PY{n}{height}\PY{p}{,} \PY{n}{velocity}\PY{p}{)} \PY{o}{*}\PY{o}{*} \PY{p}{(}\PY{l+m+mf}{2.5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \subsection{Reproducing Bonadonna's
+plots}\label{reproducing-bonadonnas-plots}
+
+\emph{Bonadonna et. al. (2005)} illustrates the diffusion mechanics
+through four plots. In order to understand these mechanics, we aim to
+reproduce those four plots for our example.
+
+We create an array of distances going out to 200km, as well as 25 height
+levels going up to 25km.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{n}{distances} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{200000}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{)}
+         \PY{n}{heights} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{25000}\PY{p}{,} \PY{l+m+mi}{25}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{heights}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[    0.          1041.66666667  2083.33333333  3125.
+  4166.66666667  5208.33333333  6250.          7291.66666667
+  8333.33333333  9375.         10416.66666667 11458.33333333
+ 12500.         13541.66666667 14583.33333333 15625.
+ 16666.66666667 17708.33333333 18750.         19791.66666667
+ 20833.33333333 21875.         22916.66666667 23958.33333333
+ 25000.        ]
+
+    \end{Verbatim}
+
+    \paragraph{Figure 2a}\label{figure-2a}
+
+Figure 2a shows the fall time calculation without diffusion. This is
+important, since this fall time is used to decide which type of
+diffusion to apply. With a fall time threshold (FTT) of 288 s, the black
+markers represent coarse grains that will have \emph{linear diffusion}
+applied, whereas the red markers represent fine grains which will be
+subject to \emph{power law diffusion}.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{c+c1}{\PYZsh{}Bonadonna Fig 2a}
+         
+         \PY{n}{markers} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZca{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{X}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{D}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{v}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{s}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+         
+         \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{p}{)}
+         \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)}
+         
+         \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{v} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{vtl}\PY{p}{)}\PY{p}{:}
+             \PY{n}{fall\PYZus{}time} \PY{o}{=} \PY{n}{heights}\PY{o}{/}\PY{n}{v}
+             \PY{n}{colors} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{*}\PY{n+nb}{len}\PY{p}{(}\PY{n}{fall\PYZus{}time}\PY{p}{)}\PY{p}{)}
+             \PY{n}{colors}\PY{p}{[}\PY{n}{fall\PYZus{}time} \PY{o}{\PYZgt{}} \PY{n}{FALL\PYZus{}TIME\PYZus{}THRESHOLD}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}
+             \PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{fall\PYZus{}time}\PY{p}{,} \PY{n}{heights}\PY{p}{,} 
+                        \PY{n}{marker} \PY{o}{=} \PY{n}{markers}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{facecolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{None}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{n}{colors}\PY{p}{,} 
+                        \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}d=}\PY{l+s+si}{\PYZpc{}.2f}\PY{l+s+s2}{\PYZdl{} mm}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{partDiams}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{*}\PY{l+m+mf}{1000.}\PY{p}{)}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{n}{left}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{right}\PY{o}{=}\PY{l+m+mf}{1e8}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fall time without diffusion}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fall time (s)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Height (m)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}users\textbackslash{}nmostert\textbackslash{}envs\textbackslash{}spew\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}matplotlib\textbackslash{}font\_manager.py:1328: UserWarning: findfont: Font family ['serif'] not found. Falling back to DejaVu Sans
+  (prop.get\_family(), self.defaultFamily[fontext]))
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_23_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Figure 2b}\label{figure-2b}
+
+Figure 2b shows the horizontal diffusion time as a function of release
+altitude, as calculated with an eddy diffusivity value of of \(K=0.5\).
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{p}{)}
+         \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{diffusionTimeLinear}\PY{p}{(}\PY{n}{heights}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{)}\PY{p}{,} \PY{n}{heights}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Coarse particles (Fall time \PYZdl{}\PYZlt{}\PYZdl{} FTT)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{diffusionTimePower}\PY{p}{(}\PY{n}{heights}\PY{p}{)}\PY{p}{,} \PY{n}{heights}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fine particles (Fall time \PYZdl{}\PYZgt{}\PYZdl{} FTT)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Horizontal diffusion time with \PYZdl{}K=0.5\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Horizontal diffusion time (s)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Height (m)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}users\textbackslash{}nmostert\textbackslash{}envs\textbackslash{}spew\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}matplotlib\textbackslash{}font\_manager.py:1328: UserWarning: findfont: Font family ['serif'] not found. Falling back to DejaVu Sans
+  (prop.get\_family(), self.defaultFamily[fontext]))
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_25_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    It is clear that this is not physically realistic. This plot implies
+that coarse particles are subject to much more diffusion than the fines.
+The fines don't seem to diffuse at all.
+
+We therefore redrew this plot with \(K=1000\), showing much more
+physical results that match the published material.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{c+c1}{\PYZsh{}Bonadonna Fig 2b, K=1000}
+         \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{p}{)}
+         \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{diffusionTimeLinear}\PY{p}{(}\PY{n}{heights}\PY{p}{,} \PY{l+m+mf}{1000.}\PY{p}{)}\PY{p}{,} \PY{n}{heights}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Coarse particles (Fall time \PYZdl{}\PYZlt{}\PYZdl{} FTT)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{diffusionTimePower}\PY{p}{(}\PY{n}{heights}\PY{p}{)}\PY{p}{,} \PY{n}{heights}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fine particles (Fall time \PYZdl{}\PYZgt{}\PYZdl{} FTT)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Horizontal diffusion time with \PYZdl{}K=1000\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Horizontal diffusion time (s)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Height (m)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}users\textbackslash{}nmostert\textbackslash{}envs\textbackslash{}spew\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}matplotlib\textbackslash{}font\_manager.py:1328: UserWarning: findfont: Font family ['serif'] not found. Falling back to DejaVu Sans
+  (prop.get\_family(), self.defaultFamily[fontext]))
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_27_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Figure 2c}\label{figure-2c}
+
+Going forth with \(K=1000\), we attempt to recreate Figure 2c. This
+shows the total fall time, which is a combination of the fall time and
+the horizontal diffusion time. Here a clear discontinuity is shown at
+the fall time threshold, as expected.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{n}{K} \PY{o}{=} \PY{l+m+mf}{1000.}
+         \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{p}{)}
+         \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)}
+         
+         \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{v} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{vtl}\PY{p}{)}\PY{p}{:}
+             \PY{n}{fall\PYZus{}time} \PY{o}{=} \PY{n}{heights}\PY{o}{/}\PY{n}{v}
+             \PY{n}{total\PYZus{}fall\PYZus{}time} \PY{o}{=} \PY{n}{fall\PYZus{}time}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+             \PY{n}{colors} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{*}\PY{n+nb}{len}\PY{p}{(}\PY{n}{fall\PYZus{}time}\PY{p}{)}\PY{p}{)}
+             \PY{k}{for} \PY{n}{j}\PY{p}{,} \PY{n}{ft} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{fall\PYZus{}time}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{if} \PY{n}{ft} \PY{o}{\PYZlt{}} \PY{n}{FALL\PYZus{}TIME\PYZus{}THRESHOLD}\PY{p}{:}
+                     \PY{n}{total\PYZus{}fall\PYZus{}time}\PY{p}{[}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{n}{timeLinear}\PY{p}{(}\PY{n}{heights}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{,} \PY{n}{v}\PY{p}{,} \PY{n}{K}\PY{p}{)}
+                 \PY{k}{else}\PY{p}{:} 
+                     \PY{n}{colors}\PY{p}{[}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}
+                     \PY{n}{total\PYZus{}fall\PYZus{}time}\PY{p}{[}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{n}{timePower}\PY{p}{(}\PY{n}{heights}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{,} \PY{n}{v}\PY{p}{)}
+             \PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{total\PYZus{}fall\PYZus{}time}\PY{p}{,} \PY{n}{heights}\PY{p}{,} 
+                        \PY{n}{marker} \PY{o}{=} \PY{n}{markers}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{facecolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{None}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{n}{colors}\PY{p}{,} 
+                        \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}d=}\PY{l+s+si}{\PYZpc{}.2f}\PY{l+s+s2}{\PYZdl{} mm}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{partDiams}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{1000}\PY{p}{)}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{n}{left}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{right}\PY{o}{=}\PY{l+m+mf}{1e8}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Total fall time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fall time + Horizontal diffusion time (s)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Height (m)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}users\textbackslash{}nmostert\textbackslash{}envs\textbackslash{}spew\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}matplotlib\textbackslash{}font\_manager.py:1328: UserWarning: findfont: Font family ['serif'] not found. Falling back to DejaVu Sans
+  (prop.get\_family(), self.defaultFamily[fontext]))
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_29_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Figure 2d}\label{figure-2d}
+
+Finally, we recreate Figure 2d, showing the values of the diffusion
+coefficient that is to be used in the diffusion Gaussian equation.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{c+c1}{\PYZsh{}Bonadonna Fig 2d}
+         \PY{n}{K} \PY{o}{=} \PY{l+m+mf}{1000.}
+         \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{p}{)}
+         \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)}
+         
+         \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{v} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{vtl}\PY{p}{)}\PY{p}{:}
+             \PY{n}{fall\PYZus{}time} \PY{o}{=} \PY{n}{heights}\PY{o}{/}\PY{n}{v}
+             \PY{n}{sigma\PYZus{}sqr} \PY{o}{=} \PY{n}{fall\PYZus{}time}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+             \PY{n}{colors} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{*}\PY{n+nb}{len}\PY{p}{(}\PY{n}{fall\PYZus{}time}\PY{p}{)}\PY{p}{)}
+             \PY{k}{for} \PY{n}{j}\PY{p}{,} \PY{n}{ft} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{fall\PYZus{}time}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{if} \PY{n}{ft} \PY{o}{\PYZlt{}} \PY{n}{FALL\PYZus{}TIME\PYZus{}THRESHOLD}\PY{p}{:}
+                     \PY{n}{sigma\PYZus{}sqr}\PY{p}{[}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{n}{linearDiffusion}\PY{p}{(}\PY{n}{heights}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{,} \PY{n}{v}\PY{p}{,} \PY{n}{K}\PY{p}{)}
+                 \PY{k}{else}\PY{p}{:} 
+                     \PY{n}{colors}\PY{p}{[}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}
+                     \PY{n}{sigma\PYZus{}sqr}\PY{p}{[}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{n}{powerDiffusion}\PY{p}{(}\PY{n}{heights}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{,} \PY{n}{v}\PY{p}{)}
+             \PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{sigma\PYZus{}sqr}\PY{p}{,} \PY{n}{heights}\PY{p}{,} 
+                        \PY{n}{marker} \PY{o}{=} \PY{n}{markers}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{facecolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{None}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{n}{colors}\PY{p}{,} 
+                        \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}d=}\PY{l+s+si}{\PYZpc{}.2f}\PY{l+s+s2}{\PYZdl{} mm}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{partDiams}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{1000}\PY{p}{)}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{n}{left}\PY{o}{=}\PY{l+m+mf}{1e3}\PY{p}{,} \PY{n}{right}\PY{o}{=}\PY{l+m+mf}{1e13}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Diffusion}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sigma\PYZca{}2\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Height (m)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}users\textbackslash{}nmostert\textbackslash{}envs\textbackslash{}spew\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}matplotlib\textbackslash{}font\_manager.py:1328: UserWarning: findfont: Font family ['serif'] not found. Falling back to DejaVu Sans
+  (prop.get\_family(), self.defaultFamily[fontext]))
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_31_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Diffusion Gaussian}\label{diffusion-gaussian}
+
+We would now like to investigate the function that governs the dispersal
+of the particles.
+
+\(f_{i,j}(x,y) = \frac{1}{2\pi\sigma_{i,j}} \exp \left( - \frac{(x - \bar{x}_{i,j})^2 + (y - \bar{y}_{i,j})^2}{2\sigma_{i,j}^2}\right) \quad\)
+(Eq B5)
+
+This equation takes in the appropriate diffusion equation as its
+variance. We will use a 1D approximation with no wind.
+
+For simplicity, we will only look at the particles that fall out from
+the very top of the plume, as these particles should disperse the
+furthest, and represent the "worst case".
+
+Below is the vertical fall times (without diffusion) for each of the
+grain size classes, given that they are falling out from 25 km.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{c+c1}{\PYZsh{}Calc Fall time}
+         \PY{n}{fallTime} \PY{o}{=} \PY{n}{PLUME\PYZus{}HEIGHT}\PY{o}{/}\PY{n}{vtl}
+         \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{p}{)}
+         \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)}
+         \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{phi} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{classes}\PY{p}{)}\PY{p}{:}
+             \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}
+             \PY{k}{if} \PY{n}{fallTime}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{n}{FALL\PYZus{}TIME\PYZus{}THRESHOLD}\PY{p}{:}
+                 \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}
+             \PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{phi}\PY{p}{,} \PY{n}{fallTime}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{n}{markers}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{facecolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{None}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{n}{color}\PY{p}{,} 
+                        \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}d=}\PY{l+s+si}{\PYZpc{}.2f}\PY{l+s+s2}{\PYZdl{} mm}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{partDiams}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{1000}\PY{p}{)}\PY{p}{)}
+             
+         \PY{n}{ax}\PY{o}{.}\PY{n}{hlines}\PY{p}{(}\PY{n}{FALL\PYZus{}TIME\PYZus{}THRESHOLD}\PY{p}{,} \PY{n+nb}{min}\PY{p}{(}\PY{n}{classes}\PY{p}{)}\PY{p}{,} \PY{n+nb}{max}\PY{p}{(}\PY{n}{classes}\PY{p}{)}\PY{p}{,} \PY{n}{colors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linestyles}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                   \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FTT = }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s2}{ s}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZpc{}}\PY{k}{FALL\PYZus{}TIME\PYZus{}THRESHOLD})
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fall time at \PYZdl{}H = }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s2}{\PYZdl{} km}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZpc{}}\PY{k}{int}(PLUME\PYZus{}HEIGHT/1000.))
+         \PY{n}{plt}\PY{o}{.}\PY{n}{yscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{phi\PYZdl{} class}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fall time (s)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}users\textbackslash{}nmostert\textbackslash{}envs\textbackslash{}spew\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}matplotlib\textbackslash{}font\_manager.py:1328: UserWarning: findfont: Font family ['serif'] not found. Falling back to DejaVu Sans
+  (prop.get\_family(), self.defaultFamily[fontext]))
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    We can now recreate Eq B5 for our 1D case, as well as a 2D version for
+later.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{k}{def} \PY{n+nf}{calcFr}\PY{p}{(}\PY{n}{diffusion}\PY{p}{,} \PY{n}{distance}\PY{p}{)}\PY{p}{:}
+             \PY{n}{fr} \PY{o}{=}  \PY{l+m+mf}{1.}\PY{o}{/}\PY{p}{(}\PY{l+m+mf}{2.} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi} \PY{o}{*} \PY{n}{diffusion}\PY{p}{)}
+             \PY{n}{top} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{p}{(}\PY{l+m+mf}{2.} \PY{o}{*} \PY{p}{(}\PY{n}{distance} \PY{o}{*} \PY{n}{distance}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{l+m+mf}{2.} \PY{o}{*} \PY{n}{diffusion}\PY{p}{)}
+             \PY{k}{return} \PY{n}{fr} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{top}\PY{p}{)}
+         
+         \PY{k}{def} \PY{n+nf}{calcFr2D}\PY{p}{(}\PY{n}{diffusion}\PY{p}{,} \PY{n}{distance}\PY{p}{)}\PY{p}{:}
+             \PY{n}{fr} \PY{o}{=}  \PY{l+m+mf}{1.}\PY{o}{/}\PY{p}{(}\PY{l+m+mf}{2.} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi} \PY{o}{*} \PY{n}{diffusion}\PY{p}{)}
+             \PY{n}{top} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{p}{(}\PY{p}{(}\PY{n}{x} \PY{o}{*} \PY{n}{x}\PY{p}{)} \PY{o}{+} \PY{p}{(}\PY{n}{y} \PY{o}{*} \PY{n}{y}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{l+m+mf}{2.} \PY{o}{*} \PY{n}{diffusion}\PY{p}{)}
+             \PY{k}{return} \PY{n}{fr} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{top}\PY{p}{)}
+\end{Verbatim}
+
+
+    We mey now investigate the effect of the two most influential input
+constants on our dispersal: \(K\) and FTT.
+
+In our previous investigation, a value of 0.5 as used for \(K\), and a
+FTT of 288 s was used.
+
+The results of this are shown below, separated by grain size. Once
+again, particles that are subject to linear diffusion are shown in
+black, and power law diffusion in red. Black is coarse, red is fine.
+
+Linear and log plots are shown side by side to show the decay of the
+functions in great detail.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{n}{K} \PY{o}{=} \PY{l+m+mf}{0.5}
+         \PY{n}{FTT} \PY{o}{=} \PY{l+m+mi}{288}
+         \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{phi} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{classes}\PY{p}{)}\PY{p}{:}
+             \PY{n}{fig}\PY{p}{,} \PY{p}{(}\PY{n}{ax1}\PY{p}{,} \PY{n}{ax2}\PY{p}{)} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}
+                 \PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{,} \PY{n}{facecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{w}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{k}{if} \PY{n}{fallTime}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{n}{FTT}\PY{p}{:}
+                 \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}
+                 \PY{n}{diffusion} \PY{o}{=} \PY{n}{linearDiffusion}\PY{p}{(}\PY{n}{PLUME\PYZus{}HEIGHT}\PY{p}{,} \PY{n}{vtl}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{K}\PY{p}{)}
+             \PY{k}{else}\PY{p}{:}
+                 \PY{n}{diffusion} \PY{o}{=} \PY{n}{powerDiffusion}\PY{p}{(}\PY{n}{PLUME\PYZus{}HEIGHT}\PY{p}{,} \PY{n}{vtl}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+                 \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}
+             \PY{n}{f} \PY{o}{=} \PY{n}{calcFr}\PY{p}{(}\PY{n}{diffusion}\PY{p}{,} \PY{n}{distances}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{semilogy}\PY{p}{(}\PY{n}{distances}\PY{p}{,} \PY{n}{f}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{color}\PY{p}{)}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{distances}\PY{p}{,} \PY{n}{f}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{color}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}     plt.yscale(\PYZsq{}log\PYZsq{})}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}d=}\PY{l+s+si}{\PYZpc{}.2f}\PY{l+s+s2}{\PYZdl{} mm}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{partDiams}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{1000}\PY{p}{)}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}K = }\PY{l+s+si}{\PYZpc{}.1f}\PY{l+s+s2}{\PYZdl{}, FTT = }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s2}{ s}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{K}\PY{p}{,} \PY{n}{FTT}\PY{p}{)}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distance}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distance}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}f\PYZus{}}\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{i,j\PYZcb{}(x,y)\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}     plt.tight\PYZus{}layout()}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}users\textbackslash{}nmostert\textbackslash{}envs\textbackslash{}spew\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}matplotlib\textbackslash{}font\_manager.py:1328: UserWarning: findfont: Font family ['serif'] not found. Falling back to DejaVu Sans
+  (prop.get\_family(), self.defaultFamily[fontext]))
+c:\textbackslash{}users\textbackslash{}nmostert\textbackslash{}envs\textbackslash{}spew\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}matplotlib\textbackslash{}ticker.py:1097: RuntimeWarning: divide by zero encountered in double\_scalars
+  coeff = np.round(x / b ** exponent)
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_37_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_37_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_37_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_37_4.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_37_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_37_6.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_37_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_37_8.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_37_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Here we can see that coarser grain sizes are deposited close to the
+vent, and fines are diffused further, as expected.
+
+Next, we will look at a diffusion constant of \(K=1000\), which we
+determined to give more physical diffusion.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{n}{K} \PY{o}{=} \PY{l+m+mi}{1000}
+         \PY{n}{FTT} \PY{o}{=} \PY{l+m+mi}{288}
+         \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{phi} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{classes}\PY{p}{)}\PY{p}{:}
+             \PY{n}{fig}\PY{p}{,} \PY{p}{(}\PY{n}{ax1}\PY{p}{,} \PY{n}{ax2}\PY{p}{)} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}
+                 \PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{,} \PY{n}{facecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{w}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{k}{if} \PY{n}{fallTime}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{n}{FTT}\PY{p}{:}
+                 \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}
+                 \PY{n}{diffusion} \PY{o}{=} \PY{n}{linearDiffusion}\PY{p}{(}\PY{n}{PLUME\PYZus{}HEIGHT}\PY{p}{,} \PY{n}{vtl}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{K}\PY{p}{)}
+             \PY{k}{else}\PY{p}{:}
+                 \PY{n}{diffusion} \PY{o}{=} \PY{n}{powerDiffusion}\PY{p}{(}\PY{n}{PLUME\PYZus{}HEIGHT}\PY{p}{,} \PY{n}{vtl}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+                 \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}
+             \PY{n}{f} \PY{o}{=} \PY{n}{calcFr}\PY{p}{(}\PY{n}{diffusion}\PY{p}{,} \PY{n}{distances}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{semilogy}\PY{p}{(}\PY{n}{distances}\PY{p}{,} \PY{n}{f}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{color}\PY{p}{)}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{distances}\PY{p}{,} \PY{n}{f}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{color}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}     plt.yscale(\PYZsq{}log\PYZsq{})}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}d=}\PY{l+s+si}{\PYZpc{}.2f}\PY{l+s+s2}{\PYZdl{} mm}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{partDiams}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{1000}\PY{p}{)}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}K = }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s2}{\PYZdl{}, FTT = }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s2}{ s}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{K}\PY{p}{,} \PY{n}{FTT}\PY{p}{)}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distance}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distance}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}f\PYZus{}}\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{i,j\PYZcb{}(x,y)\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}     plt.tight\PYZus{}layout()}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}users\textbackslash{}nmostert\textbackslash{}envs\textbackslash{}spew\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}matplotlib\textbackslash{}font\_manager.py:1328: UserWarning: findfont: Font family ['serif'] not found. Falling back to DejaVu Sans
+  (prop.get\_family(), self.defaultFamily[fontext]))
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_39_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_39_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_39_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}users\textbackslash{}nmostert\textbackslash{}envs\textbackslash{}spew\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}matplotlib\textbackslash{}ticker.py:1097: RuntimeWarning: divide by zero encountered in double\_scalars
+  coeff = np.round(x / b ** exponent)
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_39_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_39_6.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_39_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_39_8.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_39_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_39_10.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The results appear to be near identical, indicating that \(K\) does not
+appear to matter at low values of FTT.
+
+We now try a larger value of FTT, with \(K\) remaining at 1000.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}21}]:} \PY{n}{K} \PY{o}{=} \PY{l+m+mi}{1000}
+         \PY{n}{FTT} \PY{o}{=} \PY{l+m+mf}{1e6}
+         \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{phi} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{classes}\PY{p}{)}\PY{p}{:}
+             \PY{n}{fig}\PY{p}{,} \PY{p}{(}\PY{n}{ax1}\PY{p}{,} \PY{n}{ax2}\PY{p}{)} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}
+                 \PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{,} \PY{n}{facecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{w}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{k}{if} \PY{n}{fallTime}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{n}{FTT}\PY{p}{:}
+                 \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}
+                 \PY{n}{diffusion} \PY{o}{=} \PY{n}{linearDiffusion}\PY{p}{(}\PY{n}{PLUME\PYZus{}HEIGHT}\PY{p}{,} \PY{n}{vtl}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{K}\PY{p}{)}
+             \PY{k}{else}\PY{p}{:}
+                 \PY{n}{diffusion} \PY{o}{=} \PY{n}{powerDiffusion}\PY{p}{(}\PY{n}{PLUME\PYZus{}HEIGHT}\PY{p}{,} \PY{n}{vtl}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+                 \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}
+             \PY{n}{f} \PY{o}{=} \PY{n}{calcFr}\PY{p}{(}\PY{n}{diffusion}\PY{p}{,} \PY{n}{distances}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{semilogy}\PY{p}{(}\PY{n}{distances}\PY{p}{,} \PY{n}{f}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{color}\PY{p}{)}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{distances}\PY{p}{,} \PY{n}{f}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{color}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}     plt.yscale(\PYZsq{}log\PYZsq{})}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}d=}\PY{l+s+si}{\PYZpc{}.2f}\PY{l+s+s2}{\PYZdl{} mm}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{partDiams}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{1000}\PY{p}{)}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}K = }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s2}{\PYZdl{}, FTT = }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s2}{ s}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{K}\PY{p}{,} \PY{n}{FTT}\PY{p}{)}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distance}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distance}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}f\PYZus{}}\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{i,j\PYZcb{}(x,y)\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}     plt.tight\PYZus{}layout()}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}users\textbackslash{}nmostert\textbackslash{}envs\textbackslash{}spew\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}matplotlib\textbackslash{}font\_manager.py:1328: UserWarning: findfont: Font family ['serif'] not found. Falling back to DejaVu Sans
+  (prop.get\_family(), self.defaultFamily[fontext]))
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}users\textbackslash{}nmostert\textbackslash{}envs\textbackslash{}spew\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}matplotlib\textbackslash{}ticker.py:1097: RuntimeWarning: divide by zero encountered in double\_scalars
+  coeff = np.round(x / b ** exponent)
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_6.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_8.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_10.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    It now becomes clear that all particles are treated as course particles,
+and diffused linearly. The results appear to be a more substantial
+deposit for the fines, that is more concentrated at the vent. There is
+not as clear a distiction between coarse and fine grains, as they are
+all dispersed in similar "concentrations" (keeping in mind that this
+Gaussian does not directly relate to mass or concentration, but rather
+theoretical dispersal).
+
+Finally, we use our smaller (and likely incorrect) value of \(K\), along
+with a very large FTT.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}22}]:} \PY{n}{K} \PY{o}{=} \PY{l+m+mf}{0.5}
+         \PY{n}{FTT} \PY{o}{=} \PY{l+m+mf}{1e6}
+         \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{phi} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{classes}\PY{p}{)}\PY{p}{:}
+             \PY{n}{fig}\PY{p}{,} \PY{p}{(}\PY{n}{ax1}\PY{p}{,} \PY{n}{ax2}\PY{p}{)} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}
+                 \PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{,} \PY{n}{facecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{w}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{k}{if} \PY{n}{fallTime}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{n}{FTT}\PY{p}{:}
+                 \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}
+                 \PY{n}{diffusion} \PY{o}{=} \PY{n}{linearDiffusion}\PY{p}{(}\PY{n}{PLUME\PYZus{}HEIGHT}\PY{p}{,} \PY{n}{vtl}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{K}\PY{p}{)}
+             \PY{k}{else}\PY{p}{:}
+                 \PY{n}{diffusion} \PY{o}{=} \PY{n}{powerDiffusion}\PY{p}{(}\PY{n}{PLUME\PYZus{}HEIGHT}\PY{p}{,} \PY{n}{vtl}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+                 \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}
+             \PY{n}{f} \PY{o}{=} \PY{n}{calcFr}\PY{p}{(}\PY{n}{diffusion}\PY{p}{,} \PY{n}{distances}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{semilogy}\PY{p}{(}\PY{n}{distances}\PY{p}{,} \PY{n}{f}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{color}\PY{p}{)}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{distances}\PY{p}{,} \PY{n}{f}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{color}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}     plt.yscale(\PYZsq{}log\PYZsq{})}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}d=}\PY{l+s+si}{\PYZpc{}.2f}\PY{l+s+s2}{\PYZdl{} mm}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{partDiams}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{*}\PY{l+m+mi}{1000}\PY{p}{)}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}K = }\PY{l+s+si}{\PYZpc{}.1f}\PY{l+s+s2}{\PYZdl{}, FTT = }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s2}{ s}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{K}\PY{p}{,} \PY{n}{FTT}\PY{p}{)}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distance}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distance}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}f\PYZus{}}\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{i,j\PYZcb{}(x,y)\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}     plt.tight\PYZus{}layout()}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}users\textbackslash{}nmostert\textbackslash{}envs\textbackslash{}spew\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}matplotlib\textbackslash{}font\_manager.py:1328: UserWarning: findfont: Font family ['serif'] not found. Falling back to DejaVu Sans
+  (prop.get\_family(), self.defaultFamily[fontext]))
+c:\textbackslash{}users\textbackslash{}nmostert\textbackslash{}envs\textbackslash{}spew\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}matplotlib\textbackslash{}ticker.py:1097: RuntimeWarning: divide by zero encountered in double\_scalars
+  coeff = np.round(x / b ** exponent)
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_43_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_43_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_43_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_43_4.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_43_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_43_6.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_43_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_43_8.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_43_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    This shows something interesting. All particles are diffused linearly,
+but all reach a value of 0 at around 80km from the vent. Grain size does
+not appear to affect this dispersal at all.
+
+This phenomenon was observed in the last progress report, where a large
+value of FTT resulted in zero accumulation beyond a radius of around 80
+km.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}

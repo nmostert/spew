@@ -12,7 +12,6 @@ filters = {
     'radius': (5000, np.inf)}
 sample = cn.sample(50, weight='MassArea', alpha=0.1,
                    beta=0.1, filters=filters)
-
 fig, ax = plot_grid(sample, vent=cn.vent)
 fig, ax = plot_grid(cn.df, vent=cn.vent)
 temp_df = cn.df.copy()

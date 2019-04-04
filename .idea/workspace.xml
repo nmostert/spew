@@ -2,57 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f55eae2a-13c3-40aa-af9a-10ccd69467cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/notebooks/context.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spew/core.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bezier.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/col_height_10.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/col_height_15.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/col_height_20.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/col_height_25.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/col_height_30.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/col_height_35.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/col_height_40.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/col_height_5.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/col_over_rad_plot_trial_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/col_over_rad_plot_trial_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/col_over_rad_plot_trial_4.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/col_over_rad_plot_trial_4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/correct_[-2,0).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/correct_[-4,-2).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/correct_[-6,-4).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/correct_[0,2).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/correct_[2,4).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/correct_[4,6).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/intercept_trial_1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/intercept_trial_2.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/intercept_trial_3.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/intercept_trial_4.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/koy_plot_trial_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/koy_plot_trial_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/koy_plot_trial_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/koy_plot_trial_4.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/koy_plot_trial_4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/line_fits.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/line_fits_trial_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/line_fits_trial_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/line_fits_trial_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/line_fits_trial_4.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/line_fits_trial_4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/matt2/matt2.bib" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/phi_over_rad_plot_trial_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/phi_over_rad_plot_trial_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/phi_over_rad_plot_trial_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/phi_over_rad_plot_trial_4.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/phi_over_rad_plot_trial_4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slope_trial_1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/slope_trial_2.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/slope_trial_3.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/slope_trial_4.pdf" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/context.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/spew.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/spew.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/Untitled.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/Untitled.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spew/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spew/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spew/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/spew/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spew/eruption.py" beforeDir="false" afterPath="$PROJECT_DIR$/spew/eruption.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_config.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/woods_nbl.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spew/core.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spew/eruption.py" beforeDir="false" afterPath="$PROJECT_DIR$/spew/core/eruption.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spew/koy_wind.py" beforeDir="false" afterPath="$PROJECT_DIR$/spew/koy_wind.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spew/koyaguchi.py" beforeDir="false" afterPath="$PROJECT_DIR$/spew/utils/koyaguchi.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -62,19 +23,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/spew/core.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/notebooks/context.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
+            <state relative-caret-position="85">
               <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
@@ -84,28 +36,44 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/notebooks/__init__.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spew/koy_wind.py">
+        <entry file="file://$PROJECT_DIR$/spew/core/eruption.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="343">
+              <caret line="286" column="59" selection-start-line="286" selection-start-column="59" selection-end-line="286" selection-end-column="59" />
               <folding>
-                <element signature="e#0#31#0" expanded="true" />
+                <element signature="e#0#9#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spew/cerro_negro.py">
+        <entry file="file://$PROJECT_DIR$/tests/context.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/test.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spew/utils/koyaguchi.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="17">
+              <caret line="77" column="18" selection-start-line="77" selection-start-column="18" selection-end-line="77" selection-end-column="18" />
               <folding>
-                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#0#52#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/spew/utils/trial_fit.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="22" selection-start-line="22" selection-end-line="22" />
             </state>
           </provider>
         </entry>
@@ -146,7 +114,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spew/gridutils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
+            <state relative-caret-position="51">
               <caret line="9" selection-start-line="9" selection-end-line="78" selection-end-column="40" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
@@ -179,16 +147,22 @@
         <option value="$PROJECT_DIR$/spew/__init__.py" />
         <option value="$PROJECT_DIR$/spew/eruption.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
-        <option value="$PROJECT_DIR$/spew/core.py" />
         <option value="$PROJECT_DIR$/notebooks/Untitled.ipynb" />
+        <option value="$PROJECT_DIR$/spew/core.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/spew/koyaguchi.py" />
+        <option value="$PROJECT_DIR$/spew/utils/koyaguchi.py" />
+        <option value="$PROJECT_DIR$/spew/koy_wind.py" />
+        <option value="$PROJECT_DIR$/spew/core/eruption.py" />
+        <option value="$PROJECT_DIR$/spew/utils/trial_fit.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="293" />
-    <option name="y" value="53" />
-    <option name="width" value="1400" />
-    <option name="height" value="1000" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="1913" />
+    <option name="y" value="372" />
+    <option name="width" value="943" />
+    <option name="height" value="715" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -212,6 +186,12 @@
               <item name="spew" type="462c0819:PsiDirectoryNode" />
               <item name="spew" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="spew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spew" type="462c0819:PsiDirectoryNode" />
+              <item name="spew" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -221,9 +201,18 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="IpnbConfigurable" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\nmostert\Documents\repos\spew\tests" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\nmostert\Documents\repos\spew\spew\utils" />
+      <recent name="C:\Users\nmostert\Documents\repos\spew\spew\core" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -276,17 +265,18 @@
       <workItem from="1545166241066" duration="4049000" />
       <workItem from="1545173140909" duration="641000" />
       <workItem from="1545173810268" duration="1588000" />
+      <workItem from="1545362880521" duration="8715000" />
+      <workItem from="1546038662790" duration="10168000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15962000" />
+    <option name="totallyTimeSpent" value="34845000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="27" width="1853" height="1053" extended-state="6" />
-    <editor active="true" />
+    <frame x="1912" y="-8" width="1874" height="1096" extended-state="7" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19590482" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21995589" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -300,7 +290,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5002767" side_tool="true" weight="0.3293348" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3293348" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.33125648" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.3293348" />
       <window_info anchor="bottom" id="Inspection Results" order="13" sideWeight="0.4997233" visible="true" weight="0.3293348" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -346,13 +336,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spew/eruption.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -360,25 +343,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/notebooks/context.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/notebooks/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spew/koy_wind.py">
-      <provider selected="true" editor-type-id="text-editor">
+    <entry file="file://$PROJECT_DIR$/notebooks/Untitled.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
         <state>
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
+          <selected id="0" />
         </state>
       </provider>
     </entry>
@@ -390,6 +358,42 @@
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/notebooks/Testing.nb.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="471">
+          <caret line="118" column="6" lean-forward="true" selection-start-line="118" selection-start-column="6" selection-end-line="118" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spew/core.py" />
+    <entry file="file://$PROJECT_DIR$/notebooks/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spew/test_sampling.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spew/koy_wind.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="24" column="16" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spew/core/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/spew/bezier.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -420,7 +424,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spew/gridutils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
+        <state relative-caret-position="51">
           <caret line="9" selection-start-line="9" selection-end-line="78" selection-end-column="40" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
@@ -428,17 +432,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/notebooks/Untitled.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="0" />
+    <entry file="file://$PROJECT_DIR$/notebooks/context.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spew/core.py">
+    <entry file="file://$PROJECT_DIR$/spew/core/eruption.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        <state relative-caret-position="343">
+          <caret line="286" column="59" selection-start-line="286" selection-start-column="59" selection-end-line="286" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/context.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spew/utils/koyaguchi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="77" column="18" selection-start-line="77" selection-start-column="18" selection-end-line="77" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spew/utils/trial_fit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
         </state>
       </provider>
     </entry>

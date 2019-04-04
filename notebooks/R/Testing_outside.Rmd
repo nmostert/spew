@@ -1,0 +1,44 @@
+---
+title: "Koyaguchi's Method"
+output:
+  html_document:
+    theme: darkly
+    df_print: paged
+  html_notebook: default
+  pdf_document: default
+  title: Koyguchi's Method
+---
+
+
+```{r setup, include=FALSE}
+library(reticulate)
+use_virtualenv("/Users/nmostert/Envs/spew",required = TRUE)
+path <- system.file("python", package = "spew")
+sys <- import("sys", convert = FALSE)
+sys$path$append(path)
+import("spew")
+
+```
+
+```{python, include=FALSE}
+from spew.core.eruption import Eruption, get_index_grid
+from spew.utils import koyaguchi as koy
+from shapely.geometry import Point
+import matplotlib.pyplot as plt
+import numpy as npB
+import pandas as pd
+from scipy.optimize import curve_fit
+from scipy.special import comb
+```
+
+```{python}
+filename1 = './data/plume_height_trial_7/plume_height_trial_20500.txt'
+cn = Eruption(data=filename1, vent=Point(532290, 1382690), test=False)
+line = koy.radial_sample(cn)
+line['r_sqr'] = line.apply(lambda row: row.r ** 2, axis=1)
+```
+
+```{r}
+py$line
+```
+

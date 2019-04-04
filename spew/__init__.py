@@ -1,2 +1,2 @@
 from .core import *
-from .eruption import *
+from spew.core.eruption import *

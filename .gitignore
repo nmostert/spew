@@ -107,3 +107,14 @@ venv.bak/
 *.eps
 *.pdf
 *.png
+
+# RStudio
+.Rproj.user
+*.Rproj
+*.nb.html
+.RData
+.Rhistory
+
+# Pycharm
+.idea/
+*.idea

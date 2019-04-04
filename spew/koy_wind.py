@@ -20,6 +20,7 @@ t = np.linspace(1, 6000, 10)
 y = np.linspace(-150000, 150000, 400)
 x = np.linspace(-50000, 350000, 400)
 x, y = np.meshgrid(x, y)
+
 fig, ax = plt.subplots()
 ax.axis('equal')
 ax.plot(0, 0, 'r^', ms=6)

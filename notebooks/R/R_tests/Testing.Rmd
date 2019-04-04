@@ -1,0 +1,22 @@
+---
+title: "R Notebook"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+
+```{r setup, include=FALSE}
+library(reticulate)
+```
+
+
+
+```{python}
+x = 2
+y = x**2
+print(y)
+```
+
+
+
