@@ -1,0 +1,1194 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Grid\_Trials}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{Grid Trials}\label{grid-trials}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}123}]:} \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+          \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+          \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+          \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+          \PY{k+kn}{import} \PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{stats} \PY{k}{as} \PY{n+nn}{stats}
+          \PY{k+kn}{import} \PY{n+nn}{re}
+          \PY{k+kn}{from} \PY{n+nn}{shapely}\PY{n+nn}{.}\PY{n+nn}{geometry} \PY{k}{import} \PY{n}{Point}
+          \PY{k+kn}{from} \PY{n+nn}{geopandas} \PY{k}{import} \PY{n}{GeoDataFrame}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}124}]:} \PY{n}{VENT\PYZus{}EASTING} \PY{o}{=} \PY{l+m+mi}{0}
+          \PY{n}{VENT\PYZus{}NORTHING} \PY{o}{=} \PY{l+m+mi}{0}
+          \PY{n}{VENT\PYZus{}ELEVATION} \PY{o}{=} \PY{l+m+mi}{1}
+          \PY{n}{PLUME\PYZus{}HEIGHT} \PY{o}{=} \PY{l+m+mi}{25000}
+          \PY{n}{ALPHA} \PY{o}{=} \PY{l+m+mf}{1.04487}
+          \PY{n}{BETA} \PY{o}{=} \PY{l+m+mf}{1.46425}
+          \PY{n}{ERUPTION\PYZus{}MASS} \PY{o}{=} \PY{l+m+mf}{1882315000000.0}
+          \PY{n}{MAX\PYZus{}GRAINSIZE} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{l+m+mf}{4.5}
+          \PY{n}{MIN\PYZus{}GRAINSIZE} \PY{o}{=} \PY{l+m+mf}{4.5}
+          \PY{n}{MEDIAN\PYZus{}GRAINSIZE} \PY{o}{=} \PY{l+m+mi}{0}
+          \PY{n}{STD\PYZus{}GRAINSIZE} \PY{o}{=} \PY{l+m+mf}{1.8}
+          \PY{n}{EDDY\PYZus{}CONST} \PY{o}{=} \PY{l+m+mf}{0.04}
+          \PY{n}{DIFFUSION\PYZus{}COEFFICIENT} \PY{o}{=} \PY{l+m+mi}{1000}
+          \PY{n}{FALL\PYZus{}TIME\PYZus{}THRESHOLD} \PY{o}{=} \PY{l+m+mi}{3600}
+          \PY{n}{LITHIC\PYZus{}DENSITY} \PY{o}{=} \PY{l+m+mf}{2700.0}
+          \PY{n}{PUMICE\PYZus{}DENSITY} \PY{o}{=} \PY{l+m+mf}{1000.0}
+          \PY{n}{COL\PYZus{}STEPS} \PY{o}{=} \PY{l+m+mi}{75}
+          \PY{n}{PART\PYZus{}STEPS} \PY{o}{=} \PY{l+m+mi}{8}
+          \PY{n}{PLUME\PYZus{}MODEL} \PY{o}{=} \PY{l+m+mi}{2}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}125}]:} \PY{k}{def} \PY{n+nf}{construct\PYZus{}grid}\PY{p}{(}\PY{n}{vent}\PY{p}{,} \PY{n}{points\PYZus{}north}\PY{p}{,} \PY{n}{points\PYZus{}east}\PY{p}{,} \PY{n}{points\PYZus{}south}\PY{p}{,} \PYZbs{}
+                             \PY{n}{points\PYZus{}west}\PY{p}{,} \PY{n}{elevation}\PY{p}{,} \PY{n}{spacing}\PY{p}{)}\PY{p}{:}
+              \PY{n}{width} \PY{o}{=} \PY{n}{points\PYZus{}west} \PY{o}{+} \PY{n}{points\PYZus{}east} \PY{o}{+} \PY{l+m+mi}{1}
+              \PY{n}{length} \PY{o}{=} \PY{n}{points\PYZus{}south} \PY{o}{+} \PY{n}{points\PYZus{}north} \PY{o}{+} \PY{l+m+mi}{1}
+              
+              \PY{n}{xx}\PY{p}{,} \PY{n}{yy} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{meshgrid}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{points\PYZus{}west}\PY{p}{,} \PY{n}{points\PYZus{}east}\PY{p}{,} \PY{n}{width}\PY{p}{)}\PY{p}{,}\PYZbs{}
+                                   \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{points\PYZus{}south}\PY{p}{,} \PY{n}{points\PYZus{}north}\PY{p}{,} \PY{n}{length}\PY{p}{)}\PY{p}{)}
+              \PY{n}{xx} \PY{o}{=} \PY{n}{xx}\PY{o}{*}\PY{n}{spacing} \PY{o}{+} \PY{n}{vent}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+              \PY{n}{yy} \PY{o}{=} \PY{n}{yy}\PY{o}{*}\PY{n}{spacing} \PY{o}{+} \PY{n}{vent}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+          
+              \PY{n}{xx} \PY{o}{=} \PY{n}{xx}\PY{o}{.}\PY{n}{ravel}\PY{p}{(}\PY{p}{)}
+              \PY{n}{yy} \PY{o}{=} \PY{n}{yy}\PY{o}{.}\PY{n}{ravel}\PY{p}{(}\PY{p}{)}
+              \PY{n}{zz} \PY{o}{=} \PY{p}{[}\PY{n}{elevation}\PY{p}{]}\PY{o}{*}\PY{n+nb}{len}\PY{p}{(}\PY{n}{xx}\PY{p}{)}
+              
+              \PY{n}{d} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Easting}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{xx}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Northing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{yy}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Elev.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{zz}\PY{p}{\PYZcb{}}
+              \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{d}\PY{p}{)}
+              \PY{k}{return} \PY{n}{df}
+          
+          \PY{k}{def} \PY{n+nf}{write\PYZus{}grid\PYZus{}file}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{filename}\PY{p}{)}\PY{p}{:}
+              \PY{n}{df}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}\PY{n}{filename}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Easting}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Northing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Elev.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+                        \PY{n}{index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{header}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+          
+              
+          \PY{k}{def} \PY{n+nf}{tephra2\PYZus{}to\PYZus{}df}\PY{p}{(}\PY{n}{filename}\PY{p}{)}\PY{p}{:}
+              \PY{c+c1}{\PYZsh{} Reads input from Tephra2 into a GeoPandas GeoDataFrame}
+              \PY{c+c1}{\PYZsh{} Geopandas is used to enable easy spatial calculations}
+              \PY{c+c1}{\PYZsh{} (area, distance, etc.)}
+          
+              \PY{c+c1}{\PYZsh{} Extract phi\PYZhy{}classes from header and construct col names}
+              \PY{n}{headers} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{filename}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{header}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,} \PY{n}{nrows}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+              \PY{n}{phi\PYZus{}labels} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+              \PY{n}{phi\PYZus{}limits} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+              \PY{n}{phi\PYZus{}centroids} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+              \PY{k}{for} \PY{n}{name} \PY{o+ow}{in} \PY{n}{headers}\PY{p}{[}\PY{n}{headers}\PY{o}{.}\PY{n}{columns}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{:}
+                  \PY{n}{m1} \PY{o}{=} \PY{n}{re}\PY{o}{.}\PY{n}{search}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{[\PYZhy{}+]?[0\PYZhy{}9]*}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{.?[0\PYZhy{}9]+(?=\PYZhy{}\PYZgt{})}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{name}\PY{p}{)}
+                  \PY{n}{m2} \PY{o}{=} \PY{n}{re}\PY{o}{.}\PY{n}{search}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{[\PYZhy{}+]?[0\PYZhy{}9]*}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{.?[0\PYZhy{}9]+(?=}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{))}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{name}\PY{p}{)}
+                  \PY{n}{phi\PYZus{}labels}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{[}\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n}{m1}\PY{o}{.}\PY{n}{group}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{,}\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n}{m2}\PY{o}{.}\PY{n}{group}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+                  \PY{n}{phi\PYZus{}limits}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{m1}\PY{o}{.}\PY{n}{group}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{,} \PY{n}{m2}\PY{o}{.}\PY{n}{group}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                  \PY{n}{phi\PYZus{}centroids}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{m1}\PY{o}{.}\PY{n}{group}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)} \PY{o}{+} \PY{n+nb}{float}\PY{p}{(}\PY{n}{m2}\PY{o}{.}\PY{n}{group}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{l+m+mi}{2}\PY{p}{)}
+              \PY{n}{col\PYZus{}names} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Easting}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Northing}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Elevation}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                           \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MassArea}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{+} \PY{n}{phi\PYZus{}labels} \PY{o}{+} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Percent}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+          
+              \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{filename}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{header}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,}
+                               \PY{n}{names}\PY{o}{=}\PY{n}{col\PYZus{}names}\PY{p}{,} \PY{n}{skiprows}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+              \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{how}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{all}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+              \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+          
+              \PY{n}{geometry} \PY{o}{=} \PY{p}{[}\PY{n}{Point}\PY{p}{(}\PY{n}{xy}\PY{p}{)} \PY{k}{for} \PY{n}{xy} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{Easting}\PY{p}{,} \PY{n}{df}\PY{o}{.}\PY{n}{Northing}\PY{p}{)}\PY{p}{]}
+              \PY{n}{crs} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{init}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{epsg:4326}\PY{l+s+s1}{\PYZsq{}}\PY{p}{\PYZcb{}}
+              \PY{n}{df} \PY{o}{=} \PY{n}{GeoDataFrame}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{crs}\PY{o}{=}\PY{n}{crs}\PY{p}{,} \PY{n}{geometry}\PY{o}{=}\PY{n}{geometry}\PY{p}{)}
+              \PY{k}{return} \PY{n}{df}\PY{p}{,} \PY{n}{phi\PYZus{}labels}\PY{p}{,} \PY{n}{phi\PYZus{}limits}\PY{p}{,} \PY{n}{phi\PYZus{}centroids}
+\end{Verbatim}
+
+
+    \subsection{Grid Creation}\label{grid-creation}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}126}]:} \PY{n}{vent} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}
+          
+          \PY{n}{N} \PY{o}{=} \PY{l+m+mi}{100}
+          \PY{n}{D} \PY{o}{=} \PY{l+m+mi}{1000}
+          
+          \PY{c+c1}{\PYZsh{} Case 1: Control}
+          \PY{n}{df\PYZus{}c1} \PY{o}{=} \PY{n}{construct\PYZus{}grid}\PY{p}{(}\PY{n}{vent}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}east} \PY{o}{=}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}west} \PY{o}{=}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}north}\PY{o}{=}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}south}\PY{o}{=}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{elevation}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{spacing}\PY{o}{=}\PY{n}{D}\PY{p}{)}
+          
+          \PY{c+c1}{\PYZsh{} Case 2: Extended}
+          \PY{n}{df\PYZus{}c2} \PY{o}{=} \PY{n}{construct\PYZus{}grid}\PY{p}{(}\PY{n}{vent}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}east} \PY{o}{=}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}west} \PY{o}{=}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}north}\PY{o}{=}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}south}\PY{o}{=}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{elevation}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{spacing}\PY{o}{=}\PY{n}{D}\PY{p}{)}
+          
+          \PY{c+c1}{\PYZsh{} Case 3: Finer}
+          \PY{n}{df\PYZus{}c3} \PY{o}{=} \PY{n}{construct\PYZus{}grid}\PY{p}{(}\PY{n}{vent}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}east} \PY{o}{=}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}west} \PY{o}{=}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}north}\PY{o}{=}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}south}\PY{o}{=}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{elevation}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{spacing}\PY{o}{=}\PY{n}{D}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{)}
+          
+          \PY{c+c1}{\PYZsh{} Case 4: Expanded}
+          \PY{n}{df\PYZus{}c4} \PY{o}{=} \PY{n}{construct\PYZus{}grid}\PY{p}{(}\PY{n}{vent}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}east} \PY{o}{=}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}west} \PY{o}{=}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}north}\PY{o}{=}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{points\PYZus{}south}\PY{o}{=}\PY{n}{N}\PY{p}{,} 
+                                   \PY{n}{elevation}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{spacing}\PY{o}{=}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{D}\PY{p}{)}
+          
+          \PY{n}{df\PYZus{}c1}\PY{o}{.}\PY{n}{plot}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Easting}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Northing}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{vent}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{vent}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZca{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{equal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+          \PY{n}{write\PYZus{}grid\PYZus{}file}\PY{p}{(}\PY{n}{df\PYZus{}c1}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{c1.txt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          
+          \PY{n}{df\PYZus{}c2}\PY{o}{.}\PY{n}{plot}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Easting}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Northing}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{vent}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{vent}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZca{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{equal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+          \PY{n}{write\PYZus{}grid\PYZus{}file}\PY{p}{(}\PY{n}{df\PYZus{}c2}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{c2.txt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          
+          \PY{n}{df\PYZus{}c3}\PY{o}{.}\PY{n}{plot}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Easting}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Northing}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{vent}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{vent}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZca{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{equal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+          \PY{n}{write\PYZus{}grid\PYZus{}file}\PY{p}{(}\PY{n}{df\PYZus{}c3}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{c3.txt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          
+          \PY{n}{df\PYZus{}c4}\PY{o}{.}\PY{n}{plot}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Easting}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Northing}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{vent}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{vent}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZca{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{equal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+          \PY{n}{write\PYZus{}grid\PYZus{}file}\PY{p}{(}\PY{n}{df\PYZus{}c4}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{c4.txt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Case 1: Control}\label{case-1-control}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}127}]:} \PY{n}{mass\PYZus{}data\PYZus{}c1} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./grid\PYZus{}trials/c1/mass\PYZus{}initialisation.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{out\PYZus{}data\PYZus{}c1}\PY{p}{,} \PY{n}{phi\PYZus{}labels\PYZus{}c1}\PY{p}{,} \PY{n}{phi\PYZus{}limits\PYZus{}c1}\PY{p}{,} \PY{n}{phi\PYZus{}centroids\PYZus{}c1} \PY{o}{=} \PYZbs{}
+                  \PY{n}{tephra2\PYZus{}to\PYZus{}df}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./grid\PYZus{}trials/c1/c1\PYZus{}out.txt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{gs\PYZus{}data\PYZus{}c1} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./grid\PYZus{}trials/c1/grain\PYZus{}size\PYZus{}dist.out}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{mass\PYZus{}data\PYZus{}c1}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{out\PYZus{}data\PYZus{}c1}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{gs\PYZus{}data\PYZus{}c1}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+   gs_step  col_step  particle_ht   ashdiam  part_density  fall_time  \
+0        0         0       334.32  0.022627        1000.0  14.157108   
+1        0         1       667.64  0.000000           0.0  13.872278   
+2        0         2      1000.96  0.000000           0.0  13.593178   
+3        0         3      1334.28  0.000000           0.0  13.319693   
+4        0         4      1667.60  0.000000           0.0  13.051711   
+
+   plume_diffusion_fine_particle  plume_diffusion_coarse_particle  \
+0                      54.789974                         0.355527   
+1                      95.394886                         1.422108   
+2                     131.946569                         3.199744   
+3                     166.092143                         5.688434   
+4                     198.553296                         8.888178   
+
+   total_fall_time  wind_sum_x  wind_sum_y   actual_mass  
+0        14.157108         0.0         0.0  3.568469e+08  
+1        28.029386         0.0         0.0  3.658019e+08  
+2        41.622564         0.0         0.0  3.701401e+08  
+3        54.942257         0.0         0.0  3.725223e+08  
+4        67.993968         0.0         0.0  3.738012e+08  
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+   Easting  Northing  Elevation  MassArea  [-4.5,-3.375)  [-3.375,-2.25)  \
+0  -100000   -100000          1  0.156509            0.0             0.0   
+1   -99000   -100000          1  0.159107            0.0             0.0   
+2   -98000   -100000          1  0.161736            0.0             0.0   
+3   -97000   -100000          1  0.164397            0.0             0.0   
+4   -96000   -100000          1  0.167088            0.0             0.0   
+
+   [-2.25,-1.125)  [-1.125,0)  [0,1.125)  [1.125,2.25)  [2.25,3.375)  \
+0             0.0         0.0        0.0  3.477210e-21      0.005327   
+1             0.0         0.0        0.0  5.897320e-21      0.005928   
+2             0.0         0.0        0.0  9.949130e-21      0.006590   
+3             0.0         0.0        0.0  1.669640e-20      0.007318   
+4             0.0         0.0        0.0  2.787200e-20      0.008118   
+
+   [3.375,4.5)                 geometry  
+0      99.9947  POINT (-100000 -100000)  
+1      99.9941   POINT (-99000 -100000)  
+2      99.9934   POINT (-98000 -100000)  
+3      99.9927   POINT (-97000 -100000)  
+4      99.9919   POINT (-96000 -100000)  
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+   Index      Y      Prob  Cumulative
+0      0 -4.500  0.010955    0.010955
+1      1 -3.375  0.042991    0.053947
+2      2 -2.250  0.114156    0.168102
+3      3 -1.125  0.205101    0.373203
+4      4  0.000  0.249339    0.622542
+5      5  1.125  0.205101    0.827643
+6      6  2.250  0.114156    0.941798
+7      7  3.375  0.042991    0.984790
+    \end{verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}128}]:} \PY{n}{out\PYZus{}mass\PYZus{}c1} \PY{o}{=} \PY{p}{(}\PY{n}{D}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)} \PY{o}{*} \PY{n}{out\PYZus{}data\PYZus{}c1}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MassArea}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+          \PY{n}{out\PYZus{}tot\PYZus{}mass} \PY{o}{=} \PY{n}{out\PYZus{}mass\PYZus{}c1}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          \PY{n}{out\PYZus{}mass\PYZus{}prop} \PY{o}{=} \PY{p}{(}\PY{n}{out\PYZus{}tot\PYZus{}mass}\PY{o}{/}\PY{n}{ERUPTION\PYZus{}MASS}\PY{p}{)}
+          
+          
+          \PY{n}{table\PYZus{}data} \PY{o}{=} \PY{p}{\PYZob{}}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Input Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{ERUPTION\PYZus{}MASS}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Internal Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{mass\PYZus{}data\PYZus{}c1}\PY{o}{.}\PY{n}{actual\PYZus{}mass}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Internal Mass/Input Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{mass\PYZus{}data\PYZus{}c1}\PY{o}{.}\PY{n}{actual\PYZus{}mass}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{o}{/}\PY{n}{ERUPTION\PYZus{}MASS}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Output Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{out\PYZus{}tot\PYZus{}mass}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Output Mass/Input Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{out\PYZus{}mass\PYZus{}prop}
+          \PY{p}{\PYZcb{}}
+          
+          \PY{n}{table} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{table\PYZus{}data}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+          \PY{n}{table}\PY{o}{.}\PY{n}{T}
+          \PY{n}{display}\PY{p}{(}\PY{n}{table}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+                                      
+Input Mass                1.882315e+12
+Internal Mass             1.882315e+12
+Internal Mass/Input Mass  1.000000e+00
+Output Mass               1.894306e+12
+Output Mass/Input Mass    1.006370e+00
+    \end{verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}129}]:} \PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c1} \PY{o}{=} \PY{n}{mass\PYZus{}data\PYZus{}c1}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gs\PYZus{}step}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c1}\PY{p}{)}
+          \PY{n}{mass\PYZus{}per\PYZus{}gs\PYZus{}c1} \PY{o}{=} \PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c1}\PY{o}{.}\PY{n}{actual\PYZus{}mass}
+          \PY{n}{phi\PYZus{}left\PYZus{}c1} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{np}\PY{o}{.}\PY{n}{log2}\PY{p}{(}\PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c1}\PY{o}{.}\PY{n}{ashdiam}\PY{o}{/}\PY{o}{.}\PY{l+m+mi}{001}\PY{p}{)}
+          
+          
+          \PY{n}{norm\PYZus{}mass\PYZus{}per\PYZus{}gs\PYZus{}c1} \PY{o}{=} \PY{n}{mass\PYZus{}per\PYZus{}gs\PYZus{}c1}\PY{o}{.}\PY{n}{values}\PY{o}{/}\PY{n}{mass\PYZus{}per\PYZus{}gs\PYZus{}c1}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          
+          \PY{n}{out\PYZus{}gs\PYZus{}mass\PYZus{}c1} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{n}{phi\PYZus{}labels\PYZus{}c1}\PY{p}{)}
+          
+          \PY{k}{for} \PY{n}{phi} \PY{o+ow}{in} \PY{n}{phi\PYZus{}labels\PYZus{}c1}\PY{p}{:}
+              \PY{n}{out\PYZus{}gs\PYZus{}mass\PYZus{}c1}\PY{p}{[}\PY{n}{phi}\PY{p}{]} \PY{o}{=} \PY{n}{out\PYZus{}data\PYZus{}c1}\PY{o}{.}\PY{n}{MassArea} \PY{o}{*} \PY{n}{out\PYZus{}data\PYZus{}c1}\PY{p}{[}\PY{n}{phi}\PY{p}{]}
+          
+          \PY{n}{tot\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c1} \PY{o}{=} \PY{n}{out\PYZus{}gs\PYZus{}mass\PYZus{}c1}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          \PY{n}{norm\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c1} \PY{o}{=} \PY{n}{tot\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c1}\PY{o}{/}\PY{n}{tot\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c1}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          
+          
+          \PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{4.5}\PY{p}{,}\PY{l+m+mf}{4.5}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{gs\PYZus{}data\PYZus{}c1}\PY{o}{.}\PY{n}{Y}\PY{p}{,} \PY{n}{gs\PYZus{}data\PYZus{}c1}\PY{o}{.}\PY{n}{Prob}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} 
+                      \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Logged PDF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{phi\PYZus{}left\PYZus{}c1}\PY{p}{,} \PY{n}{norm\PYZus{}mass\PYZus{}per\PYZus{}gs\PYZus{}c1}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                      \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Internal PDF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{phi\PYZus{}left\PYZus{}c1}\PY{p}{,} \PY{n}{norm\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c1}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                      \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Output PDF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{stats}\PY{o}{.}\PY{n}{norm}\PY{o}{.}\PY{n}{pdf}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{MEDIAN\PYZus{}GRAINSIZE}\PY{p}{,} \PY{n}{STD\PYZus{}GRAINSIZE}\PY{p}{)}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+         col_step  particle_ht   ashdiam  part_density     fall_time  \
+gs_step                                                                
+0            2775     950037.0  0.022627     1000.0000    550.426104   
+1            2775     950037.0  0.010375     1000.0000    812.883662   
+2            2775     950037.0  0.004757     1000.0000   1200.487845   
+3            2775     950037.0  0.002181     1000.0000   1853.781601   
+4            2775     950037.0  0.001000     1212.5000   3292.358471   
+5            2775     950037.0  0.000459     1451.5625   6368.881937   
+6            2775     950037.0  0.000210     1690.6250  13482.713942   
+7            2775     950037.0  0.000096     1929.6875  46885.181838   
+
+         plume_diffusion_fine_particle  plume_diffusion_coarse_particle  \
+gs_step                                                                   
+0                         73061.537267                      51000.36417   
+1                         73061.537267                      51000.36417   
+2                         73061.537267                      51000.36417   
+3                         73061.537267                      51000.36417   
+4                         73061.537267                      51000.36417   
+5                         73061.537267                      51000.36417   
+6                         73061.537267                      51000.36417   
+7                         73061.537267                      51000.36417   
+
+         total_fall_time  wind_sum_x  wind_sum_y   actual_mass  
+gs_step                                                         
+0           2.596674e+04         0.0         0.0  2.093962e+10  
+1           3.834836e+04         0.0         0.0  8.217329e+10  
+2           5.663386e+04         0.0         0.0  2.181958e+11  
+3           8.488783e+04         0.0         0.0  3.920269e+11  
+4           1.456656e+05         0.0         0.0  4.765835e+11  
+5           2.817819e+05         0.0         0.0  3.920269e+11  
+6           5.661171e+05         0.0         0.0  2.181958e+11  
+7           1.781637e+06         0.0         0.0  8.217329e+10  
+    \end{verbatim}
+
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_9_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Case 2: Extended Grid}\label{case-2-extended-grid}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}130}]:} \PY{n}{mass\PYZus{}data\PYZus{}c2} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./grid\PYZus{}trials/c2/mass\PYZus{}initialisation.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{out\PYZus{}data\PYZus{}c2}\PY{p}{,} \PY{n}{phi\PYZus{}labels\PYZus{}c2}\PY{p}{,} \PY{n}{phi\PYZus{}limits\PYZus{}c2}\PY{p}{,} \PY{n}{phi\PYZus{}centroids\PYZus{}c2} \PY{o}{=} \PYZbs{}
+                      \PY{n}{tephra2\PYZus{}to\PYZus{}df}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./grid\PYZus{}trials/c2/c2\PYZus{}out.txt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{gs\PYZus{}data\PYZus{}c2} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./grid\PYZus{}trials/c2/grain\PYZus{}size\PYZus{}dist.out}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{mass\PYZus{}data\PYZus{}c2}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{out\PYZus{}data\PYZus{}c2}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{gs\PYZus{}data\PYZus{}c2}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+   gs_step  col_step  particle_ht   ashdiam  part_density  fall_time  \
+0        0         0       334.32  0.022627        1000.0  14.157108   
+1        0         1       667.64  0.000000           0.0  13.872278   
+2        0         2      1000.96  0.000000           0.0  13.593178   
+3        0         3      1334.28  0.000000           0.0  13.319693   
+4        0         4      1667.60  0.000000           0.0  13.051711   
+
+   plume_diffusion_fine_particle  plume_diffusion_coarse_particle  \
+0                      54.789974                         0.355527   
+1                      95.394886                         1.422108   
+2                     131.946569                         3.199744   
+3                     166.092143                         5.688434   
+4                     198.553296                         8.888178   
+
+   total_fall_time  wind_sum_x  wind_sum_y   actual_mass  
+0        14.157108         0.0         0.0  3.568469e+08  
+1        28.029386         0.0         0.0  3.658019e+08  
+2        41.622564         0.0         0.0  3.701401e+08  
+3        54.942257         0.0         0.0  3.725223e+08  
+4        67.993968         0.0         0.0  3.738012e+08  
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+   Easting  Northing  Elevation  MassArea  [-4.5,-3.375)  [-3.375,-2.25)  \
+0  -200000   -200000          1  0.005262            0.0             0.0   
+1  -199000   -200000          1  0.005358            0.0             0.0   
+2  -198000   -200000          1  0.005456            0.0             0.0   
+3  -197000   -200000          1  0.005556            0.0             0.0   
+4  -196000   -200000          1  0.005657            0.0             0.0   
+
+   [-2.25,-1.125)  [-1.125,0)  [0,1.125)  [1.125,2.25)  [2.25,3.375)  \
+0             0.0         0.0        0.0  2.605090e-90  9.230070e-17   
+1             0.0         0.0        0.0  7.517680e-90  1.138340e-16   
+2             0.0         0.0        0.0  2.157880e-89  1.402430e-16   
+3             0.0         0.0        0.0  6.161080e-89  1.725980e-16   
+4             0.0         0.0        0.0  1.749730e-88  2.121950e-16   
+
+   [3.375,4.5)                 geometry  
+0        100.0  POINT (-200000 -200000)  
+1        100.0  POINT (-199000 -200000)  
+2        100.0  POINT (-198000 -200000)  
+3        100.0  POINT (-197000 -200000)  
+4        100.0  POINT (-196000 -200000)  
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+   Index      Y      Prob  Cumulative
+0      0 -4.500  0.010955    0.010955
+1      1 -3.375  0.042991    0.053947
+2      2 -2.250  0.114156    0.168102
+3      3 -1.125  0.205101    0.373203
+4      4  0.000  0.249339    0.622542
+5      5  1.125  0.205101    0.827643
+6      6  2.250  0.114156    0.941798
+7      7  3.375  0.042991    0.984790
+    \end{verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}131}]:} \PY{n}{out\PYZus{}mass\PYZus{}c2} \PY{o}{=} \PY{p}{(}\PY{n}{D}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)} \PY{o}{*} \PY{n}{out\PYZus{}data\PYZus{}c2}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MassArea}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+          \PY{n}{out\PYZus{}tot\PYZus{}mass} \PY{o}{=} \PY{n}{out\PYZus{}mass\PYZus{}c2}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          \PY{n}{out\PYZus{}mass\PYZus{}prop} \PY{o}{=} \PY{p}{(}\PY{n}{out\PYZus{}tot\PYZus{}mass}\PY{o}{/}\PY{n}{ERUPTION\PYZus{}MASS}\PY{p}{)}
+          
+          
+          \PY{n}{table\PYZus{}data} \PY{o}{=} \PY{p}{\PYZob{}}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Input Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{ERUPTION\PYZus{}MASS}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Internal Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{mass\PYZus{}data\PYZus{}c2}\PY{o}{.}\PY{n}{actual\PYZus{}mass}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Internal Mass/Input Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{mass\PYZus{}data\PYZus{}c2}\PY{o}{.}\PY{n}{actual\PYZus{}mass}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{o}{/}\PY{n}{ERUPTION\PYZus{}MASS}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Output Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{out\PYZus{}tot\PYZus{}mass}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Output Mass/Input Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{out\PYZus{}mass\PYZus{}prop}
+          \PY{p}{\PYZcb{}}
+          
+          \PY{n}{table} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{table\PYZus{}data}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+          \PY{n}{table}\PY{o}{.}\PY{n}{T}
+          \PY{n}{display}\PY{p}{(}\PY{n}{table}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+                                      
+Input Mass                1.882315e+12
+Internal Mass             1.882315e+12
+Internal Mass/Input Mass  1.000000e+00
+Output Mass               1.905622e+12
+Output Mass/Input Mass    1.012382e+00
+    \end{verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}132}]:} \PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c2} \PY{o}{=} \PY{n}{mass\PYZus{}data\PYZus{}c2}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gs\PYZus{}step}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c2}\PY{p}{)}
+          \PY{n}{mass\PYZus{}per\PYZus{}gs\PYZus{}c2} \PY{o}{=} \PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c2}\PY{o}{.}\PY{n}{actual\PYZus{}mass}
+          \PY{n}{phi\PYZus{}left\PYZus{}c2} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{np}\PY{o}{.}\PY{n}{log2}\PY{p}{(}\PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c2}\PY{o}{.}\PY{n}{ashdiam}\PY{o}{/}\PY{o}{.}\PY{l+m+mi}{001}\PY{p}{)}
+          
+          
+          \PY{n}{norm\PYZus{}mass\PYZus{}per\PYZus{}gs\PYZus{}c2} \PY{o}{=} \PY{n}{mass\PYZus{}per\PYZus{}gs\PYZus{}c2}\PY{o}{.}\PY{n}{values}\PY{o}{/}\PY{n}{mass\PYZus{}per\PYZus{}gs\PYZus{}c2}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          
+          \PY{n}{out\PYZus{}gs\PYZus{}mass\PYZus{}c2} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{n}{phi\PYZus{}labels\PYZus{}c2}\PY{p}{)}
+          
+          \PY{k}{for} \PY{n}{phi} \PY{o+ow}{in} \PY{n}{phi\PYZus{}labels\PYZus{}c2}\PY{p}{:}
+              \PY{n}{out\PYZus{}gs\PYZus{}mass\PYZus{}c2}\PY{p}{[}\PY{n}{phi}\PY{p}{]} \PY{o}{=} \PY{n}{out\PYZus{}data\PYZus{}c2}\PY{o}{.}\PY{n}{MassArea} \PY{o}{*} \PY{n}{out\PYZus{}data\PYZus{}c2}\PY{p}{[}\PY{n}{phi}\PY{p}{]}
+          
+          \PY{n}{tot\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c2} \PY{o}{=} \PY{n}{out\PYZus{}gs\PYZus{}mass\PYZus{}c2}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          \PY{n}{norm\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c2} \PY{o}{=} \PY{n}{tot\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c2}\PY{o}{/}\PY{n}{tot\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c2}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          
+          
+          \PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{4.5}\PY{p}{,}\PY{l+m+mf}{4.5}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{gs\PYZus{}data\PYZus{}c2}\PY{o}{.}\PY{n}{Y}\PY{p}{,} \PY{n}{gs\PYZus{}data\PYZus{}c2}\PY{o}{.}\PY{n}{Prob}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} 
+                      \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Logged PDF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{phi\PYZus{}left\PYZus{}c2}\PY{p}{,} \PY{n}{norm\PYZus{}mass\PYZus{}per\PYZus{}gs\PYZus{}c2}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                      \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Internal PDF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{phi\PYZus{}left\PYZus{}c2}\PY{p}{,} \PY{n}{norm\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c2}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                      \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Output PDF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{stats}\PY{o}{.}\PY{n}{norm}\PY{o}{.}\PY{n}{pdf}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{MEDIAN\PYZus{}GRAINSIZE}\PY{p}{,} \PY{n}{STD\PYZus{}GRAINSIZE}\PY{p}{)}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+         col_step  particle_ht   ashdiam  part_density     fall_time  \
+gs_step                                                                
+0            2775     950037.0  0.022627     1000.0000    550.426104   
+1            2775     950037.0  0.010375     1000.0000    812.883662   
+2            2775     950037.0  0.004757     1000.0000   1200.487845   
+3            2775     950037.0  0.002181     1000.0000   1853.781601   
+4            2775     950037.0  0.001000     1212.5000   3292.358471   
+5            2775     950037.0  0.000459     1451.5625   6368.881937   
+6            2775     950037.0  0.000210     1690.6250  13482.713942   
+7            2775     950037.0  0.000096     1929.6875  46885.181838   
+
+         plume_diffusion_fine_particle  plume_diffusion_coarse_particle  \
+gs_step                                                                   
+0                         73061.537267                      51000.36417   
+1                         73061.537267                      51000.36417   
+2                         73061.537267                      51000.36417   
+3                         73061.537267                      51000.36417   
+4                         73061.537267                      51000.36417   
+5                         73061.537267                      51000.36417   
+6                         73061.537267                      51000.36417   
+7                         73061.537267                      51000.36417   
+
+         total_fall_time  wind_sum_x  wind_sum_y   actual_mass  
+gs_step                                                         
+0           2.596674e+04         0.0         0.0  2.093962e+10  
+1           3.834836e+04         0.0         0.0  8.217329e+10  
+2           5.663386e+04         0.0         0.0  2.181958e+11  
+3           8.488783e+04         0.0         0.0  3.920269e+11  
+4           1.456656e+05         0.0         0.0  4.765835e+11  
+5           2.817819e+05         0.0         0.0  3.920269e+11  
+6           5.661171e+05         0.0         0.0  2.181958e+11  
+7           1.781637e+06         0.0         0.0  8.217329e+10  
+    \end{verbatim}
+
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_13_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Case 3: Finer Grid}\label{case-3-finer-grid}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}133}]:} \PY{n}{mass\PYZus{}data\PYZus{}c3} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./grid\PYZus{}trials/c3/mass\PYZus{}initialisation.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{out\PYZus{}data\PYZus{}c3}\PY{p}{,} \PY{n}{phi\PYZus{}labels\PYZus{}c3}\PY{p}{,} \PY{n}{phi\PYZus{}limits\PYZus{}c3}\PY{p}{,} \PY{n}{phi\PYZus{}centroids\PYZus{}c3} \PY{o}{=} \PYZbs{}
+                  \PY{n}{tephra2\PYZus{}to\PYZus{}df}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./grid\PYZus{}trials/c3/c3\PYZus{}out.txt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{gs\PYZus{}data\PYZus{}c3} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./grid\PYZus{}trials/c3/grain\PYZus{}size\PYZus{}dist.out}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{mass\PYZus{}data\PYZus{}c3}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{out\PYZus{}data\PYZus{}c3}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{gs\PYZus{}data\PYZus{}c3}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+   gs_step  col_step  particle_ht   ashdiam  part_density  fall_time  \
+0        0         0       334.32  0.022627        1000.0  14.157108   
+1        0         1       667.64  0.000000           0.0  13.872278   
+2        0         2      1000.96  0.000000           0.0  13.593178   
+3        0         3      1334.28  0.000000           0.0  13.319693   
+4        0         4      1667.60  0.000000           0.0  13.051711   
+
+   plume_diffusion_fine_particle  plume_diffusion_coarse_particle  \
+0                      54.789974                         0.355527   
+1                      95.394886                         1.422108   
+2                     131.946569                         3.199744   
+3                     166.092143                         5.688434   
+4                     198.553296                         8.888178   
+
+   total_fall_time  wind_sum_x  wind_sum_y   actual_mass  
+0        14.157108         0.0         0.0  3.568469e+08  
+1        28.029386         0.0         0.0  3.658019e+08  
+2        41.622564         0.0         0.0  3.701401e+08  
+3        54.942257         0.0         0.0  3.725223e+08  
+4        67.993968         0.0         0.0  3.738012e+08  
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+   Easting  Northing  Elevation  MassArea  [-4.5,-3.375)  [-3.375,-2.25)  \
+0  -100000   -100000          1  0.156509            0.0             0.0   
+1   -99500   -100000          1  0.157804            0.0             0.0   
+2   -99000   -100000          1  0.159107            0.0             0.0   
+3   -98500   -100000          1  0.160418            0.0             0.0   
+4   -98000   -100000          1  0.161736            0.0             0.0   
+
+   [-2.25,-1.125)  [-1.125,0)  [0,1.125)  [1.125,2.25)  [2.25,3.375)  \
+0             0.0         0.0        0.0  3.477210e-21      0.005327   
+1             0.0         0.0        0.0  4.531370e-21      0.005620   
+2             0.0         0.0        0.0  5.897320e-21      0.005928   
+3             0.0         0.0        0.0  7.664900e-21      0.006251   
+4             0.0         0.0        0.0  9.949130e-21      0.006590   
+
+   [3.375,4.5)                 geometry  
+0      99.9947  POINT (-100000 -100000)  
+1      99.9944   POINT (-99500 -100000)  
+2      99.9941   POINT (-99000 -100000)  
+3      99.9937   POINT (-98500 -100000)  
+4      99.9934   POINT (-98000 -100000)  
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+   Index      Y      Prob  Cumulative
+0      0 -4.500  0.010955    0.010955
+1      1 -3.375  0.042991    0.053947
+2      2 -2.250  0.114156    0.168102
+3      3 -1.125  0.205101    0.373203
+4      4  0.000  0.249339    0.622542
+5      5  1.125  0.205101    0.827643
+6      6  2.250  0.114156    0.941798
+7      7  3.375  0.042991    0.984790
+    \end{verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}134}]:} \PY{n}{out\PYZus{}mass\PYZus{}c3} \PY{o}{=} \PY{p}{(}\PY{n}{D}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)} \PY{o}{*} \PY{n}{out\PYZus{}data\PYZus{}c3}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MassArea}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+          \PY{n}{out\PYZus{}tot\PYZus{}mass} \PY{o}{=} \PY{n}{out\PYZus{}mass\PYZus{}c3}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          \PY{n}{out\PYZus{}mass\PYZus{}prop} \PY{o}{=} \PY{p}{(}\PY{n}{out\PYZus{}tot\PYZus{}mass}\PY{o}{/}\PY{n}{ERUPTION\PYZus{}MASS}\PY{p}{)}
+          
+          
+          \PY{n}{table\PYZus{}data} \PY{o}{=} \PY{p}{\PYZob{}}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Input Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{ERUPTION\PYZus{}MASS}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Internal Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{mass\PYZus{}data\PYZus{}c3}\PY{o}{.}\PY{n}{actual\PYZus{}mass}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Internal Mass/Input Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{mass\PYZus{}data\PYZus{}c3}\PY{o}{.}\PY{n}{actual\PYZus{}mass}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{o}{/}\PY{n}{ERUPTION\PYZus{}MASS}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Output Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{out\PYZus{}tot\PYZus{}mass}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Output Mass/Input Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{out\PYZus{}mass\PYZus{}prop}
+          \PY{p}{\PYZcb{}}
+          
+          \PY{n}{table} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{table\PYZus{}data}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+          \PY{n}{table}\PY{o}{.}\PY{n}{T}
+          \PY{n}{display}\PY{p}{(}\PY{n}{table}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+                                      
+Input Mass                1.882315e+12
+Internal Mass             1.882315e+12
+Internal Mass/Input Mass  1.000000e+00
+Output Mass               7.479353e+12
+Output Mass/Input Mass    3.973487e+00
+    \end{verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}135}]:} \PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c3} \PY{o}{=} \PY{n}{mass\PYZus{}data\PYZus{}c3}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gs\PYZus{}step}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c3}\PY{p}{)}
+          \PY{n}{mass\PYZus{}per\PYZus{}gs\PYZus{}c3} \PY{o}{=} \PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c3}\PY{o}{.}\PY{n}{actual\PYZus{}mass}
+          \PY{n}{phi\PYZus{}left\PYZus{}c3} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{np}\PY{o}{.}\PY{n}{log2}\PY{p}{(}\PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c3}\PY{o}{.}\PY{n}{ashdiam}\PY{o}{/}\PY{o}{.}\PY{l+m+mi}{001}\PY{p}{)}
+          
+          
+          \PY{n}{norm\PYZus{}mass\PYZus{}per\PYZus{}gs\PYZus{}c3} \PY{o}{=} \PY{n}{mass\PYZus{}per\PYZus{}gs\PYZus{}c3}\PY{o}{.}\PY{n}{values}\PY{o}{/}\PY{n}{mass\PYZus{}per\PYZus{}gs\PYZus{}c3}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          
+          \PY{n}{out\PYZus{}gs\PYZus{}mass\PYZus{}c3} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{n}{phi\PYZus{}labels\PYZus{}c3}\PY{p}{)}
+          
+          \PY{k}{for} \PY{n}{phi} \PY{o+ow}{in} \PY{n}{phi\PYZus{}labels\PYZus{}c3}\PY{p}{:}
+              \PY{n}{out\PYZus{}gs\PYZus{}mass\PYZus{}c3}\PY{p}{[}\PY{n}{phi}\PY{p}{]} \PY{o}{=} \PY{n}{out\PYZus{}data\PYZus{}c3}\PY{o}{.}\PY{n}{MassArea} \PY{o}{*} \PY{n}{out\PYZus{}data\PYZus{}c3}\PY{p}{[}\PY{n}{phi}\PY{p}{]}
+          
+          \PY{n}{tot\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c3} \PY{o}{=} \PY{n}{out\PYZus{}gs\PYZus{}mass\PYZus{}c3}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          \PY{n}{norm\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c3} \PY{o}{=} \PY{n}{tot\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c3}\PY{o}{/}\PY{n}{tot\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c3}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          
+          
+          \PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{4.5}\PY{p}{,}\PY{l+m+mf}{4.5}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{gs\PYZus{}data\PYZus{}c3}\PY{o}{.}\PY{n}{Y}\PY{p}{,} \PY{n}{gs\PYZus{}data\PYZus{}c3}\PY{o}{.}\PY{n}{Prob}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} 
+                      \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Logged PDF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{phi\PYZus{}left\PYZus{}c3}\PY{p}{,} \PY{n}{norm\PYZus{}mass\PYZus{}per\PYZus{}gs\PYZus{}c3}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                      \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Internal PDF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{phi\PYZus{}left\PYZus{}c3}\PY{p}{,} \PY{n}{norm\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c3}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                      \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Output PDF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{stats}\PY{o}{.}\PY{n}{norm}\PY{o}{.}\PY{n}{pdf}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{MEDIAN\PYZus{}GRAINSIZE}\PY{p}{,} \PY{n}{STD\PYZus{}GRAINSIZE}\PY{p}{)}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+         col_step  particle_ht   ashdiam  part_density     fall_time  \
+gs_step                                                                
+0            2775     950037.0  0.022627     1000.0000    550.426104   
+1            2775     950037.0  0.010375     1000.0000    812.883662   
+2            2775     950037.0  0.004757     1000.0000   1200.487845   
+3            2775     950037.0  0.002181     1000.0000   1853.781601   
+4            2775     950037.0  0.001000     1212.5000   3292.358471   
+5            2775     950037.0  0.000459     1451.5625   6368.881937   
+6            2775     950037.0  0.000210     1690.6250  13482.713942   
+7            2775     950037.0  0.000096     1929.6875  46885.181838   
+
+         plume_diffusion_fine_particle  plume_diffusion_coarse_particle  \
+gs_step                                                                   
+0                         73061.537267                      51000.36417   
+1                         73061.537267                      51000.36417   
+2                         73061.537267                      51000.36417   
+3                         73061.537267                      51000.36417   
+4                         73061.537267                      51000.36417   
+5                         73061.537267                      51000.36417   
+6                         73061.537267                      51000.36417   
+7                         73061.537267                      51000.36417   
+
+         total_fall_time  wind_sum_x  wind_sum_y   actual_mass  
+gs_step                                                         
+0           2.596674e+04         0.0         0.0  2.093962e+10  
+1           3.834836e+04         0.0         0.0  8.217329e+10  
+2           5.663386e+04         0.0         0.0  2.181958e+11  
+3           8.488783e+04         0.0         0.0  3.920269e+11  
+4           1.456656e+05         0.0         0.0  4.765835e+11  
+5           2.817819e+05         0.0         0.0  3.920269e+11  
+6           5.661171e+05         0.0         0.0  2.181958e+11  
+7           1.781637e+06         0.0         0.0  8.217329e+10  
+    \end{verbatim}
+
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_17_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Case 4: Expanded Grid}\label{case-4-expanded-grid}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}136}]:} \PY{n}{mass\PYZus{}data\PYZus{}c4} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./grid\PYZus{}trials/c4/mass\PYZus{}initialisation.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{out\PYZus{}data\PYZus{}c4}\PY{p}{,} \PY{n}{phi\PYZus{}labels\PYZus{}c4}\PY{p}{,} \PY{n}{phi\PYZus{}limits\PYZus{}c4}\PY{p}{,} \PY{n}{phi\PYZus{}centroids\PYZus{}c4} \PY{o}{=} \PYZbs{}
+                      \PY{n}{tephra2\PYZus{}to\PYZus{}df}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./grid\PYZus{}trials/c4/c4\PYZus{}out.txt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{gs\PYZus{}data\PYZus{}c4} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./grid\PYZus{}trials/c4/grain\PYZus{}size\PYZus{}dist.out}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{mass\PYZus{}data\PYZus{}c4}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{out\PYZus{}data\PYZus{}c4}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{gs\PYZus{}data\PYZus{}c4}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+   gs_step  col_step  particle_ht   ashdiam  part_density  fall_time  \
+0        0         0       334.32  0.022627        1000.0  14.157108   
+1        0         1       667.64  0.000000           0.0  13.872278   
+2        0         2      1000.96  0.000000           0.0  13.593178   
+3        0         3      1334.28  0.000000           0.0  13.319693   
+4        0         4      1667.60  0.000000           0.0  13.051711   
+
+   plume_diffusion_fine_particle  plume_diffusion_coarse_particle  \
+0                      54.789974                         0.355527   
+1                      95.394886                         1.422108   
+2                     131.946569                         3.199744   
+3                     166.092143                         5.688434   
+4                     198.553296                         8.888178   
+
+   total_fall_time  wind_sum_x  wind_sum_y   actual_mass  
+0        14.157108         0.0         0.0  3.568469e+08  
+1        28.029386         0.0         0.0  3.658019e+08  
+2        41.622564         0.0         0.0  3.701401e+08  
+3        54.942257         0.0         0.0  3.725223e+08  
+4        67.993968         0.0         0.0  3.738012e+08  
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+   Easting  Northing  Elevation  MassArea  [-4.5,-3.375)  [-3.375,-2.25)  \
+0  -200000   -200000          1  0.005262            0.0             0.0   
+1  -198000   -200000          1  0.005456            0.0             0.0   
+2  -196000   -200000          1  0.005657            0.0             0.0   
+3  -194000   -200000          1  0.005863            0.0             0.0   
+4  -192000   -200000          1  0.006076            0.0             0.0   
+
+   [-2.25,-1.125)  [-1.125,0)  [0,1.125)  [1.125,2.25)  [2.25,3.375)  \
+0             0.0         0.0        0.0  2.605090e-90  9.230070e-17   
+1             0.0         0.0        0.0  2.157880e-89  1.402430e-16   
+2             0.0         0.0        0.0  1.749730e-88  2.121950e-16   
+3             0.0         0.0        0.0  1.388830e-87  3.197190e-16   
+4             0.0         0.0        0.0  1.079120e-86  4.797120e-16   
+
+   [3.375,4.5)                 geometry  
+0        100.0  POINT (-200000 -200000)  
+1        100.0  POINT (-198000 -200000)  
+2        100.0  POINT (-196000 -200000)  
+3        100.0  POINT (-194000 -200000)  
+4        100.0  POINT (-192000 -200000)  
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+   Index      Y      Prob  Cumulative
+0      0 -4.500  0.010955    0.010955
+1      1 -3.375  0.042991    0.053947
+2      2 -2.250  0.114156    0.168102
+3      3 -1.125  0.205101    0.373203
+4      4  0.000  0.249339    0.622542
+5      5  1.125  0.205101    0.827643
+6      6  2.250  0.114156    0.941798
+7      7  3.375  0.042991    0.984790
+    \end{verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}137}]:} \PY{n}{out\PYZus{}mass\PYZus{}c4} \PY{o}{=} \PY{p}{(}\PY{n}{D}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)} \PY{o}{*} \PY{n}{out\PYZus{}data\PYZus{}c4}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MassArea}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+          \PY{n}{out\PYZus{}tot\PYZus{}mass} \PY{o}{=} \PY{n}{out\PYZus{}mass\PYZus{}c4}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          \PY{n}{out\PYZus{}mass\PYZus{}prop} \PY{o}{=} \PY{p}{(}\PY{n}{out\PYZus{}tot\PYZus{}mass}\PY{o}{/}\PY{n}{ERUPTION\PYZus{}MASS}\PY{p}{)}
+          
+          
+          \PY{n}{table\PYZus{}data} \PY{o}{=} \PY{p}{\PYZob{}}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Input Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{ERUPTION\PYZus{}MASS}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Internal Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{mass\PYZus{}data\PYZus{}c4}\PY{o}{.}\PY{n}{actual\PYZus{}mass}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Internal Mass/Input Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{mass\PYZus{}data\PYZus{}c4}\PY{o}{.}\PY{n}{actual\PYZus{}mass}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{o}{/}\PY{n}{ERUPTION\PYZus{}MASS}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Output Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{out\PYZus{}tot\PYZus{}mass}\PY{p}{,}
+              \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Output Mass/Input Mass}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{n}{out\PYZus{}mass\PYZus{}prop}
+          \PY{p}{\PYZcb{}}
+          
+          \PY{n}{table} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{table\PYZus{}data}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+          \PY{n}{table}\PY{o}{.}\PY{n}{T}
+          \PY{n}{display}\PY{p}{(}\PY{n}{table}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+                                      
+Input Mass                1.882315e+12
+Internal Mass             1.882315e+12
+Internal Mass/Input Mass  1.000000e+00
+Output Mass               5.429462e+11
+Output Mass/Input Mass    2.884460e-01
+    \end{verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}138}]:} \PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c4} \PY{o}{=} \PY{n}{mass\PYZus{}data\PYZus{}c4}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gs\PYZus{}step}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          \PY{n}{display}\PY{p}{(}\PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c4}\PY{p}{)}
+          \PY{n}{mass\PYZus{}per\PYZus{}gs\PYZus{}c4} \PY{o}{=} \PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c4}\PY{o}{.}\PY{n}{actual\PYZus{}mass}
+          \PY{n}{phi\PYZus{}left\PYZus{}c4} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{np}\PY{o}{.}\PY{n}{log2}\PY{p}{(}\PY{n}{agg\PYZus{}per\PYZus{}gs\PYZus{}c4}\PY{o}{.}\PY{n}{ashdiam}\PY{o}{/}\PY{o}{.}\PY{l+m+mi}{001}\PY{p}{)}
+          
+          
+          \PY{n}{norm\PYZus{}mass\PYZus{}per\PYZus{}gs\PYZus{}c4} \PY{o}{=} \PY{n}{mass\PYZus{}per\PYZus{}gs\PYZus{}c4}\PY{o}{.}\PY{n}{values}\PY{o}{/}\PY{n}{mass\PYZus{}per\PYZus{}gs\PYZus{}c4}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          
+          \PY{n}{out\PYZus{}gs\PYZus{}mass\PYZus{}c4} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{n}{phi\PYZus{}labels\PYZus{}c4}\PY{p}{)}
+          
+          \PY{k}{for} \PY{n}{phi} \PY{o+ow}{in} \PY{n}{phi\PYZus{}labels\PYZus{}c4}\PY{p}{:}
+              \PY{n}{out\PYZus{}gs\PYZus{}mass\PYZus{}c4}\PY{p}{[}\PY{n}{phi}\PY{p}{]} \PY{o}{=} \PY{n}{out\PYZus{}data\PYZus{}c4}\PY{o}{.}\PY{n}{MassArea} \PY{o}{*} \PY{n}{out\PYZus{}data\PYZus{}c4}\PY{p}{[}\PY{n}{phi}\PY{p}{]}
+          
+          \PY{n}{tot\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c4} \PY{o}{=} \PY{n}{out\PYZus{}gs\PYZus{}mass\PYZus{}c4}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          \PY{n}{norm\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c4} \PY{o}{=} \PY{n}{tot\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c4}\PY{o}{/}\PY{n}{tot\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c4}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+          
+          
+          \PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{4.5}\PY{p}{,}\PY{l+m+mf}{4.5}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{gs\PYZus{}data\PYZus{}c4}\PY{o}{.}\PY{n}{Y}\PY{p}{,} \PY{n}{gs\PYZus{}data\PYZus{}c4}\PY{o}{.}\PY{n}{Prob}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} 
+                      \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Logged PDF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{phi\PYZus{}left\PYZus{}c4}\PY{p}{,} \PY{n}{norm\PYZus{}mass\PYZus{}per\PYZus{}gs\PYZus{}c4}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                      \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Internal PDF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{phi\PYZus{}left\PYZus{}c4}\PY{p}{,} \PY{n}{norm\PYZus{}out\PYZus{}gs\PYZus{}mass\PYZus{}c4}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                      \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Output PDF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{stats}\PY{o}{.}\PY{n}{norm}\PY{o}{.}\PY{n}{pdf}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{MEDIAN\PYZus{}GRAINSIZE}\PY{p}{,} \PY{n}{STD\PYZus{}GRAINSIZE}\PY{p}{)}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+         col_step  particle_ht   ashdiam  part_density     fall_time  \
+gs_step                                                                
+0            2775     950037.0  0.022627     1000.0000    550.426104   
+1            2775     950037.0  0.010375     1000.0000    812.883662   
+2            2775     950037.0  0.004757     1000.0000   1200.487845   
+3            2775     950037.0  0.002181     1000.0000   1853.781601   
+4            2775     950037.0  0.001000     1212.5000   3292.358471   
+5            2775     950037.0  0.000459     1451.5625   6368.881937   
+6            2775     950037.0  0.000210     1690.6250  13482.713942   
+7            2775     950037.0  0.000096     1929.6875  46885.181838   
+
+         plume_diffusion_fine_particle  plume_diffusion_coarse_particle  \
+gs_step                                                                   
+0                         73061.537267                      51000.36417   
+1                         73061.537267                      51000.36417   
+2                         73061.537267                      51000.36417   
+3                         73061.537267                      51000.36417   
+4                         73061.537267                      51000.36417   
+5                         73061.537267                      51000.36417   
+6                         73061.537267                      51000.36417   
+7                         73061.537267                      51000.36417   
+
+         total_fall_time  wind_sum_x  wind_sum_y   actual_mass  
+gs_step                                                         
+0           2.596674e+04         0.0         0.0  2.093962e+10  
+1           3.834836e+04         0.0         0.0  8.217329e+10  
+2           5.663386e+04         0.0         0.0  2.181958e+11  
+3           8.488783e+04         0.0         0.0  3.920269e+11  
+4           1.456656e+05         0.0         0.0  4.765835e+11  
+5           2.817819e+05         0.0         0.0  3.920269e+11  
+6           5.661171e+05         0.0         0.0  2.181958e+11  
+7           1.781637e+06         0.0         0.0  8.217329e+10  
+    \end{verbatim}
+
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_21_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}

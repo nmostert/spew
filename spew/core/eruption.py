@@ -10,9 +10,8 @@ import shapely.ops
 from matplotlib.colors import LogNorm
 from matplotlib import rc
 import re
+import matplotlib.ticker as ticker
 
-
-rc('font', **{'family': 'serif', 'serif': ['Palatino']})
 rc('text', usetex=True)
 
 
@@ -26,13 +25,14 @@ class Eruption:
 
         """
         if os.path.isfile(data):
-            self.df, self.phi_labels = tephra2_to_df(data)
+            self.df, self.phi_labels, self.phi_limits, self.phi_centroids = tephra2_to_df(
+                data)
         elif isinstance(data, GeoDataFrame):
             self.df = data
         elif isinstance(data, pd.DataFrame):
             self.df = data
         else:
-            print("ERROR: Invalid or no data. ")
+            raise Exception("Data format not recognised, or file not found.")
 
         if test:
             self.df = self.df.head()
@@ -73,57 +73,20 @@ class Eruption:
             self.part_steps = config["part_steps"]
             self.plume_model = config["plume_model"]
 
-    def sample(self, n, weight="Mass/Area", alpha=0.5, beta=0.1, filters=None,
-               scorefun=None):
-        """Sample the dataframe.
+    def sample(self, n, weight="MassArea", alpha=0.5):
 
-        Each point is assigned a uniform random number, which is weighted
-        according to the score function. The n points with the highest assigned
-        scores are returned.
+        # Get values to be used as weights
+        weights = self.df[weight].copy()
 
-        Keyword arguments:
-        weight   -- the name of the column by which the sampling probability
-                    should be weighted (default None)
-        alpha    -- the sampling factor (default 1.0)
-        filters  -- dictionary of the form {key:tuple} where key is the column
-                    to be filtered by, and the tuple is the lower and upper
-                    bounds of the accepted range. (default None)
-                    Eg: {"radius": (1000, 500000)} will exclude all points with
-                    radii not in the (1000,500000) range.
-        scorefun -- user defined score function. Should be of the form
-                    f(w, a, b), where w is the weight and a and b are
-                    parameters.
-                    Default w^(b*log(1+alpha)).
+        # Apply scaling factor as w^alpha
+        weights = weights**(alpha)
 
-        """
-        temp_df = self.df.copy()
+        # Normalise to sum up to one
+        probs = weights / np.sum(weights)
 
-        if filters is not None:
-            for col in filters:
-                temp_df = temp_df[(temp_df[col] > filters[col][0]) &
-                                  (temp_df[col] < filters[col][1])]
-        if scorefun is None:
-            def scorefun(w, alpha, beta):
-                r = np.random.random_sample()
-                return r * (w ** (beta * np.log(1 + alpha)))
-        else:
-            def scorefun(w, alpha, beta):
-                r = np.random.random_sample()
-                return r * scorefun(w, alpha, beta)
-
-        temp_df['norm_weight'] = temp_df[weight].values / \
-            np.max(self.df[weight].values)
-
-        probs = temp_df.apply(lambda row: scorefun(
-            row['norm_weight'], alpha, beta), axis=1)
-
-        probs = pd.Series(probs, temp_df.index)
-
-        probs.sort_values(inplace=True, ascending=False)
-
-        sample = temp_df.loc[probs[:n].index, :]
-
-        return sample
+        # Randomly choose n points
+        chosen = np.random.choice(self.df.index, n, replace=False, p=probs)
+        return self.df.iloc[chosen]
 
     def radial_sample(self, azimuth):
         """Sample the dataframe.
@@ -199,6 +162,66 @@ class Eruption:
         plt.tight_layout()
         plt.savefig("rad_samp.eps", dpi=200, format='eps')
         return sample
+
+    def plot_contour(self, values="MassArea", vent=True, title="Isomass Plot", cmap='plasma', log=True, lines=True, line_cmap=None, line_colors='k', background="gradient", cbar_label=None,  save=None):
+
+        piv = pd.pivot_table(self.df, index="Northing",
+                             columns="Easting", values=values)
+        if log:
+            norm = LogNorm(vmin=piv.values.min(), vmax=piv.values.max())
+            grad_values = np.log(piv.values)
+        else:
+            norm = None
+
+        fig, ax = plt.subplots(1, 1)
+        # ax.axis('equal')
+        plt.ylabel("Northing")
+        plt.xlabel("Easting")
+        plt.title(title)
+
+        if background == "gradient":
+            bg = ax.imshow(np.log10(piv.values),
+                           extent=[piv.columns.min(), piv.columns.max(),
+                                   piv.index.min(), piv.index.max()],
+                           origin='lower',
+                           cmap=cmap, alpha=0.7)
+            if log:
+                cbar = fig.colorbar(bg, ax=ax, format=r"$10^{%d}$")
+            else:
+                cbar = fig.colorbar(bg, ax=ax)
+            cbar.set_alpha(alpha=0.5)
+            cbar.draw_all()
+            if cbar_label is not None:
+                cbar.ax.set_ylabel(cbar_label, rotation=270)
+        elif background == "fill":
+            bg = ax.contourf(piv.columns, piv.index, piv.values, norm=norm,
+                             cmap=cmap)
+            cbar = fig.colorbar(bg, ax=ax, extend='both')
+            if cbar_label is not None:
+                cbar.ax.set_ylabel(cbar_label, rotation=270)
+
+        if lines:
+            if line_cmap is not None:
+                lns = ax.contour(piv.columns, piv.index, piv.values, norm=norm,
+                                 cmap=lines_cmap)
+            elif line_colors is not None:
+                lns = ax.contour(piv.columns, piv.index, piv.values, norm=norm,
+                                 colors=line_colors)
+
+            fmt = ticker.LogFormatterMathtext()
+            fmt.create_dummy_axis()
+            ax.clabel(lns, lns.levels, fmt=fmt)
+
+        if vent:
+            plt.plot(self.vent.x, self.vent.y, 'r^', ms=8)
+
+        plt.tight_layout()
+        plt.gca().set_xlim(right=piv.columns.max(), left=piv.columns.min())
+        plt.gca().set_ylim(bottom=piv.index.min(), top=piv.index.max())
+        plt.gca().set_aspect("equal")
+        if save is not None:
+            plt.savefig(save, dpi=200, format='png')
+        return fig, ax
 
 
 def random_sample(df, frac=0.1):
@@ -280,13 +303,17 @@ def tephra2_to_df(filename):
 
     # Extract phi-classes from header and construct col names
     headers = pd.read_csv(filename, sep=" ", header=None, nrows=1)
-    phi_names = []
+    phi_labels = []
+    phi_limits = []
+    phi_centroids = []
     for name in headers[headers.columns[4:-1]].values[0]:
-        m1 = re.search('\[[-+]?[0-9]*\.?[0-9]+', name)
-        m2 = re.search('(?<=->)[-+]?[0-9]*\.?[0-9]+\)', name)
-        phi_names.append(m1.group(0) + "," + m2.group(0))
+        m1 = re.search(r'[-+]?[0-9]*\.?[0-9]+(?=->)', name)
+        m2 = re.search(r'[-+]?[0-9]*\.?[0-9]+(?=\))', name)
+        phi_labels.append("[" + m1.group(0) + "," + m2.group(0) + ")")
+        phi_limits.append((m1.group(0), m2.group(0)))
+        phi_centroids.append((float(m1.group(0)) + float(m2.group(0))) / 2)
     col_names = ["Easting", "Northing", "Elevation",
-                 "MassArea"] + phi_names + ["Percent"]
+                 "MassArea"] + phi_labels + ["Percent"]
 
     df = pd.read_csv(filename, sep=" ", header=None,
                      names=col_names, skiprows=1)
@@ -296,7 +323,7 @@ def tephra2_to_df(filename):
     geometry = [Point(xy) for xy in zip(df.Easting, df.Northing)]
     crs = {'init': 'epsg:4326'}
     df = GeoDataFrame(df.copy(), crs=crs, geometry=geometry)
-    return df, phi_names
+    return df, phi_labels, phi_limits, phi_centroids
 
 
 def read_CN(filename):
@@ -332,26 +359,6 @@ def plot_grid(df, vent=None, labels=None, save=None):
     else:
         plt.xlabel(labels[0])
         plt.ylabel(labels[0])
-    if save is not None:
-        plt.savefig(save, dpi=200, format='eps')
-    return fig, ax
-
-
-def plot_contour(xx, yy, zz, vent, title, cbar_label, cmap='', save=None):
-    fig, ax = plt.subplots(1, 1)
-    ax.axis('equal')
-    plt.ylabel("Northing")
-    plt.xlabel("Easting")
-    plt.title(title)
-    zz = zz + 0.000000000000000000001
-    cont = ax.tricontourf(xx, yy, zz,
-                          norm=LogNorm(vmin=zz.min(), vmax=zz.max()))
-    cbar = fig.colorbar(cont, ax=ax)
-    cbar.ax.set_ylabel(cbar_label, rotation=270)
-    plt.plot(vent.x, vent.y, 'r^', ms=10)
-    plt.tight_layout()
-    plt.gca().set_xlim(right=max(xx), left=min(xx))
-    plt.gca().set_ylim(bottom=min(yy), top=max(yy))
     if save is not None:
         plt.savefig(save, dpi=200, format='eps')
     return fig, ax
@@ -405,44 +412,6 @@ def nearest_grid_point(df, point):
 
 def nearest_data_point(df, point):
     return df.loc[df.index[df['geometry'] == nearest_grid_point(df, point)]]
-
-
-def construct_grid(vent, north, east, south, west, elevation, spacing):
-    x_east = np.linspace(
-        vent.coords[0][0], vent.coords[0][0] + (east * spacing), east + 1)
-    x_west = np.linspace(
-        vent.coords[0][0] - west * spacing, vent.coords[0][0], west + 1)
-    x = np.concatenate((x_east[:-1], x_west))
-    y_south = np.linspace(
-        vent.coords[0][1] - south * spacing, vent.coords[0][1], south + 1)
-    y_north = np.linspace(
-        vent.coords[0][1], vent.coords[0][1] + north * spacing, north + 1)
-    y = np.concatenate((y_south[:-1], y_north))
-
-    xx, yy = np.meshgrid(x, y)
-
-    cols = ['Easting', 'Northing', 'Elev.']
-
-    df = pd.DataFrame(columns=cols)
-    for i, c in enumerate(xx):
-        for j, p in enumerate(c):
-
-            df = df.append({
-                'Easting': int(p),
-                'Northing': int(yy[i][j]),
-                'Elev.': int(elevation)
-            },
-                ignore_index=True)
-
-    geometry = [Point(xy) for xy in zip(df.Easting, df.Northing)]
-    crs = {'init': 'epsg:4326'}
-    df = GeoDataFrame(df, crs=crs, geometry=geometry)
-    return df
-
-
-def write_grid_file(df, filename):
-    df.to_csv(filename, sep=' ', columns=['Easting', 'Northing', 'Elev.'],
-              index=False, header=False)
 
 
 def write_config_file(config, filename):
